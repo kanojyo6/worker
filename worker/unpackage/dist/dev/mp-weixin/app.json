@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/tabbar/homePage",
+    "pages/tabbar/orderPage",
+    "pages/tabbar/myPage"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#7FD8B3",
+    "backgroundColor": "#7FD8B3"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#018d71",
+    "backgroundColor": "#F8F8F8",
+    "borderStyle": "black",
+    "list": [
+      {
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/homeHL.png",
+        "pagePath": "pages/tabbar/homePage",
+        "text": "首页"
+      },
+      {
+        "iconPath": "static/tabbar/tabbar_icon_needed_normal.png",
+        "selectedIconPath": "static/tabbar/tabbar_icon_needed_press.png",
+        "pagePath": "pages/tabbar/orderPage",
+        "text": "发需求"
+      },
+      {
+        "iconPath": "static/tabbar/tabbar_icon_profile_normal.png",
+        "selectedIconPath": "static/tabbar/tabbar_icon_profile_press.png",
+        "pagePath": "pages/tabbar/myPage",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

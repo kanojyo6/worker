@@ -1,0 +1,62 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path" : "pages/tabbar/homePage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "首页"
+			}
+		},
+		{
+			"path" : "pages/tabbar/orderPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "发需求"
+			}
+		},
+		{
+			"path" : "pages/tabbar/myPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#7FD8B3",
+		"backgroundColor": "#7FD8B3"
+	},
+	"tabBar": {
+	  "color": "#999999",
+	  "selectedColor": "#018d71",
+	  "backgroundColor": "#F8F8F8",
+	  "borderStyle": "black",
+	  "height": "50px",
+	  "fontSize": "10px",
+	  "iconWidth": "24px",
+	  "spacing": "3px",
+	  "list": [
+	    {
+	      "iconPath": "static/tabbar/home.png",
+	      "selectedIconPath": "static/tabbar/homeHL.png",
+	      "pagePath": "pages/tabbar/homePage",
+	      "text": "首页"
+	    },
+	    {
+	      "iconPath": "static/tabbar/tabbar_icon_needed_normal.png",
+	      "selectedIconPath": "static/tabbar/tabbar_icon_needed_press.png",
+	      "pagePath": "pages/tabbar/orderPage",
+	      "text": "发需求"
+	    },
+		{
+		  "iconPath": "static/tabbar/tabbar_icon_profile_normal.png",
+		  "selectedIconPath": "static/tabbar/tabbar_icon_profile_press.png",
+		  "pagePath": "pages/tabbar/myPage",
+		  "text": "我的"
+		}
+	  ]
+	},
+	"uniIdRouter": {}
+}
