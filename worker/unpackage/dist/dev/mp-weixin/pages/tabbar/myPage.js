@@ -1,8 +1,19 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const _sfc_main = {};
-function _sfc_render(_ctx, _cache) {
-  return {};
-}
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
-wx.createPage(MiniProgramPage);
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+  __name: "myPage",
+  setup(__props) {
+    const userName = common_vendor.ref("贝利亚大王");
+    const userAvatarUrl = common_vendor.ref("");
+    return (_ctx, _cache) => {
+      return common_vendor.e({
+        a: userName.value === ""
+      }, userName.value === "" ? {} : {
+        b: common_vendor.t(`Hi, ${userName.value}`)
+      }, {
+        c: userAvatarUrl.value === ""
+      }, userAvatarUrl.value === "" ? {} : {});
+    };
+  }
+});
+wx.createPage(_sfc_main);

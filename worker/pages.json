@@ -20,6 +20,20 @@
 			{
 				"navigationBarTitleText" : "我的"
 			}
+		},
+		{
+			"path" : "pages/orderDetailPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/typeDetailPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -46,13 +60,13 @@
 	    },
 	    {
 	      "iconPath": "static/tabbar/tabbar_icon_needed_normal.png",
-	      "selectedIconPath": "static/tabbar/tabbar_icon_needed_press.png",
+	      "selectedIconPath": "static/tabbar/tabbar_icon_needed_press@3x.png",
 	      "pagePath": "pages/tabbar/orderPage",
 	      "text": "发需求"
 	    },
 		{
 		  "iconPath": "static/tabbar/tabbar_icon_profile_normal.png",
-		  "selectedIconPath": "static/tabbar/tabbar_icon_profile_press.png",
+		  "selectedIconPath": "static/tabbar/tabbar_icon_profile_press@3x.png",
 		  "pagePath": "pages/tabbar/myPage",
 		  "text": "我的"
 		}

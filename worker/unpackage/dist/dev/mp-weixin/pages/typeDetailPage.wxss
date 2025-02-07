@@ -1,0 +1,90 @@
+
+	/* 去除按钮默认样式 */
+button::after {
+		border: none;
+}
+button {
+		position: relative;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 0px;
+		padding-right: 0px;
+		box-sizing: border-box;
+		text-align: center;
+		text-decoration: none;
+		line-height: 1.35;
+		-webkit-tap-highlight-color: transparent;
+		overflow: hidden;
+		color: #000;
+		font-size: 32rpx;
+		background-color: #fff;
+		width: 10%;
+		height: 100%;
+}
+.typeDetail-background {
+		width: 100%;
+		min-height: 100vh;
+		background-color: #7FD8B3;
+		display: flex;
+		flex-direction: column;
+}
+.typeDetail-header {
+		display: flex;
+		width: 95%;
+		margin: 20rpx auto;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: nowrap;
+}
+.typeDetail-searcher {
+		display: flex;
+		width: 480rpx;
+		height: 70rpx;
+		padding-inline: 30rpx;
+		justify-content: space-between;
+		align-items: center;
+		background: white;
+		border-radius: 50rpx;
+}
+.typeDetail-addOrderButton {
+		display: flex;
+		width: 140rpx;
+		height: 70rpx;
+		justify-content: center;
+		align-items: center;
+		background: #42B880;
+		border-radius: 50rpx;
+}
+.typeDetail-content {
+		display: flex;
+		justify-content: space-around;
+		align-items: left;
+		flex-wrap: wrap;
+		width: 100%;
+		min-height: 93vh;
+		padding-bottom: 30rpx;
+		background-color: #f5f5f5
+}
+.typeDetail-contentItem {
+		width: 42%;
+		height: 440rpx;
+		border-radius: 20rpx;
+		display: flex;
+		flex-direction: column;
+		margin-top: 30rpx;
+		background: white;
+}
+.typeDetail-orderImage {
+		width: 100%;
+		height: 65%;
+		border-top-left-radius: 20rpx;
+		border-top-right-radius: 20rpx;
+}
+.typeDetail-orderMsg {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		flex: 1;
+		padding-left: 30rpx;
+}
