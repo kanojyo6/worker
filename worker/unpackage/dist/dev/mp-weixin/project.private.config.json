@@ -3,5 +3,6 @@
   "projectname": "worker",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "2.22.1"
 }

@@ -18,8 +18,8 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.7.7",
-  "appid": "touristappid",
+  "libVersion": "",
+  "appid": "wx6f086112604c7352",
   "projectname": "worker",
   "condition": {},
   "editorSetting": {

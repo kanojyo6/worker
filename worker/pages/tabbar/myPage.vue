@@ -1,5 +1,5 @@
 <template>
-	<view class="myPage-background">
+	<view v-if="userStatus === 1" class="myPage-background">
 		<scroll-view style="display: flex; width: 100%;">
 			<!-- 用户名 -->
 			<button v-if="userName === ''" class="myPage-userNickname">登录/注册</button>
@@ -52,15 +52,22 @@
 			</view>
 		</scroll-view>
 	</view>
+	
+	<!-- 如果未登录，则显示登录页面 -->
+	<loginPageVue v-else></loginPageVue>
 </template>
 
 <script setup lang="ts">
 	import { ref } from 'vue';
+	import loginPageVue from '../../components/loginPage.vue';
 
 	// 用户头像
 	const userName = ref('贝利亚大王')
 	// 用户头像
 	const userAvatarUrl = ref('')
+	
+	// 登录状态
+	const userStatus = ref(0)
 </script>
 <style>
 	.myPage-background {
