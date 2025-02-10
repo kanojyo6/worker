@@ -31,7 +31,15 @@
 					<view style="font-size: 28rpx; color: white; font-weight: bold;">更多</view>
 				</view>
 				<scroll-view scroll-x="true" style="width: 95%; height: 75%; white-space: nowrap; margin: 0rpx auto;">
-					<button class="myPage-myOrderItem">1</button>
+					<button class="myPage-myOrderItem">
+						<view class="myPage-myOrderItem-content">
+							<view style="display: flex; flex-wrap: nowrap; justify-content: space-between;">
+								<!-- 需求标题 & 需求状态 -->
+								<view style="font-size: 26rpx; font-weight: bold;">寻找：优衣库服装销售员</view>
+								<view style="font-size: 26tpx; font-weight: bold; color: #42B880;">招聘中</view>
+							</view>
+						</view>
+					</button>
 					<button class="myPage-myOrderItem">1</button>
 					<button class="myPage-myOrderItem">1</button>
 					<button class="myPage-myOrderItem">1</button>
@@ -44,10 +52,26 @@
 					<view style="font-size: 28rpx; font-weight: bold;">我的申请</view>
 					<view style="font-size: 28rpx; color: white; font-weight: bold;">更多</view>
 				</view>
-				<view style="display: flex; flex-direction: column; width: 100%; height: 90%;">
-					<button class="myPage-myOfferItem"></button>
-					<button class="myPage-myOfferItem"></button>
-					<button class="myPage-myOfferItem"></button>
+				<view style="display: flex; flex-direction: column; width: 100%; height: 88%;">
+					<!-- 项目内容 -->
+					<button v-for="item in test" class="myPage-myOfferItem">
+						<!-- 图片 -->
+						<view class="myPage-myOfferItem-Img" style="background: #D7D7D7;"></view>
+						<!-- 中间 -->
+						<view style="display: flex; flex-direction: column; height: 100%; justify-content: space-between; align-items: start; margin-left: -20rpx;">
+							<view style="font-size: 27rpx; font-weight: bold;">万达优衣库招服务员</view>
+							<view style="font-size: 32rpx; font-weight: bold; color: #42B880;">10000元</view>
+						</view>
+						<!-- 右边 -->
+						<view style="display: flex; flex-direction: column; height: 100%; justify-content: space-between; align-items: flex-end;">
+							<view style="font-size: 26rpx; font-weight: bold; color: #42B880;">4个月</view>
+							<view style="display: flex; width: 100%; flex-wrap: nowrap;">
+								<image src="/static/logos/icon_location@2x.png" mode="aspectFit"
+									style="width: 30rpx; height: 30rpx;"></image>
+								<view style="color: #919191; margin-left: 10rpx; font-size: 22rpx;">佛山南海区桂城</view>
+							</view>
+						</view>
+					</button>
 				</view>
 			</view>
 		</scroll-view>
@@ -67,7 +91,9 @@
 	const userAvatarUrl = ref('')
 	
 	// 登录状态
-	const userStatus = ref(0)
+	const userStatus = ref(1)
+	
+	const test = [1, 1, 1]
 </script>
 <style>
 	.myPage-background {
@@ -120,7 +146,7 @@
 
 	.myPage-myOrder {
 		width: 100%;
-		height: 500rpx;
+		height: 550rpx;
 		border-radius: 30rpx;
 		margin-top: 40rpx;
 		background: #a5e3c9;
@@ -129,29 +155,49 @@
 	}
 
 	.myPage-myOrderItem {
-		width: 55%;
+		width: 65%;
 		height: 100%;
 		background: linear-gradient(#8ef1c8, #c7ffe8);
 		border-radius: 24rpx;
 		display: inline-block;
 		margin: 0rpx 20rpx;
 	}
+	
+	.myPage-myOrderItem-content {
+		display: flex;
+		width: 95%;
+		height: 95%;
+		margin: auto;
+		flex-direction: column;
+	}
 
 	.myPage-myOffer {
 		width: 100%;
-		height: 600rpx;
+		height: 640rpx;
 		border-radius: 30rpx;
 		margin-top: 40rpx;
 		background: #a5e3c9;
 		display: flex;
 		flex-direction: column;
+		margin-bottom: 20rpx;
+		padding-bottom: 20rpx;
 	}
 
 	.myPage-myOfferItem {
 		width: 90%;
-		height: 40%;
-		border-radius: 26rpx;
+		height: 50%;
+		padding: 3%;
+		border-radius: 15rpx;
 		margin: 14rpx auto;
 		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: nowrap;
+	}
+	
+	.myPage-myOfferItem-Img {
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 10rpx;
 	}
 </style>

@@ -21,7 +21,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         b: common_assets._imports_0,
         c: common_vendor.t(address.value),
         d: common_vendor.o(handleSubmit),
-        e: common_vendor.sr(popup, "68517f3d-0", {
+        e: common_assets._imports_1,
+        f: common_vendor.sr(popup, "e8a81d92-0", {
           "k": "popup"
         })
       };

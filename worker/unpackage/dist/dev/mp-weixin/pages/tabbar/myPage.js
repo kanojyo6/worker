@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const common_assets = require("../../common/assets.js");
 if (!Math) {
   loginPageVue();
 }
@@ -9,7 +10,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const userName = common_vendor.ref("贝利亚大王");
     const userAvatarUrl = common_vendor.ref("");
-    const userStatus = common_vendor.ref(0);
+    const userStatus = common_vendor.ref(1);
+    const test = [1, 1, 1];
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: userStatus.value === 1
@@ -19,7 +21,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         c: common_vendor.t(`Hi, ${userName.value}`)
       }, {
         d: userAvatarUrl.value === ""
-      }, userAvatarUrl.value === "" ? {} : {}) : {});
+      }, userAvatarUrl.value === "" ? {} : {}, {
+        e: common_vendor.f(test, (item, k0, i0) => {
+          return {};
+        }),
+        f: common_assets._imports_0
+      }) : {});
     };
   }
 });
