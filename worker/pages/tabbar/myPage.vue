@@ -1,5 +1,5 @@
 <template>
-	<view v-if="userStatus === 1" class="myPage-background">
+	<view v-if="uni.getStorageSync('user')" class="myPage-background">
 		<scroll-view style="display: flex; width: 100%;">
 			<!-- 用户名 -->
 			<button v-if="userName === ''" class="myPage-userNickname">登录/注册</button>

@@ -7,98 +7,140 @@
 </template>
 
 <script setup>
-	import {
-		useUserInfoStore
-	} from '@/stores/userInfo.js'
+import { useUserInfoStore } from '@/stores/userInfo.js'
 
-	// 注册用户信息管理器
-	const userInfoStore = useUserInfoStore()
+// 注册用户信息管理器
+const userInfoStore = useUserInfoStore()
 
-	// 获取微信用户的基本信息
-	const getUserProfile = () => {
-		uni.getUserProfile({
-			desc: '获取用户信息', // 声明获取用户信息的用途
-			success: (res) => {
-				console.log('用户信息获取成功', res.userInfo);
-				// 这里可以处理获取到的用户信息，例如存储到全局状态或发送到服务器
-				setTimeout(() => {
-					userInfoStore.setData(res.userInfo.nickName, res.userInfo
-						.avatarUrl)
-				}, 500)
-			},
-			fail: (err) => {
-				console.log('用户信息获取失败', err);
-				// 处理失败情况，例如提示用户授权
-				if (err.errMsg === 'getUserProfile:fail auth deny') {
-					uni.showToast({
-						title: '您拒绝了授权',
-						icon: 'none'
-					});
-				}
-			}
-		});
-	};
+// 获取微信用户的基本信息
+const getUserProfile = () => {
+    return new Promise((resolve, reject) => {
+        uni.getUserProfile({
+            desc: '获取用户信息', // 声明获取用户信息的用途
+            success: (res) => {
+                console.log('用户信息获取成功', res.userInfo);
+                // 将用户信息存储到状态管理器
+                userInfoStore.setData(res.userInfo.nickName, res.userInfo.avatarUrl);
+                resolve(res.userInfo);
+            },
+            fail: (err) => {
+                console.log('用户信息获取失败', err);
+                if (err.errMsg === 'getUserProfile:fail auth deny') {
+                    uni.showToast({
+                        title: '您拒绝了授权',
+                        icon: 'none'
+                    });
+                }
+                reject(err);
+            }
+        });
+    });
+};
 
-	// 获取临时登录凭证
-	const getLoginCode = () => {
-		uni.login({
-			"provider": "weixin",
-			"onlyAuthorize": true,
-			success: (event) => {
-				const {
-					code,
-					errMsg
-				} = event
+// 获取临时登录凭证
+const getLoginCode = () => {
+    return new Promise((resolve, reject) => {
+        uni.login({
+            "provider": "weixin",
+            "onlyAuthorize": true,
+            success: (event) => {
+                const { code, errMsg } = event;
+                if (errMsg !== 'login:ok') {
+                    uni.showToast({
+                        title: '登录失败!',
+                        icon: 'none'
+                    });
+                    reject(new Error('登录失败'));
+                    return;
+                }
+                console.log('获取到临时凭证：', code);
+                resolve(code);
+            },
+            fail: (err) => {
+                console.log('获取登录凭证失败', err);
+                reject(err);
+            }
+        });
+    });
+};
 
-				// 处理异常情况
-				if (errMsg !== 'login:ok') {
-					uni.showToast({
-						title: '登录失败!',
-						icon: 'none'
-					});
-					return
-				}
-				// 客户端成功获取授权临时票据（code）,向业务服务器发起登录请求。
-				console.log('获取到临时凭证：', code)
-			},
-			fail: (err) => {
-				console.log('失败', err)
-			}
-		})
-	}
+// 发送登录请求到服务器
+const sendLoginRequest = (code, userInfo) => {
+    return new Promise((resolve, reject) => {
+        uni.request({
+            url: 'http://183.136.206.77:32222/login/wechat/miniapp',
+            method: 'POST',
+            header: {
+                'content-type': 'application/json'
+            },
+            data: {
+                code: code,
+                // 暂时不发送手机号信息
+                phoneCode: null
+            },
+            success: (res) => {
+                console.log("服务器返回结果：", res);
+                if (res.statusCode === 200) {
+                    // 存储服务器返回的token
+                    const { access_token, refresh_token, user } = res.data;
+                    uni.setStorageSync('access_token', access_token);
+                    uni.setStorageSync('refresh_token', refresh_token);
+                    uni.setStorageSync('user', user);
+                    
+                    resolve(res.data);
+                } else {
+                    reject(new Error(res.data.message || '登录失败'));
+                }
+            },
+            fail: (err) => {
+                console.error('请求失败：', err);
+                reject(err);
+            }
+        });
+    });
+};
 
-	// 登录
-	const login = async () => {
-		const userInfo = await getUserProfile()
-		const {
-			code
-		} = await getLoginCode()
+// 登录主流程
+const login = async () => {
+    try {
+        // 显示加载提示
+        uni.showLoading({
+            title: '登录中...'
+        });
 
-		uni.request({
-			url: 'http://192.168.110.169:8080/login/wechat/miniapp',
-			method: 'POST',
-			data: {
-				code: code,
-			},
-			success: (res) => {
-				console.log("服务器返回结果：", res.data)
-				if (res.data.success) {
-					// 存储用户标识或令牌
-					// 例如：uni.setStorageSync('token', res.data.token)
-					uni.showToast({
-						title: '登录成功',
-						icon: 'success'
-					});
-				} else {
-					uni.showToast({
-						title: '登录失败',
-						icon: 'none'
-					});
-				}
-			}
-		})
-
-	}
+        // 1. 获取用户信息
+        const userInfo = await getUserProfile();
+        
+        // 2. 获取登录凭证
+        const code = await getLoginCode();
+        
+        // 3. 发送登录请求
+        const loginResult = await sendLoginRequest(code, userInfo);
+        
+        // 4. 登录成功处理
+        uni.hideLoading();
+        uni.showToast({
+            title: '登录成功',
+            icon: 'success'
+        });
+        
+        // 5. 登录成功后的跳转
+        setTimeout(() => {
+            uni.switchTab({
+                url: '/pages/tabbar/myPage'
+            });
+        }, 1500);
+        
+    } catch (error) {
+        // 错误处理
+        uni.hideLoading();
+        uni.showToast({
+            title: error.message || '登录失败',
+            icon: 'none'
+        });
+        console.error('登录失败：', error);
+    }
+};
 </script>
 
 <style>
