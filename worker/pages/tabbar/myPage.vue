@@ -1,7 +1,7 @@
 <template>
     <view v-if="isLoggedIn" class="myPage-background">
-        <scroll-view style="display: flex; width: 100%;">
-            <!-- 用户信息 -->
+        <!-- 用户信息区域 -->
+        <view class="myPage-userInfo">
             <view class="myPage-userNickname">
                 {{ `Hi, ${userInfo.nickName || '未设置昵称'}` }}
             </view>
@@ -12,85 +12,72 @@
                     mode="aspectFit" 
                     class="myPage-userAvatar"
                 />
-                <view v-else class="myPage-userAvatar" style="background-color: #DADADA;"></view>
+                <view v-else class="myPage-userAvatar"></view>
             </view>
+        </view>
 
-            <!-- 统计信息 -->
-            <view class="myPage-selector">
-                <view class="myPage-order">
-                    <view style="font-size: 36rpx; font-weight: bold; margin-bottom: 10rpx;">
-                        {{orderCount}}
-                    </view>
-                    <view>我的需求</view>
-                </view>
-                <view class="myPage-order">
-                    <view style="font-size: 36rpx; font-weight: bold; margin-bottom: 10rpx;">
-                        {{applyCount}}
-                    </view>
-                    <view>我的申请</view>
-                </view>
+        <!-- 统计信息区域 -->
+        <view class="myPage-selector">
+            <view class="myPage-order">
+                <view class="myPage-orderCount">{{orderCount}}</view>
+                <view class="myPage-orderLabel">我的需求</view>
             </view>
+            <view class="myPage-order">
+                <view class="myPage-orderCount">{{applyCount}}</view>
+                <view class="myPage-orderLabel">我的申请</view>
+            </view>
+        </view>
 
-            <!-- 我的需求列表 -->
-            <view class="myPage-myOrder">
-                <view class="myPage-sectionHeader">
-                    <text class="myPage-sectionTitle">我的需求</text>
-                    <text class="myPage-sectionMore" @click="navigateToOrders">更多</text>
-                </view>
-                <scroll-view 
-                    scroll-x="true" 
-                    class="myPage-orderList"
+        <!-- 需求列表区域 -->
+        <view class="myPage-section">
+            <view class="myPage-sectionHeader">
+                <text class="myPage-sectionTitle">我的需求</text>
+                <text class="myPage-sectionMore" @click="navigateToOrders">更多</text>
+            </view>
+            <scroll-view scroll-x="true" class="myPage-orderList">
+                <view 
+                    v-for="order in orders" 
+                    :key="order.id" 
+                    class="myPage-myOrderItem"
                 >
-                    <view 
-                        v-for="order in orders" 
-                        :key="order.id" 
-                        class="myPage-myOrderItem"
-                    >
-                        <view class="myPage-myOrderItem-content">
-                            <view class="myPage-orderHeader">
-                                <text class="myPage-orderTitle">{{order.title}}</text>
-                                <text class="myPage-orderStatus">{{order.status}}</text>
-                            </view>
-                            <!-- 其他订单信息 -->
-                        </view>
+                    <view class="myPage-orderHeader">
+                        <text class="myPage-orderTitle">{{order.title}}</text>
+                        <text class="myPage-orderStatus">{{order.status}}</text>
                     </view>
-                </scroll-view>
-            </view>
+                </view>
+            </scroll-view>
+        </view>
 
-            <!-- 我的申请列表 -->
-            <view class="myPage-myOffer">
-                <view class="myPage-sectionHeader">
-                    <text class="myPage-sectionTitle">我的申请</text>
-                    <text class="myPage-sectionMore" @click="navigateToApplications">更多</text>
-                </view>
-                <view class="myPage-applicationList">
-                    <view 
-                        v-for="application in applications" 
-                        :key="application.id" 
-                        class="myPage-myOfferItem"
-                        @click="viewApplication(application.id)"
-                    >
-                        <view class="myPage-myOfferItem-Img" 
-                              :style="{'background-image': `url(${application.image})`}">
-                        </view>
-                        <view class="myPage-applicationInfo">
-                            <text class="myPage-applicationTitle">{{application.title}}</text>
-                            <text class="myPage-applicationPrice">{{application.price}}</text>
-                        </view>
-                        <view class="myPage-applicationMeta">
-                            <text class="myPage-applicationDuration">{{application.duration}}</text>
-                            <view class="myPage-applicationLocation">
-                                <image src="/static/logos/icon_location@2x.png" mode="aspectFit" />
-                                <text>{{application.location}}</text>
-                            </view>
+        <!-- 申请列表区域 -->
+        <view class="myPage-section">
+            <view class="myPage-sectionHeader">
+                <text class="myPage-sectionTitle">我的申请</text>
+                <text class="myPage-sectionMore" @click="navigateToApplications">更多</text>
+            </view>
+            <view class="myPage-applicationList">
+                <view 
+                    v-for="application in applications" 
+                    :key="application.id" 
+                    class="myPage-myOfferItem"
+                    @click="viewApplication(application.id)"
+                >
+                    <view class="myPage-myOfferItem-Img"></view>
+                    <view class="myPage-applicationInfo">
+                        <text class="myPage-applicationTitle">{{application.title}}</text>
+                        <text class="myPage-applicationPrice">{{application.price}}</text>
+                    </view>
+                    <view class="myPage-applicationMeta">
+                        <text class="myPage-applicationDuration">{{application.duration}}</text>
+                        <view class="myPage-applicationLocation">
+                            <image src="/static/logos/icon_location@2x.png" mode="aspectFit" />
+                            <text>{{application.location}}</text>
                         </view>
                     </view>
                 </view>
             </view>
-        </scroll-view>
+        </view>
     </view>
     
-    <!-- 未登录时显示登录页 -->
     <loginPageVue v-else></loginPageVue>
 </template>
 
@@ -167,108 +154,206 @@ const viewApplication = (id) => {
 </script>
 
 <style>
-	.myPage-background {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		min-height: 100vh;
-	}
+/* 页面基础布局 */
+.myPage-background {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20rpx;
+}
 
-	.myPage-userNickname {
-		display: flex;
-		align-items: center;
-		justify-content: left;
-		margin-left: 30rpx;
-		margin-top: 50rpx;
-		font-size: 32rpx;
-		font-weight: bold;
-	}
+/* 用户信息区域 */
+.myPage-userInfo {
+    background: linear-gradient(135deg, #7FD8B3, #42B880);
+    border-radius: 24rpx;
+    padding: 40rpx 30rpx;
+    margin-bottom: 30rpx;
+}
 
-	.myPage-userAvatarBg {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		padding: 30rpx 0rpx;
-	}
+.myPage-userNickname {
+    color: #ffffff;
+    font-size: 36rpx;
+    font-weight: 600;
+    margin-bottom: 20rpx;
+}
 
-	.myPage-userAvatar {
-		width: 150rpx;
-		height: 150rpx;
-		border-radius: 200rpx;
-	}
+.myPage-userAvatarBg {
+    display: flex;
+    justify-content: center;
+    padding: 20rpx 0;
+}
 
-	.myPage-selector {
-		display: flex;
-		flex-wrap: nowrap;
-		width: 90%;
-		height: 10%;
-		margin: 0rpx auto;
-	}
+.myPage-userAvatar {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    border: 4rpx solid #ffffff;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
 
-	.myPage-order {
-		display: flex;
-		width: 50%;
-		height: 100%;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
+/* 统计信息区域 */
+.myPage-selector {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
 
-	.myPage-myOrder {
-		width: 100%;
-		height: 550rpx;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		background: #a5e3c9;
-		display: flex;
-		flex-direction: column;
-	}
+.myPage-order {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
 
-	.myPage-myOrderItem {
-		width: 65%;
-		height: 100%;
-		background: linear-gradient(#8ef1c8, #c7ffe8);
-		border-radius: 24rpx;
-		display: inline-block;
-		margin: 0rpx 20rpx;
-	}
-	
-	.myPage-myOrderItem-content {
-		display: flex;
-		width: 95%;
-		height: 95%;
-		margin: auto;
-		flex-direction: column;
-	}
+.myPage-order:first-child::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 2rpx;
+    background-color: #e0e0e0;
+}
 
-	.myPage-myOffer {
-		width: 100%;
-		height: 640rpx;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		background: #a5e3c9;
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 20rpx;
-		padding-bottom: 20rpx;
-	}
+.myPage-orderCount {
+    font-size: 40rpx;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 12rpx;
+}
 
-	.myPage-myOfferItem {
-		width: 90%;
-		height: 50%;
-		padding: 3%;
-		border-radius: 15rpx;
-		margin: 14rpx auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: nowrap;
-	}
-	
-	.myPage-myOfferItem-Img {
-		width: 120rpx;
-		height: 120rpx;
-		border-radius: 10rpx;
-	}
+.myPage-orderLabel {
+    font-size: 28rpx;
+    color: #666666;
+}
+
+/* 需求和申请列表区域 */
+.myPage-section {
+    background-color: #ffffff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.myPage-sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.myPage-sectionTitle {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333333;
+}
+
+.myPage-sectionMore {
+    font-size: 28rpx;
+    color: #42B880;
+}
+
+/* 需求卡片样式 */
+.myPage-orderList {
+    white-space: nowrap;
+    margin: 0 -30rpx;
+    padding: 0 30rpx;
+}
+
+.myPage-myOrderItem {
+    display: inline-block;
+    width: 300rpx;
+    padding: 20rpx;
+    margin-right: 20rpx;
+    background: linear-gradient(135deg, #ffffff, #f8f8f8);
+    border-radius: 16rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.myPage-orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16rpx;
+}
+
+.myPage-orderTitle {
+    font-size: 28rpx;
+    color: #333333;
+    font-weight: 500;
+}
+
+.myPage-orderStatus {
+    font-size: 24rpx;
+    color: #42B880;
+    padding: 4rpx 12rpx;
+    background-color: rgba(66, 184, 128, 0.1);
+    border-radius: 100rpx;
+}
+
+/* 申请卡片样式 */
+.myPage-myOfferItem {
+    display: flex;
+    padding: 20rpx;
+    margin-bottom: 20rpx;
+    background-color: #ffffff;
+    border-radius: 16rpx;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.myPage-myOfferItem-Img {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 12rpx;
+    background-color: #f5f5f5;
+    margin-right: 20rpx;
+}
+
+.myPage-applicationInfo {
+    flex: 1;
+    padding-right: 20rpx;
+}
+
+.myPage-applicationTitle {
+    font-size: 28rpx;
+    color: #333333;
+    font-weight: 500;
+    margin-bottom: 12rpx;
+}
+
+.myPage-applicationPrice {
+    font-size: 32rpx;
+    color: #42B880;
+    font-weight: 600;
+}
+
+.myPage-applicationMeta {
+    text-align: right;
+}
+
+.myPage-applicationDuration {
+    font-size: 24rpx;
+    color: #42B880;
+    margin-bottom: 12rpx;
+    display: block;
+}
+
+.myPage-applicationLocation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 24rpx;
+    color: #999999;
+}
+
+.myPage-applicationLocation image {
+    width: 24rpx;
+    height: 24rpx;
+    margin-right: 8rpx;
+}
 </style>
