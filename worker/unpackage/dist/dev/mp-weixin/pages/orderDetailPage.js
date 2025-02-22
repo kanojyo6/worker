@@ -13,7 +13,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const popup = common_vendor.ref(null);
     const handleSubmit = () => {
       console.log(popup.value);
-      popup.value.open("button");
+      popup.value.open();
+    };
+    const dismissPopup = () => {
+      popup.value.close();
     };
     return (_ctx, _cache) => {
       return {
@@ -22,7 +25,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         c: common_vendor.t(address.value),
         d: common_vendor.o(handleSubmit),
         e: common_assets._imports_1,
-        f: common_vendor.sr(popup, "e8a81d92-0", {
+        f: common_vendor.o(dismissPopup),
+        g: common_vendor.sr(popup, "e8a81d92-0", {
           "k": "popup"
         })
       };

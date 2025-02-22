@@ -40,15 +40,16 @@
 	};
 
 	// 获取临时登录凭证
-	const getLogiuCode = () => {
+	const getLoginCode = () => {
 		uni.login({
 			"provider": "weixin",
 			"onlyAuthorize": true,
 			success: (event) => {
 				const {
-					code, errMsg
+					code,
+					errMsg
 				} = event
-				
+
 				// 处理异常情况
 				if (errMsg !== 'login:ok') {
 					uni.showToast({
@@ -68,8 +69,34 @@
 
 	// 登录
 	const login = async () => {
-		const userInfo = getUserProfile()
-		const loginCode = getLogiuCode()
+		const userInfo = await getUserProfile()
+		const {
+			code
+		} = await getLoginCode()
+
+		uni.request({
+			url: 'http://192.168.110.169:8080/login/wechat/miniapp',
+			method: 'POST',
+			data: {
+				code: code,
+			},
+			success: (res) => {
+				console.log("服务器返回结果：", res.data)
+				if (res.data.success) {
+					// 存储用户标识或令牌
+					// 例如：uni.setStorageSync('token', res.data.token)
+					uni.showToast({
+						title: '登录成功',
+						icon: 'success'
+					});
+				} else {
+					uni.showToast({
+						title: '登录失败',
+						icon: 'none'
+					});
+				}
+			}
+		})
 
 	}
 </script>

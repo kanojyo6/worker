@@ -26,7 +26,7 @@ const _sfc_main = {
         }
       });
     };
-    const getLogiuCode = () => {
+    const getLoginCode = () => {
       common_vendor.index.login({
         "provider": "weixin",
         "onlyAuthorize": true,
@@ -50,8 +50,31 @@ const _sfc_main = {
       });
     };
     const login = async () => {
-      getUserProfile();
-      getLogiuCode();
+      await getUserProfile();
+      const {
+        code
+      } = await getLoginCode();
+      common_vendor.index.request({
+        url: "http://192.168.110.169:8080/login/wechat/miniapp",
+        method: "POST",
+        data: {
+          code
+        },
+        success: (res) => {
+          console.log("服务器返回结果：", res.data);
+          if (res.data.success) {
+            common_vendor.index.showToast({
+              title: "登录成功",
+              icon: "success"
+            });
+          } else {
+            common_vendor.index.showToast({
+              title: "登录失败",
+              icon: "none"
+            });
+          }
+        }
+      });
     };
     return (_ctx, _cache) => {
       return {

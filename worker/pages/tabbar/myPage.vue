@@ -91,7 +91,7 @@
 	const userAvatarUrl = ref('')
 	
 	// 登录状态
-	const userStatus = ref(1)
+	const userStatus = ref(0)
 	
 	const test = [1, 1, 1]
 </script>

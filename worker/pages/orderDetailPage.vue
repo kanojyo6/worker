@@ -1,45 +1,56 @@
 <template>
-	<view class="orderDetail-background">
-		<view class="orderDetail-content">
-			<!-- 图片 -->
-			<view class="orderDetail-image" style="background: #DADADA;"></view>
-			<!-- 用户信息 -->
-			<view class="orderDetail-userMsg">
-				<view style="display: flex; align-items: center;">
-					<view class="orderDetail-avatar" style="background: #DADADA;"></view>
-					<view style="margin-left: 20rpx;">{{ userName }}</view>
-				</view>
-				<view style="display: flex; align-items: center;">
-					<image src="/static/logos/icon_location@2x.png" mode="aspectFit"
-						style="width: 40rpx; height: 40rpx;"></image>
-					<view style="color: #919191; margin-left: 10rpx; font-size: 26rpx;">{{ address }}</view>
-				</view>
-			</view>
-			<!-- 订单信息 -->
-			<view class="orderDetail-orderMsg">
-				<view style="font-size: 38rpx; font-weight: bold;">万达优衣库招服务员</view>
-				<view style="font-size: 38rpx; font-weight: bold; color: #42B880;">1000元</view>
-				<view style="font-size: 30rpx; font-weight: bold; color: #42B880;">4个月</view>
-			</view>
-		</view>
-		<button @click="handleSubmit" class="orderDetail-submitBtn">提交申请</button>
-		<uni-popup ref="popup">
-
-			<!-- 弹出层 -->
-			<view>
-				<view class="orderDetail-popup">
-					<image src="/static/logos/icon_box_tips@3x.png" mode="aspectFit"
-						style="width: 160rpx; height: 160rpx; margin-bottom: 60rpx;"></image>
-					<view style="font-size: 34rpx; font-weight: bold;">是否确认提交</view>
-					<view class="orderDetail-popup-btns">
-						<button class="popup-btn" style="border: solid 2rpx #42B880; background: #fff; color: #42B880;">取消</button>
-						<button class="popup-btn" style="border: solid 2rpx #42B880; background: #42b880; color: #fff;">确认</button>
+	<scroll-view>
+		<view class="orderDetail-background">
+			<view class="orderDetail-content">
+				<!-- 图片 -->
+				<view class="orderDetail-image" style="background: #DADADA;"></view>
+				<!-- 用户信息 -->
+				<view class="orderDetail-userMsg">
+					<view style="display: flex; align-items: center;">
+						<view class="orderDetail-avatar" style="background: #DADADA;"></view>
+						<view style="margin-left: 20rpx;">{{ userName }}</view>
+					</view>
+					<view style="display: flex; align-items: center;">
+						<image src="/static/logos/icon_location@2x.png" mode="aspectFit"
+							style="width: 40rpx; height: 40rpx;"></image>
+						<view style="color: #919191; margin-left: 10rpx; font-size: 26rpx;">{{ address }}</view>
 					</view>
 				</view>
+				<!-- 订单信息 -->
+				<view class="orderDetail-orderMsg">
+					<view style="font-size: 38rpx; font-weight: bold;">万达优衣库招服务员</view>
+					<view style="font-size: 38rpx; font-weight: bold; color: #42B880;">1000元</view>
+					<view style="font-size: 30rpx; font-weight: bold; color: #42B880;">4个月</view>
+				</view>
 			</view>
+			
+			<!-- 兼职详情 -->
+			<view class="orderDetail-content" style="height: 600rpx; margin-top: 30rpx;">
+				<text style="font-size: 45rpx; font-weight: bold; margin-left: 35rpx; margin-top: 35rpx;">兼职详情</text>
+			</view>
+			
+			
+			<button @click="handleSubmit" class="orderDetail-submitBtn">提交申请</button>
+			<uni-popup ref="popup">
 
-		</uni-popup>
-	</view>
+				<!-- 弹出层 -->
+				<view>
+					<view class="orderDetail-popup">
+						<image src="/static/logos/icon_box_tips@3x.png" mode="aspectFit"
+							style="width: 160rpx; height: 160rpx; margin-bottom: 60rpx;"></image>
+						<view style="font-size: 34rpx; font-weight: bold;">是否确认提交</view>
+						<view class="orderDetail-popup-btns">
+							<button @click="dismissPopup" class="popup-btn"
+								style="border: solid 2rpx #42B880; background: #fff; color: #42B880;">取消</button>
+							<button class="popup-btn"
+								style="border: solid 2rpx #42B880; background: #42b880; color: #fff;">确认</button>
+						</view>
+					</view>
+				</view>
+
+			</uni-popup>
+		</view>
+	</scroll-view>
 
 </template>
 
@@ -54,7 +65,10 @@
 	const popup = ref(null)
 	const handleSubmit = () => {
 		console.log(popup.value)
-		popup.value.open('button')
+		popup.value.open()
+	}
+	const dismissPopup = () => {
+		popup.value.close()
 	}
 </script>
 
@@ -63,7 +77,7 @@
 	button::after {
 		border: none;
 	}
-	
+
 	button {
 		position: relative;
 		display: block;
@@ -83,7 +97,7 @@
 		width: 10%;
 		height: 100%;
 	}
-	
+
 	.orderDetail-background {
 		display: flex;
 		flex-direction: column;
@@ -158,7 +172,7 @@
 		align-items: center;
 		justify-content: center;
 	}
-	
+
 	.orderDetail-popup-btns {
 		width: 90%;
 		display: flex;
@@ -166,7 +180,7 @@
 		justify-content: space-between;
 		margin-top: 70rpx;
 	}
-	
+
 	.popup-btn {
 		width: 180rpx;
 		height: 70rpx;
