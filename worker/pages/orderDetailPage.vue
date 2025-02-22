@@ -25,15 +25,16 @@
 			</view>
 
 			<!-- 兼职详情 -->
-			<view class="orderDetail-content"
-				style="height: 600rpx; margin-top: 30rpx; flex-wrap: wrap;;">
+			<view class="orderDetail-content" style="min-height: 720rpx; margin-top: 30rpx;">
 				<text style="font-size: 45rpx; font-weight: bold; margin-left: 35rpx; margin-top: 35rpx;">兼职详情</text>
-				<text style="font-size: 30rpx; margin-left: 35rpx; margin-top: 35rpx;">你想在时尚氛围中开启兼职之旅吗？优衣库正在寻找热情活力的兼职伙伴！
+				<text style="font-size: 30rpx; margin-left: 35rpx; margin-top: 35rpx; margin-right: 35rpx;">
+					你想在时尚氛围中开启兼职之旅吗？优衣库正在寻找热情活力的兼职伙伴！
 					在这里，你将置身于潮流前线，接触到优衣库多样且高品质的时尚服饰。工作内容丰富有趣，包括整理陈列商品、为顾客提供专业贴心的服务等。
 					我们提供具有竞争力的时薪，让你的付出得到实实在在的回报。还有舒适的工作环境和一群积极向上的同事，大家一起打造愉悦的购物氛围。
 					工作时间灵活，可根据你的学业或生活安排协调，非常适合学生党或时间较为自由的伙伴。
 					无论你有无销售经验，只要你热情开朗、责任心强，就有机会成为优衣库大家庭的一员。快来加入我们，一起开启时尚又充实的兼职生活吧！
-					报名方式：[具体报名方式，如发送简历至邮箱、电话联系等]</text>
+					报名方式：[具体报名方式，如发送简历至邮箱、电话联系等]
+				</text>
 			</view>
 
 
