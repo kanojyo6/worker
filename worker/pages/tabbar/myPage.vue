@@ -37,7 +37,7 @@
                     <text class="myPage-headerTitle">我的需求</text>
                     <text class="myPage-headerMore" @click="navigateToOrders">更多</text>
                 </view>
-                <scroll-view scroll-x="true" class="myPage-orderScroll">
+                <scroll-view scroll-x="true"class="myPage-orderScroll">
                     <button 
                         v-for="order in orders" 
                         :key="order.id" 
@@ -49,15 +49,15 @@
                                 <text class="myPage-orderStatus">{{order.status}}</text>
                             </view>
                             <view class="myPage-orderDetail">
-                                <text class="myPage-orderSalary">薪资 {{order.salary}}</text>
+                                <text class="myPage-orderSalary" style="color: #42B880;">薪资 {{order.salary}}</text>
                                 <text class="myPage-orderDuration">{{order.duration}}</text>
                             </view>
                             <view class="myPage-orderDescription">
-                                {{order.description}}
+                                {{order.description.length > 50 ? order.description.slice(0, 50) + '...' : order.description}}
                             </view>
                             <view class="myPage-orderFooter">
-                                <text class="myPage-orderContact">联系 {{order.contact}}</text>
-                                <text class="myPage-orderLocation">地址 {{order.location}}</text>
+                                <text class="myPage-orderContact">联系  {{order.contact}}</text>
+                                <text class="myPage-orderLocation">地址  {{order.location}}</text>
                             </view>
                         </view>
                     </button>
@@ -103,7 +103,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useUserInfoStore } from '@/stores/userInfo.js';
-import loginPageVue from '../../components/loginPage.vue';
+import loginPageVue from '../components/loginPage.vue';
 
 const userInfoStore = useUserInfoStore();
 
@@ -120,7 +120,7 @@ const orders = ref([{
     status: '实习',
     salary: '4000',
     duration: '3个月',
-    description: '本人大学生放假，想兼职，赚点零用钱！',
+    description: '本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好',
     contact: '12345678900',
     location: 'xx市 xx区 xx街道'
 }]);
@@ -161,7 +161,7 @@ const loadUserData = async () => {
 
 // 页面导航方法
 const navigateToOrders = () => {
-    uni.navigateTo({ url: '/pages/orders/list' });
+    uni.navigateTo({ url: '/pages/myOrderListPage' });
 };
 
 const navigateToApplications = () => {
@@ -269,36 +269,36 @@ const viewApplication = (id) => {
 }
 
 .myPage-myOrderItem {
-    width: 65%;
+    width: 70%;
     height: 100%;
-    background: linear-gradient(#8ef1c8, #c7ffe8);
+    background: linear-gradient(#C7FFD8, #E5FFED);
     border-radius: 24rpx;
     display: inline-block;
     margin: 0rpx 20rpx;
+	padding: 20rpx;
 }
 
 .myPage-myOrderItem-content {
     display: flex;
-    width: 95%;
+    width: 90%;
     height: 95%;
     margin: auto;
     flex-direction: column;
-    padding: 20rpx;
+    padding: 10rpx;
 }
 
 .myPage-orderTitleRow {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20rpx;
 }
 
 .myPage-orderTitle {
-    font-size: 26rpx;
+    font-size: 30rpx;
     font-weight: bold;
 }
 
 .myPage-orderStatus {
-    font-size: 26rpx;
+    font-size: 28rpx;
     font-weight: bold;
     color: #42B880;
 }
@@ -306,29 +306,43 @@ const viewApplication = (id) => {
 .myPage-orderDetail {
     display: flex;
     gap: 20rpx;
+	margin-top: 20rpx;
     margin-bottom: 20rpx;
+	justify-content: space-between;
+
 }
 
 .myPage-orderSalary,
 .myPage-orderDuration {
-    font-size: 24rpx;
+    font-size: 28rpx;
     color: #666;
+	font-weight: bold;
 }
 
 .myPage-orderDescription {
     font-size: 24rpx;
     color: #333;
     margin-bottom: 20rpx;
+	min-height: 100rpx;
+	text-align: left;
+	white-space: normal;
+	word-wrap: break-word; /* 确保长单词或URL也能换行 */
+	line-height: 35rpx;
 }
 
 .myPage-orderFooter {
-    font-size: 24rpx;
+    font-size: 26rpx;
     color: #666;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	font-weight: bold;
+	margin-top: 40rpx;
 }
 
 .myPage-myOffer {
     width: 100%;
-    height: 640rpx;
+    min-height: 300rpx;
     border-radius: 30rpx;
     margin-top: 40rpx;
     background: #a5e3c9;
@@ -347,10 +361,10 @@ const viewApplication = (id) => {
 
 .myPage-myOfferItem {
     width: 90%;
-    height: 50%;
+    height: 140rpx;
     padding: 3%;
     border-radius: 15rpx;
-    margin: 14rpx auto;
+    margin: 10rpx auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -367,14 +381,13 @@ const viewApplication = (id) => {
 .myPage-offerMiddle {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    justify-content: space-between;
+    height: 110rpx;
+    justify-content: space-around;
     align-items: start;
-    margin-left: -20rpx;
 }
 
 .myPage-offerTitle {
-    font-size: 27rpx;
+    font-size: 32rpx;
     font-weight: bold;
 }
 
@@ -388,7 +401,7 @@ const viewApplication = (id) => {
     display: flex;
     flex-direction: column;
     height: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-end;
 }
 

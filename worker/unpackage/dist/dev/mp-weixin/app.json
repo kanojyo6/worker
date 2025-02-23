@@ -4,7 +4,9 @@
     "pages/tabbar/orderPage",
     "pages/tabbar/myPage",
     "pages/orderDetailPage",
-    "pages/typeDetailPage"
+    "pages/typeDetailPage",
+    "pages/myOrderListPage",
+    "pages/myOrderDetailPage"
   ],
   "window": {
     "navigationBarTextStyle": "black",

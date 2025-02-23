@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "我的",
   "usingComponents": {
-    "login-page-vue": "../../components/loginPage"
+    "login-page-vue": "../components/loginPage"
   }
 }

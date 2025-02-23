@@ -43,7 +43,7 @@ const useUserInfoStore = common_vendor.defineStore("userinfo", {
         if (!accessToken)
           throw new Error("未登录");
         const res = await common_vendor.index.request({
-          url: "http://183.136.206.77:32222/api/users/me",
+          url: "http://183.136.206.77:45212/api/users/me",
           method: "GET",
           header: {
             "Authorization": `Bearer ${accessToken}`

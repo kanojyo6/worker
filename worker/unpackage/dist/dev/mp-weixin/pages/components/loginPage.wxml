@@ -1,0 +1,1 @@
+<view class="loginPage-background"><view class="loginPage-avatar"></view><button class="loginPage-loginBtn" bindtap="{{a}}">一键登录</button><view style="font-size:24rpx;color:#8c8c8c;margin-top:20rpx">登录后尽享更多权益</view></view>

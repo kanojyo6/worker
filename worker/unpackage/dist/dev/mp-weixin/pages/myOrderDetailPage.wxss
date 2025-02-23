@@ -1,0 +1,106 @@
+
+	/* 去除按钮默认样式 */
+button::after {
+		border: none;
+}
+button {
+		position: relative;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: 0px;
+		padding-right: 0px;
+		box-sizing: border-box;
+		text-align: center;
+		text-decoration: none;
+		line-height: 1.35;
+		-webkit-tap-highlight-color: transparent;
+		overflow: hidden;
+		color: #000;
+		font-size: 32rpx;
+		background-color: #fff;
+		width: 10%;
+		height: 100%;
+}
+.orderDetail-background {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 90%;
+		padding: 5%;
+		height: 100%;
+		background: linear-gradient(#7FD8B3, white);
+}
+.orderDetail-content {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		background: white;
+		border-radius: 30rpx;
+}
+.orderDetail-image {
+		width: 100%;
+		height: 60%;
+		border-top-left-radius: 30rpx;
+		border-top-right-radius: 30rpx;
+}
+.orderDetail-userMsg {
+		width: 90%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 30rpx 50rpx;
+}
+.orderDetail-avatar {
+		width: 90rpx;
+		height: 90rpx;
+		border-radius: 100rpx;
+}
+.orderDetail-orderMsg {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		justify-content: space-evenly;
+		width: 85%;
+		margin: auto;
+}
+.orderDetail-submitBtn {
+		width: 95%;
+		height: 80rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 30rpx;
+		color: white;
+		background: #42B880;
+		margin-top: 40rpx;
+		border-radius: 60rpx;
+}
+.orderDetail-popup {
+		width: 460rpx;
+		height: 660rpx;
+		padding: 20rpx;
+		background-color: #fff;
+		margin: auto;
+		border-radius: 30rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+}
+.orderDetail-popup-btns {
+		width: 90%;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		margin-top: 70rpx;
+}
+.popup-btn {
+		width: 180rpx;
+		height: 70rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50rpx;
+		font-size: 28rpx;
+}

@@ -1,0 +1,75 @@
+
+.myOrderListPage-background {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	min-height: 100vh;
+	background: linear-gradient(#7FD8B3, white);
+}
+.myOrderListPage-myOrderItem {
+	width: 90%;
+	height: 100%;
+	background: linear-gradient(#C7FFD8, #E5FFED);
+	border-radius: 24rpx;
+	display: inline-block;
+	margin: 0rpx 20rpx;
+	padding: 20rpx;
+}
+.myOrderListPage-myOrderItem-content {
+	display: flex;
+	width: 90%;
+	height: 95%;
+	margin: auto;
+	flex-direction: column;
+	padding: 10rpx;
+}
+.myOrderListPage-orderTitleRow {
+	display: flex;
+	justify-content: space-between;
+}
+.myOrderListPage-orderTitle {
+	font-size: 36rpx;
+	font-weight: bold;
+}
+.myOrderListPage-orderStatus {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #42B880;
+}
+.myOrderListPage-orderDetail {
+	display: flex;
+	gap: 20rpx;
+	margin-top: 14rpx;
+	margin-bottom: 20rpx;
+	justify-content: space-between;
+}
+.myOrderListPage-orderSalary,
+.myOrderListPage-orderDuration {
+	font-size: 32rpx;
+	color: #666;
+	font-weight: bold;
+}
+.myOrderListPage-orderDescription {
+	font-size: 28rpx;
+	color: #333;
+	margin-bottom: 20rpx;
+	min-height: 100rpx;
+	text-align: left;
+	white-space: normal;
+	word-wrap: break-word; /* 确保长单词或URL也能换行 */
+	line-height: 35rpx;
+}
+.myOrderListPage-orderFooter {
+	font-size: 26rpx;
+	color: #666;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	font-weight: bold;
+	margin-top: 40rpx;
+}
+.myOrderListPage-orderContact {
+}
+.myOrderListPage-orderLocation {
+}

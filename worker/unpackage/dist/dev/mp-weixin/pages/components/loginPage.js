@@ -1,6 +1,6 @@
 "use strict";
-const common_vendor = require("../common/vendor.js");
-const stores_userInfo = require("../stores/userInfo.js");
+const common_vendor = require("../../common/vendor.js");
+const stores_userInfo = require("../../stores/userInfo.js");
 const _sfc_main = {
   __name: "loginPage",
   setup(__props) {

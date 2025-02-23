@@ -58,7 +58,7 @@ const getLoginCode = () => {
 const sendLoginRequest = (code, userInfo) => {
     return new Promise((resolve, reject) => {
         uni.request({
-            url: 'http://183.136.206.77:32222/login/wechat/miniapp',
+            url: 'http://183.136.206.77:45212/login/wechat/miniapp',
             method: 'POST',
             header: {
                 'content-type': 'application/json'

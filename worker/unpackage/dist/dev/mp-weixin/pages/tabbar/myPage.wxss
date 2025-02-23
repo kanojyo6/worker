@@ -1,94 +1,221 @@
 
 .myPage-background {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
 }
 .myPage-userNickname {
-		display: flex;
-		align-items: center;
-		justify-content: left;
-		margin-left: 30rpx;
-		margin-top: 50rpx;
-		font-size: 32rpx;
-		font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-left: 30rpx;
+    margin-top: 50rpx;
+    font-size: 32rpx;
+    font-weight: bold;
 }
 .myPage-userAvatarBg {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		padding: 30rpx 0rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 30rpx 0rpx;
 }
 .myPage-userAvatar {
-		width: 150rpx;
-		height: 150rpx;
-		border-radius: 200rpx;
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 200rpx;
 }
 .myPage-selector {
-		display: flex;
-		flex-wrap: nowrap;
-		width: 90%;
-		height: 10%;
-		margin: 0rpx auto;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 90%;
+    height: 10%;
+    margin: 0rpx auto;
 }
 .myPage-order {
-		display: flex;
-		width: 50%;
-		height: 100%;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
+    display: flex;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.myPage-orderCount {
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 10rpx;
+}
+.myPage-orderLabel {
+    font-size: 28rpx;
+    color: #333;
 }
 .myPage-myOrder {
-		width: 100%;
-		height: 550rpx;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		background: #a5e3c9;
-		display: flex;
-		flex-direction: column;
+    width: 100%;
+    height: 550rpx;
+    border-radius: 30rpx;
+    margin-top: 40rpx;
+    background: #a5e3c9;
+    display: flex;
+    flex-direction: column;
+}
+.myPage-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 24rpx auto;
+    width: 90%;
+}
+.myPage-headerTitle {
+    font-size: 28rpx;
+    font-weight: bold;
+}
+.myPage-headerMore {
+    font-size: 28rpx;
+    color: white;
+    font-weight: bold;
+}
+.myPage-orderScroll {
+    width: 95%;
+    height: 75%;
+    white-space: nowrap;
+    margin: 0rpx auto;
 }
 .myPage-myOrderItem {
-		width: 65%;
-		height: 100%;
-		background: linear-gradient(#8ef1c8, #c7ffe8);
-		border-radius: 24rpx;
-		display: inline-block;
-		margin: 0rpx 20rpx;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(#C7FFD8, #E5FFED);
+    border-radius: 24rpx;
+    display: inline-block;
+    margin: 0rpx 20rpx;
+	padding: 20rpx;
 }
 .myPage-myOrderItem-content {
-		display: flex;
-		width: 95%;
-		height: 95%;
-		margin: auto;
-		flex-direction: column;
+    display: flex;
+    width: 90%;
+    height: 95%;
+    margin: auto;
+    flex-direction: column;
+    padding: 10rpx;
+}
+.myPage-orderTitleRow {
+    display: flex;
+    justify-content: space-between;
+}
+.myPage-orderTitle {
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.myPage-orderStatus {
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #42B880;
+}
+.myPage-orderDetail {
+    display: flex;
+    gap: 20rpx;
+	margin-top: 20rpx;
+    margin-bottom: 20rpx;
+	justify-content: space-between;
+}
+.myPage-orderSalary,
+.myPage-orderDuration {
+    font-size: 28rpx;
+    color: #666;
+	font-weight: bold;
+}
+.myPage-orderDescription {
+    font-size: 24rpx;
+    color: #333;
+    margin-bottom: 20rpx;
+	min-height: 100rpx;
+	text-align: left;
+	white-space: normal;
+	word-wrap: break-word; /* 确保长单词或URL也能换行 */
+	line-height: 35rpx;
+}
+.myPage-orderFooter {
+    font-size: 26rpx;
+    color: #666;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	font-weight: bold;
+	margin-top: 40rpx;
 }
 .myPage-myOffer {
-		width: 100%;
-		height: 640rpx;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		background: #a5e3c9;
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 20rpx;
-		padding-bottom: 20rpx;
+    width: 100%;
+    min-height: 300rpx;
+    border-radius: 30rpx;
+    margin-top: 40rpx;
+    background: #a5e3c9;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20rpx;
+    padding-bottom: 20rpx;
+}
+.myPage-offerList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 88%;
 }
 .myPage-myOfferItem {
-		width: 90%;
-		height: 50%;
-		padding: 3%;
-		border-radius: 15rpx;
-		margin: 14rpx auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: nowrap;
+    width: 90%;
+    height: 140rpx;
+    padding: 3%;
+    border-radius: 15rpx;
+    margin: 10rpx auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    background: #ffffff;
 }
 .myPage-myOfferItem-Img {
-		width: 120rpx;
-		height: 120rpx;
-		border-radius: 10rpx;
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 10rpx;
+}
+.myPage-offerMiddle {
+    display: flex;
+    flex-direction: column;
+    height: 110rpx;
+    justify-content: space-around;
+    align-items: start;
+}
+.myPage-offerTitle {
+    font-size: 32rpx;
+    font-weight: bold;
+}
+.myPage-offerPrice {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #42B880;
+}
+.myPage-offerRight {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.myPage-offerDuration {
+    font-size: 26rpx;
+    font-weight: bold;
+    color: #42B880;
+}
+.myPage-offerLocation {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.myPage-offerLocation image {
+    width: 30rpx;
+    height: 30rpx;
+}
+.myPage-offerLocation text {
+    color: #919191;
+    margin-left: 10rpx;
+    font-size: 22rpx;
 }
