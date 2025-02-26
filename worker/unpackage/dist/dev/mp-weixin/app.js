@@ -9,6 +9,9 @@ if (!Math) {
   "./pages/typeDetailPage.js";
   "./pages/myOrderListPage.js";
   "./pages/myOrderDetailPage.js";
+  "./pages/myOfferListPage.js";
+  "./pages/myOfferDetailPage.js";
+  "./pages/components/orderDetailPopup.js";
 }
 const _sfc_main = {
   onLaunch: function() {

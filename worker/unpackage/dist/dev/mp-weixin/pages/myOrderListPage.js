@@ -15,6 +15,11 @@ const _sfc_main = {
       contact: "12345678900",
       location: "xx市 xx区 xx街道"
     }]);
+    const viewOrder = () => {
+      common_vendor.index.navigateTo({
+        url: "/pages/myOrderDetailPage"
+      });
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(orders.value, (order, k0, i0) => {
@@ -26,7 +31,8 @@ const _sfc_main = {
             e: common_vendor.t(order.description.length > 70 ? order.description.slice(0, 70) + "..." : order.description),
             f: common_vendor.t(order.contact),
             g: common_vendor.t(order.location),
-            h: order.id
+            h: order.id,
+            i: common_vendor.o(viewOrder, order.id)
           };
         })
       };

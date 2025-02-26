@@ -56,10 +56,15 @@ const _sfc_main = {
       common_vendor.index.navigateTo({ url: "/pages/myOrderListPage" });
     };
     const navigateToApplications = () => {
-      common_vendor.index.navigateTo({ url: "/pages/applications/list" });
+      common_vendor.index.navigateTo({ url: "/pages/myOfferListPage" });
     };
-    const viewApplication = (id) => {
-      common_vendor.index.navigateTo({ url: `/pages/applications/detail?id=${id}` });
+    const viewApplication = () => {
+      common_vendor.index.navigateTo({ url: `/pages/myOfferDetailPage` });
+    };
+    const viewOrder = () => {
+      common_vendor.index.navigateTo({
+        url: "/pages/myOrderDetailPage"
+      });
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
@@ -85,7 +90,8 @@ const _sfc_main = {
             e: common_vendor.t(order.description.length > 50 ? order.description.slice(0, 50) + "..." : order.description),
             f: common_vendor.t(order.contact),
             g: common_vendor.t(order.location),
-            h: order.id
+            h: order.id,
+            i: common_vendor.o(viewOrder, order.id)
           };
         }),
         j: common_vendor.o(navigateToApplications),

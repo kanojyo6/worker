@@ -6,7 +6,10 @@
     "pages/orderDetailPage",
     "pages/typeDetailPage",
     "pages/myOrderListPage",
-    "pages/myOrderDetailPage"
+    "pages/myOrderDetailPage",
+    "pages/myOfferListPage",
+    "pages/myOfferDetailPage",
+    "pages/components/orderDetailPopup"
   ],
   "window": {
     "navigationBarTextStyle": "black",

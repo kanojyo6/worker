@@ -42,6 +42,7 @@
                         v-for="order in orders" 
                         :key="order.id" 
                         class="myPage-myOrderItem"
+						@click="viewOrder"
                     >
                         <view class="myPage-myOrderItem-content">
                             <view class="myPage-orderTitleRow">
@@ -165,12 +166,18 @@ const navigateToOrders = () => {
 };
 
 const navigateToApplications = () => {
-    uni.navigateTo({ url: '/pages/applications/list' });
+    uni.navigateTo({ url: '/pages/myOfferListPage' });
 };
 
-const viewApplication = (id) => {
-    uni.navigateTo({ url: `/pages/applications/detail?id=${id}` });
+const viewApplication = () => {
+    uni.navigateTo({ url: `/pages/myOfferDetailPage` });
 };
+
+const viewOrder = () => {
+	uni.navigateTo({
+		url: '/pages/myOrderDetailPage'
+	})
+}
 </script>
 
 <style>

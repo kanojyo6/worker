@@ -1,13 +1,13 @@
 <template>
 	<scroll-view>
-		<view class="orderDetail-background">
-			<view class="orderDetail-content" style="height: 1000rpx;">
+		<view class="offerDetail-background">
+			<view class="offerDetail-content" style="height: 1000rpx;">
 				<!-- 图片 -->
-				<view class="orderDetail-image" style="background: #DADADA;"></view>
+				<view class="offerDetail-image" style="background: #DADADA;"></view>
 				<!-- 用户信息 -->
-				<view class="orderDetail-userMsg">
+				<view class="offerDetail-userMsg">
 					<view style="display: flex; align-items: center;">
-						<view class="orderDetail-avatar" style="background: #DADADA;"></view>
+						<view class="offerDetail-avatar" style="background: #DADADA;"></view>
 						<view style="margin-left: 20rpx;">{{ userName }}</view>
 					</view>
 					<view style="display: flex; align-items: center;">
@@ -17,7 +17,7 @@
 					</view>
 				</view>
 				<!-- 订单信息 -->
-				<view class="orderDetail-orderMsg">
+				<view class="offerDetail-orderMsg">
 					<view style="font-size: 38rpx; font-weight: bold;">万达优衣库招服务员</view>
 					<view style="font-size: 38rpx; font-weight: bold; color: #42B880;">1000元</view>
 					<view style="font-size: 30rpx; font-weight: bold; color: #42B880;">4个月</view>
@@ -25,7 +25,7 @@
 			</view>
 
 			<!-- 兼职详情 -->
-			<view class="orderDetail-content" style="margin-top: 30rpx; margin-bottom: 30rpx;">
+			<view class="offerDetail-content" style="margin-top: 30rpx; margin-bottom: 30rpx;">
 				<text style="font-size: 45rpx; font-weight: bold; margin-left: 35rpx; margin-top: 35rpx;">兼职详情</text>
 				<text style="font-size: 30rpx; margin-left: 35rpx; margin-top: 35rpx; margin-right: 35rpx;">
 					你想在时尚氛围中开启兼职之旅吗？优衣库正在寻找热情活力的兼职伙伴！
@@ -38,10 +38,24 @@
 			</view>
 
 
-			<button @click="handleSubmit" class="orderDetail-submitBtn">查看申请</button>
+			<button @click="handleSubmit" class="offerDetail-submitBtn">提交申请</button>
 			<uni-popup ref="popup">
+
 				<!-- 弹出层 -->
-				<orderDetailPopup />
+				<view>
+					<view class="offerDetail-popup">
+						<image src="/static/logos/icon_box_tips@3x.png" mode="aspectFit"
+							style="width: 160rpx; height: 160rpx; margin-bottom: 60rpx;"></image>
+						<view style="font-size: 34rpx; font-weight: bold;">是否确认提交</view>
+						<view class="offerDetail-popup-btns">
+							<button @click="dismissPopup" class="popup-btn"
+								style="border: solid 2rpx #42B880; background: #fff; color: #42B880;">取消</button>
+							<button class="popup-btn"
+								style="border: solid 2rpx #42B880; background: #42b880; color: #fff;">确认</button>
+						</view>
+					</view>
+				</view>
+
 			</uni-popup>
 		</view>
 	</scroll-view>
@@ -51,7 +65,6 @@
 <script setup lang="ts">
 	import { ref } from 'vue';
 	import uniPopup from '@/uni_modules/uni-popup/components/uni-popup/uni-popup.vue'
-	import orderDetailPopup from './components/orderDetailPopup.vue';
 
 	const userName = ref('用户名称')
 	const address = ref('翻斗花园')
@@ -60,7 +73,7 @@
 	const popup = ref(null)
 	const handleSubmit = () => {
 		console.log(popup.value)
-		popup.value.open('bottom')
+		popup.value.open()
 	}
 	const dismissPopup = () => {
 		popup.value.close()
@@ -93,7 +106,7 @@
 		height: 100%;
 	}
 
-	.orderDetail-background {
+	.offerDetail-background {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -103,7 +116,7 @@
 		background: linear-gradient(#7FD8B3, white);
 	}
 
-	.orderDetail-content {
+	.offerDetail-content {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
@@ -111,14 +124,14 @@
 		border-radius: 30rpx;
 	}
 
-	.orderDetail-image {
+	.offerDetail-image {
 		width: 100%;
 		height: 60%;
 		border-top-left-radius: 30rpx;
 		border-top-right-radius: 30rpx;
 	}
 
-	.orderDetail-userMsg {
+	.offerDetail-userMsg {
 		width: 90%;
 		display: flex;
 		justify-content: space-between;
@@ -126,13 +139,13 @@
 		margin: 30rpx 50rpx;
 	}
 
-	.orderDetail-avatar {
+	.offerDetail-avatar {
 		width: 90rpx;
 		height: 90rpx;
 		border-radius: 100rpx;
 	}
 
-	.orderDetail-orderMsg {
+	.offerDetail-orderMsg {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
@@ -141,7 +154,7 @@
 		margin: auto;
 	}
 
-	.orderDetail-submitBtn {
+	.offerDetail-submitBtn {
 		width: 95%;
 		height: 80rpx;
 		display: flex;
@@ -154,7 +167,7 @@
 		border-radius: 60rpx;
 	}
 
-	.orderDetail-popup {
+	.offerDetail-popup {
 		width: 460rpx;
 		height: 660rpx;
 		padding: 20rpx;
@@ -167,7 +180,7 @@
 		justify-content: center;
 	}
 
-	.orderDetail-popup-btns {
+	.offerDetail-popup-btns {
 		width: 90%;
 		display: flex;
 		flex-wrap: nowrap;

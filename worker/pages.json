@@ -48,6 +48,27 @@
 			{
 				"navigationBarTitleText" : "需求详情"
 			}
+		},
+		{
+			"path" : "pages/myOfferListPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的申请"
+			}
+		},
+		{
+			"path" : "pages/myOfferDetailPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "申请详情"
+			}
+		},
+		{
+			"path" : "pages/components/orderDetailPopup",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {

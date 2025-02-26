@@ -1,0 +1,76 @@
+
+.myOfferListPage-background.data-v-feb72d08 {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		min-height: 100vh;
+		background: linear-gradient(#7FD8B3, white);
+}
+.myOffer-offerList.data-v-feb72d08 {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 88%;
+}
+.myOffer-myOfferItem.data-v-feb72d08 {
+		width: 90%;
+		height: 140rpx;
+		padding: 3%;
+		border-radius: 15rpx;
+		margin: 30rpx auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: nowrap;
+		background: #ffffff;
+}
+.myOffer-myOfferItem-Img.data-v-feb72d08 {
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 10rpx;
+}
+.myOffer-offerMiddle.data-v-feb72d08 {
+		display: flex;
+		flex-direction: column;
+		height: 110rpx;
+		justify-content: space-around;
+		align-items: start;
+}
+.myOffer-offerTitle.data-v-feb72d08 {
+		font-size: 32rpx;
+		font-weight: bold;
+}
+.myOffer-offerPrice.data-v-feb72d08 {
+		font-size: 32rpx;
+		font-weight: bold;
+		color: #42B880;
+}
+.myOffer-offerRight.data-v-feb72d08 {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: space-around;
+		align-items: flex-end;
+}
+.myOffer-offerDuration.data-v-feb72d08 {
+		font-size: 26rpx;
+		font-weight: bold;
+		color: #42B880;
+}
+.myOffer-offerLocation.data-v-feb72d08 {
+		display: flex;
+		width: 100%;
+		flex-wrap: nowrap;
+		align-items: center;
+}
+.myOffer-offerLocation image.data-v-feb72d08 {
+	    width: 30rpx;
+	    height: 30rpx;
+}
+.myOffer-offerLocation text.data-v-feb72d08 {
+	    color: #919191;
+	    margin-left: 10rpx;
+	    font-size: 22rpx;
+}
+

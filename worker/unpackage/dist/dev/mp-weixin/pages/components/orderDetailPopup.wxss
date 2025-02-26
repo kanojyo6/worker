@@ -1,0 +1,39 @@
+
+.orderPopup-background {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 500rpx;
+	padding-top: 30rpx;
+	background-color: white;
+	border-top-left-radius: 20rpx;
+	border-top-right-radius: 20rpx;
+}
+.orderPopup-item {
+	width: 100%;
+	height: 70rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20rpx;
+}
+.orderPopup-img {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+}
+.orderPopup-offersName {
+	font-size: 26rpx;
+	color: #000;
+	margin-left: 20rpx;
+}
+.orderPopup-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 120rpx;
+	height: 70rpx;
+	font-size: 26rpx;
+	color: white;
+	border-radius: 15rpx;
+}
