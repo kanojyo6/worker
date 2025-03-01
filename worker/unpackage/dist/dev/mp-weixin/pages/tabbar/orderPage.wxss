@@ -1,112 +1,130 @@
 
 .orderPage-itemTitle {
-		font-size: 30rpx;
-		font-weight: 600;
+    font-size: 30rpx;
+    font-weight: 600;
 }
 .orderPage-background {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		min-height: 100vh;
-		align-items: center;
-		background: linear-gradient(#7FD8B3, white);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    background: linear-gradient(#7FD8B3, white);
 }
 .orderPage-basicMsg {
-		display: flex;
-		width: 100%;
-		height: 800rpx;
-		flex-direction: column;
-		align-items: center;
-		margin: 0rpx 50rpx;
+    display: flex;
+    width: 100%;
+    height: 800rpx;
+    flex-direction: column;
+    align-items: center;
+    margin: 0rpx 50rpx;
 }
 .orderPage-basicMsgItem {
-		display: flex;
-		width: 100%;
-		height: 13%;
-		align-items: center;
+    display: flex;
+    width: 100%;
+    height: 13%;
+    align-items: center;
 }
 .orderPage-orderType {
-		width: 460rpx;
-		height: 100%;
-		padding: 20rpx;
-		border-radius: 10rpx;
-		background: white;
-		margin-left: 30rpx;
-		font-size: 24rpx;
-		display: flex;
-		justify-content: space-between;
+    width: 460rpx;
+    height: 100%;
+    padding: 20rpx;
+    border-radius: 10rpx;
+    background: white;
+    margin-left: 30rpx;
+    font-size: 24rpx;
+    display: flex;
+    justify-content: space-between;
 }
 .orderPage-orderTitle {
-		width: 460rpx;
-		height: 70%;
-		padding: 0rpx 20rpx;
-		border-radius: 10rpx;
-		background: white;
-		margin-left: 30rpx;
-		font-size: 24rpx;
-		display: flex;
+    width: 460rpx;
+    height: 70%;
+    padding: 0rpx 20rpx;
+    border-radius: 10rpx;
+    background: white;
+    margin-left: 30rpx;
+    font-size: 24rpx;
+    display: flex;
 }
 .orderPage-orderTextarea {
-		width: 460rpx;
-		height: 230%;
-		padding: 25rpx 20rpx;
-		border-radius: 10rpx;
-		background: white;
-		margin-left: 30rpx;
-		margin-top: 220rpx;
-		font-size: 28rpx;
-		display: flex;
+    width: 460rpx;
+    height: 230%;
+    padding: 25rpx 20rpx;
+    border-radius: 10rpx;
+    background: white;
+    margin-left: 30rpx;
+    margin-top: 220rpx;
+    font-size: 28rpx;
+    display: flex;
 }
 .orderPage-orderSalary {
-		width: 460rpx;
-		height: 70%;
-		padding: 0rpx 20rpx;
-		margin: 50rpx 0rpx;
-		border-radius: 10rpx;
-		background: white;
-		margin-left: 30rpx;
-		font-size: 24rpx;
-		display: flex;
+    width: 460rpx;
+    height: 70%;
+    padding: 0rpx 20rpx;
+    margin: 50rpx 0rpx;
+    border-radius: 10rpx;
+    background: white;
+    margin-left: 30rpx;
+    font-size: 24rpx;
+    display: flex;
 }
 .orderPage-importentMsg {
-		display: flex;
-		width: 90%;
-		height: 560rpx;
-		flex-direction: column;
-		align-items: start;
-		background: white;
-		border-radius: 30rpx;
-		padding: 20rpx 40rpx;
+    display: flex;
+    width: 90%;
+    height: 560rpx;
+    flex-direction: column;
+    align-items: start;
+    background: white;
+    border-radius: 30rpx;
+    padding: 20rpx 40rpx;
 }
 .orderPage-importentMsgItem {
-		display: flex;
-		width: 100%;
-		height: 15%;
-		align-items: center;
-		margin-top: 15rpx;
+    display: flex;
+    width: 100%;
+    height: 15%;
+    align-items: center;
+    margin-top: 15rpx;
 }
 .orderPage-chooseImg {
-		width: 500rpx;
-		height: 200rpx;
-		border-radius: 10rpx;
-		background: #DADADA;
-		margin-left: 30rpx;
-		margin-top: 160rpx;
-		font-size: 24rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		color: #8e8e8e;
+    width: 500rpx;
+    height: 200rpx;
+    border-radius: 10rpx;
+    background: #DADADA;
+    margin-left: 30rpx;
+    margin-top: 160rpx;
+    font-size: 24rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #8e8e8e;
+    padding: 0; /* 覆盖按钮默认内边距 */
+    overflow: hidden; /* 确保图片不溢出 */
 }
 .orderPage-submitBtn {
-		width: 50%;
-		height: 65rpx;
-		border-radius: 70rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 26rpx;
-		color: white;
-		background: #42B880;
-		margin-bottom: 30rpx;
+    width: 50%;
+    height: 65rpx;
+    border-radius: 70rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26rpx;
+    color: white;
+    background: #42B880;
+    margin-bottom: 30rpx;
+}
+.orderPage-submitBtn[disabled] {
+    background: #a0d7b9;
+    color: #eee;
+}
+.upload-status {
+    font-size: 24rpx;
+    padding: 10rpx 30rpx;
+    margin-left: 30rpx;
+    margin-top: 10rpx;
+}
+.upload-success {
+    color: #42B880;
+}
+.upload-error {
+    color: #ff4d4f;
 }

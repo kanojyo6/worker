@@ -115,7 +115,7 @@ interface CropperConfirmEvent {
 }
 
 // API基础URL
-const API_BASE_URL: string = 'http://your-api-domain'; // 替换为你的API域名
+const API_BASE_URL: string = 'http://183.136.206.77:45212'; // 替换为你的API域名
 
 // 需求类型
 const orderTypeIndex = ref<number>(0);
@@ -183,7 +183,7 @@ const handleConfirm = (event: CropperConfirmEvent): void => {
     const { tempFilePath } = event;
     orderImage.value = tempFilePath;
     
-    // 裁剪成功后立即上传图片
+    // 上传图片
     uploadImage(tempFilePath);
 };
 
@@ -196,7 +196,7 @@ const handleCropCancel = (): void => {
     });
 };
 
-// 上传图片到服务器
+// 上传图片
 const uploadImage = (filePath: string): void => {
     isUploading.value = true;
     uploadStatus.value = true;
@@ -268,27 +268,27 @@ const handleOrderTypeChange = (event: { detail: { value: string } }): void => {
 const handleSubmit = (event: { detail: { value: any } }): void => {
     // 表单验证
     if (!orderTitle.value) {
-        return uni.showToast({ title: '请输入需求标题', icon: 'none' });
+        uni.showToast({ title: '请输入需求标题', icon: 'none' });
     }
     if (!orderContent.value) {
-        return uni.showToast({ title: '请输入详细内容', icon: 'none' });
+        uni.showToast({ title: '请输入详细内容', icon: 'none' });
     }
     if (!orderSalary.value) {
-        return uni.showToast({ title: '请输入期望薪资', icon: 'none' });
+        uni.showToast({ title: '请输入期望薪资', icon: 'none' });
     }
     if (!orderChatNum.value) {
-        return uni.showToast({ title: '请输入联系方式', icon: 'none' });
+        uni.showToast({ title: '请输入联系方式', icon: 'none' });
     }
     if (!orderAddress.value) {
-        return uni.showToast({ title: '请输入地址信息', icon: 'none' });
+        uni.showToast({ title: '请输入地址信息', icon: 'none' });
     }
     
     // 检查图片是否上传成功
     if (orderImage.value && !imageUrl.value) {
         if (isUploading.value) {
-            return uni.showToast({ title: '图片上传中，请稍候', icon: 'none' });
+            uni.showToast({ title: '图片上传中，请稍候', icon: 'none' });
         } else {
-            return uni.showToast({ title: '图片未上传成功，请重试', icon: 'none' });
+            uni.showToast({ title: '图片未上传成功，请重试', icon: 'none' });
         }
     }
     
