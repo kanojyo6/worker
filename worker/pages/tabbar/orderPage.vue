@@ -44,8 +44,15 @@
 					<!-- 联系方式 -->
 					<view class="orderPage-importentMsgItem">
 						<view class="orderPage-itemTitle">联系方式:</view>
-						<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle"
-							style="background: #DADADA;" v-model="orderChatNum" />
+						<view style="display: flex; flex-wrap: nowrap; align-items: center;">
+							<radio-group>
+								<view v-for="(item, index) in orderChatTypeList">
+									<radio :value="item" :checked="index === orderChatType"></radio>
+								</view>
+							</radio-group>
+							<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle"
+								style="background: #DADADA;" v-model="orderChatNum" />
+						</view>
 					</view>
 					<!-- 地址信息 -->
 					<view class="orderPage-importentMsgItem">
@@ -86,13 +93,14 @@
 	// 时间范围
 	const orderTime = ref('')
 	// 联系方式
-	const orderChatNum = ref()
+	const orderChatTypeList: string[] = ["微信号", "手机号", "电子邮箱"]
+	const orderChatType = ref(0)
+	const orderChatNum = ref('')
 	// 地址信息
 	const orderAddress = ref('')
 	// 上传图片
 	const selectedImageSrc = ref('')	// 原始图片数据
 	const orderImage = ref('')
-
 	// 图片裁剪器显示状态
 	const showimgCropper = ref<boolean>(false)
 

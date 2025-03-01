@@ -17,7 +17,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const orderContent = common_vendor.ref("");
     const orderSalary = common_vendor.ref("");
     const orderTime = common_vendor.ref("");
-    const orderChatNum = common_vendor.ref();
+    const orderChatTypeList = ["微信号", "手机号", "电子邮箱"];
+    const orderChatType = common_vendor.ref(0);
+    const orderChatNum = common_vendor.ref("");
     const orderAddress = common_vendor.ref("");
     const selectedImageSrc = common_vendor.ref("");
     const orderImage = common_vendor.ref("");
@@ -73,20 +75,26 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         j: common_vendor.o(($event) => orderSalary.value = $event.detail.value),
         k: orderTime.value,
         l: common_vendor.o(($event) => orderTime.value = $event.detail.value),
-        m: orderChatNum.value,
-        n: common_vendor.o(($event) => orderChatNum.value = $event.detail.value),
-        o: orderAddress.value,
-        p: common_vendor.o(($event) => orderAddress.value = $event.detail.value),
-        q: orderImage.value === ""
+        m: common_vendor.f(orderChatTypeList, (item, index, i0) => {
+          return {
+            a: item,
+            b: index === orderChatType.value
+          };
+        }),
+        n: orderChatNum.value,
+        o: common_vendor.o(($event) => orderChatNum.value = $event.detail.value),
+        p: orderAddress.value,
+        q: common_vendor.o(($event) => orderAddress.value = $event.detail.value),
+        r: orderImage.value === ""
       }, orderImage.value === "" ? {} : {
-        r: orderImage.value
+        s: orderImage.value
       }, {
-        s: common_vendor.o(getImg),
-        t: common_vendor.o(handleSubmit),
-        v: common_vendor.o(handleConfirm),
-        w: common_vendor.o(handleCropCancel),
-        x: common_vendor.o(($event) => showimgCropper.value = $event),
-        y: common_vendor.p({
+        t: common_vendor.o(getImg),
+        v: common_vendor.o(handleSubmit),
+        w: common_vendor.o(handleConfirm),
+        x: common_vendor.o(handleCropCancel),
+        y: common_vendor.o(($event) => showimgCropper.value = $event),
+        z: common_vendor.p({
           ["img-src"]: selectedImageSrc.value,
           ["img-width"]: 600,
           ["img-height"]: 600,
