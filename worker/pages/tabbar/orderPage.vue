@@ -79,18 +79,50 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+
+// 定义类型接口
+interface RecruitmentData {
+    title: string;
+    content: string;
+    salary: number;
+    salaryPeriod: string;
+    imageUrl: string;
+    type: string;
+    location: string;
+    contactInfo: string;
+    positionCount: number;
+    companyName: string;
+}
+
+interface UploadResponse {
+    imageUrl: string;
+    message?: string;
+}
+
+interface ChooseImageSuccessCallbackResult {
+    tempFilePaths: string[];
+    tempFiles: {
+        path: string;
+        size: number;
+        type?: string;
+    }[];
+}
+
+interface CropperConfirmEvent {
+    tempFilePath: string;
+    [key: string]: any;
+}
 
 // API基础URL
-const API_BASE_URL = 'http://your-api-domain'; // 替换为你的API域名
+const API_BASE_URL: string = 'http://your-api-domain'; // 替换为你的API域名
 
 // 需求类型
-const orderTypeIndex = ref(0)
-const orderTypeArr: string[] = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"]
+const orderTypeIndex = ref<number>(0);
+const orderTypeArr: string[] = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"];
 
 // 需求类型枚举映射
-const recruitmentTypeMap = [
+const recruitmentTypeMap: string[] = [
     "TECH", 
     "LIFESTYLE", 
     "TUTORING", 
@@ -102,80 +134,81 @@ const recruitmentTypeMap = [
 ];
 
 // 表单数据
-const orderTitle = ref('')
-const orderContent = ref('')
-const orderSalary = ref('')
-const orderTime = ref('')
-const orderChatNum = ref('')
-const orderAddress = ref('')
+const orderTitle = ref<string>('');
+const orderContent = ref<string>('');
+const orderSalary = ref<string>('');
+const orderTime = ref<string>('');
+const orderChatNum = ref<string>('');
+const orderAddress = ref<string>('');
 
 // 图片数据
-const selectedImageSrc = ref('') // 原始图片数据
-const orderImage = ref('') // 裁剪后的本地图片路径
-const imageUrl = ref('') // 上传到服务器后的图片URL
+const selectedImageSrc = ref<string>(''); // 原始图片数据
+const orderImage = ref<string>(''); // 裁剪后的本地图片路径
+const imageUrl = ref<string>(''); // 上传到服务器后的图片URL
 
 // 图片裁剪器显示状态
-const showimgCropper = ref<boolean>(false)
+const showimgCropper = ref<boolean>(false);
 
 // 上传和提交状态
-const isUploading = ref(false)
-const isSubmitting = ref(false)
-const uploadStatus = ref(false)
-const uploadSuccess = ref(false)
-const uploadStatusText = ref('')
+const isUploading = ref<boolean>(false);
+const isSubmitting = ref<boolean>(false);
+const uploadStatus = ref<boolean>(false);
+const uploadSuccess = ref<boolean>(false);
+const uploadStatusText = ref<string>('');
 
 // 获取选择图片
-const getImg = () => {
+const getImg = (): void => {
     uni.chooseImage({
         count: 1,
         sizeType: ["compressed"],
-        success: (res) => {
-            console.log("选择图片成功")
-            const tempFilePath = res.tempFilePaths[0]
-            selectedImageSrc.value = tempFilePath
-            showimgCropper.value = true
+        success: (res: ChooseImageSuccessCallbackResult) => {
+            console.log("选择图片成功");
+            const tempFilePath = res.tempFilePaths[0];
+            selectedImageSrc.value = tempFilePath;
+            showimgCropper.value = true;
         },
-        fail() {
+        fail: () => {
             console.log('选择图片失败');
             uni.showToast({
                 icon: 'none',
                 title: '选择图片失败'
-            })
+            });
         }
-    })
-}
+    });
+};
 
 // 处理裁剪选择图片（确认）
-const handleConfirm = (event) => {
-    console.log('启用裁剪')
-    const { tempFilePath } = event
-    orderImage.value = tempFilePath
+const handleConfirm = (event: CropperConfirmEvent): void => {
+    console.log('启用裁剪');
+    const { tempFilePath } = event;
+    orderImage.value = tempFilePath;
     
     // 裁剪成功后立即上传图片
-    uploadImage(tempFilePath)
-}
+    uploadImage(tempFilePath);
+};
 
 // 处理裁剪选择图片（取消）
-const handleCropCancel = () => {
-    console.log('取消裁剪')
+const handleCropCancel = (): void => {
+    console.log('取消裁剪');
     uni.showToast({
         icon: 'none',
         title: '取消上传图片'
-    })
-}
+    });
+};
 
 // 上传图片到服务器
-const uploadImage = (filePath) => {
-    isUploading.value = true
-    uploadStatus.value = true
-    uploadStatusText.value = '图片上传中...'
+const uploadImage = (filePath: string): void => {
+    isUploading.value = true;
+    uploadStatus.value = true;
+    uploadStatusText.value = '图片上传中...';
     
     // 获取token
-    const token = uni.getStorageSync('token')
+    const token = uni.getStorageSync('token');
     if (!token) {
-        uploadSuccess.value = false
-        uploadStatusText.value = '未登录，请先登录'
-        return
+        uploadSuccess.value = false;
+        uploadStatusText.value = '未登录，请先登录';
+        isUploading.value = false;
+        return;
     }
     
     uni.uploadFile({
@@ -187,87 +220,87 @@ const uploadImage = (filePath) => {
         },
         success: (uploadRes) => {
             try {
-                const data = JSON.parse(uploadRes.data)
+                const data = JSON.parse(uploadRes.data) as UploadResponse;
                 if (uploadRes.statusCode === 200 && data.imageUrl) {
-                    imageUrl.value = data.imageUrl
-                    uploadSuccess.value = true
-                    uploadStatusText.value = '图片上传成功'
+                    imageUrl.value = data.imageUrl;
+                    uploadSuccess.value = true;
+                    uploadStatusText.value = '图片上传成功';
                     uni.showToast({
                         title: '图片上传成功',
                         icon: 'success'
-                    })
+                    });
                 } else {
-                    uploadSuccess.value = false
-                    uploadStatusText.value = data.message || '图片上传失败'
+                    uploadSuccess.value = false;
+                    uploadStatusText.value = data.message || '图片上传失败';
                     uni.showToast({
                         title: data.message || '图片上传失败',
                         icon: 'none'
-                    })
+                    });
                 }
             } catch (e) {
-                uploadSuccess.value = false
-                uploadStatusText.value = '上传响应解析失败'
-                console.error('上传响应解析失败:', e)
+                uploadSuccess.value = false;
+                uploadStatusText.value = '上传响应解析失败';
+                console.error('上传响应解析失败:', e);
             }
         },
         fail: (err) => {
-            uploadSuccess.value = false
-            uploadStatusText.value = '图片上传失败，请重试'
-            console.error('图片上传失败:', err)
+            uploadSuccess.value = false;
+            uploadStatusText.value = '图片上传失败，请重试';
+            console.error('图片上传失败:', err);
             uni.showToast({
                 title: '图片上传失败，请重试',
                 icon: 'none'
-            })
+            });
         },
         complete: () => {
-            isUploading.value = false
+            isUploading.value = false;
         }
-    })
-}
+    });
+};
 
 // 需求类型变更处理
-const handleOrderTypeChange = (event) => {
-    console.log("orderType改变：", event.detail.value)
-    orderTypeIndex.value = event.detail.value
-}
+const handleOrderTypeChange = (event: { detail: { value: string } }): void => {
+    console.log("orderType改变：", event.detail.value);
+    orderTypeIndex.value = parseInt(event.detail.value);
+};
 
 // 提交表单事件
-const handleSubmit = (event) => {
+const handleSubmit = (event: { detail: { value: any } }): void => {
     // 表单验证
     if (!orderTitle.value) {
-        return uni.showToast({ title: '请输入需求标题', icon: 'none' })
+        return uni.showToast({ title: '请输入需求标题', icon: 'none' });
     }
     if (!orderContent.value) {
-        return uni.showToast({ title: '请输入详细内容', icon: 'none' })
+        return uni.showToast({ title: '请输入详细内容', icon: 'none' });
     }
     if (!orderSalary.value) {
-        return uni.showToast({ title: '请输入期望薪资', icon: 'none' })
+        return uni.showToast({ title: '请输入期望薪资', icon: 'none' });
     }
     if (!orderChatNum.value) {
-        return uni.showToast({ title: '请输入联系方式', icon: 'none' })
+        return uni.showToast({ title: '请输入联系方式', icon: 'none' });
     }
     if (!orderAddress.value) {
-        return uni.showToast({ title: '请输入地址信息', icon: 'none' })
+        return uni.showToast({ title: '请输入地址信息', icon: 'none' });
     }
     
     // 检查图片是否上传成功
     if (orderImage.value && !imageUrl.value) {
         if (isUploading.value) {
-            return uni.showToast({ title: '图片上传中，请稍候', icon: 'none' })
+            return uni.showToast({ title: '图片上传中，请稍候', icon: 'none' });
         } else {
-            return uni.showToast({ title: '图片未上传成功，请重试', icon: 'none' })
+            return uni.showToast({ title: '图片未上传成功，请重试', icon: 'none' });
         }
     }
     
     // 防止重复提交
     if (isSubmitting.value) {
-        return
+        return;
     }
     
-    isSubmitting.value = true
+    isSubmitting.value = true;
     
     // 准备提交数据
-    const recruitmentData = {
+    const recruitmentData: RecruitmentData = {
         title: orderTitle.value,
         content: orderContent.value,
         salary: parseFloat(orderSalary.value) || 0,
@@ -278,23 +311,23 @@ const handleSubmit = (event) => {
         contactInfo: orderChatNum.value,
         positionCount: 1, // 默认招聘人数
         companyName: '个人发布' // 可根据需要调整
-    }
+    };
     
-    console.log('提交的表单数据:', recruitmentData)
+    console.log('提交的表单数据:', recruitmentData);
     
     // 获取token
-    const token = uni.getStorageSync('token')
+    const token = uni.getStorageSync('token');
     if (!token) {
-        isSubmitting.value = false
+        isSubmitting.value = false;
         return uni.showModal({
             title: '提示',
             content: '您尚未登录，请先登录',
             success: (res) => {
                 if (res.confirm) {
-                    uni.navigateTo({ url: '/pages/login/login' })
+                    uni.navigateTo({ url: '/pages/login/login' });
                 }
             }
-        })
+        });
     }
     
     // 发送创建招聘需求的请求
@@ -306,73 +339,73 @@ const handleSubmit = (event) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
         },
-        success: (res) => {
+        success: (res: any) => {
             if (res.statusCode === 200) {
                 uni.showToast({
                     title: '发布成功',
                     icon: 'success'
-                })
+                });
                 
                 // 发布成功后，清除表单数据
-                resetForm()
+                resetForm();
                 
                 // 延迟返回上一页或跳转到列表页
                 setTimeout(() => {
-                    uni.navigateBack() // 或跳转到其他页面
-                }, 1500)
+                    uni.navigateBack(); // 或跳转到其他页面
+                }, 1500);
             } else {
-                const errorMsg = res.data?.message || '发布失败，请重试'
+                const errorMsg = res.data?.message || '发布失败，请重试';
                 uni.showToast({
                     title: errorMsg,
                     icon: 'none'
-                })
+                });
             }
         },
-        fail: (err) => {
-            console.error('发布招聘需求出错:', err)
+        fail: (err: any) => {
+            console.error('发布招聘需求出错:', err);
             uni.showToast({
                 title: '网络错误，请检查网络后重试',
                 icon: 'none'
-            })
+            });
         },
         complete: () => {
-            isSubmitting.value = false
+            isSubmitting.value = false;
         }
-    })
-}
+    });
+};
 
 // 重置表单
-const resetForm = () => {
-    orderTitle.value = ''
-    orderContent.value = ''
-    orderSalary.value = ''
-    orderTime.value = ''
-    orderChatNum.value = ''
-    orderAddress.value = ''
-    orderImage.value = ''
-    imageUrl.value = ''
-    orderTypeIndex.value = 0
-    uploadStatus.value = false
-}
+const resetForm = (): void => {
+    orderTitle.value = '';
+    orderContent.value = '';
+    orderSalary.value = '';
+    orderTime.value = '';
+    orderChatNum.value = '';
+    orderAddress.value = '';
+    orderImage.value = '';
+    imageUrl.value = '';
+    orderTypeIndex.value = 0;
+    uploadStatus.value = false;
+};
 
 // 页面加载时初始化
 onMounted(() => {
     // 检查是否登录
-    const token = uni.getStorageSync('token')
+    const token = uni.getStorageSync('token');
     if (!token) {
         uni.showModal({
             title: '提示',
             content: '发布需求需要先登录，是否前往登录？',
             success: (res) => {
                 if (res.confirm) {
-                    uni.navigateTo({ url: '/pages/login/login' })
+                    uni.navigateTo({ url: '/pages/login/login' });
                 } else {
-                    uni.navigateBack()
+                    uni.navigateBack();
                 }
             }
-        })
+        });
     }
-})
+});
 </script>
 
 <style>
