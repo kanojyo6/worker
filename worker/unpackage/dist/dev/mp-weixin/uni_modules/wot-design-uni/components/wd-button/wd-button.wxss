@@ -1,0 +1,453 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/**
+ * 混合宏
+ */
+/**
+ * SCSS 配置项：命名空间以及BEM
+ */
+/**
+ * 辅助函数
+ */
+/**
+ * SCSS 配置项：命名空间以及BEM
+ */
+/* 转换成字符串 */
+/* 判断是否存在 Modifier */
+/* 判断是否存在伪类 */
+/**
+ * 主题色切换
+ * @params $theme-color 主题色
+ * @params $type 变暗’dark‘ 变亮 'light'
+ * @params $mix-color 自己设置的混色
+ */
+/**
+ * 颜色结果切换， 如果开启线性渐变色 使用渐变色，如果没有开启，那么使用主题色
+ * @params $open-linear 是否开启线性渐变色
+ * @params $deg 渐变色角度
+ * @params $theme-color 当前配色
+ * @params [Array] $set 主题色明暗设置，与 $color-list 数量对应
+ * @params [Array] $color-list 渐变色顺序， $color-list 和 $per-list 数量相同
+ * @params [Array] $per-list 渐变色比例
+ */
+/**
+  * BEM，定义块（b)
+  */
+/* 定义元素（e），对于伪类，会自动将 e 嵌套在 伪类 底下 */
+/* 此方法用于生成穿透样式 */
+/* 定义元素（e），对于伪类，会自动将 e 嵌套在 伪类 底下 */
+/* 定义状态（m） */
+/* 定义状态（m） */
+/* 对于需要需要嵌套在 m 底下的 e，调用这个混合宏，一般在切换整个组件的状态，如切换颜色的时候 */
+/* 状态，生成 is-$state 类名 */
+/**
+  * 常用混合宏
+  */
+/* 单行超出隐藏 */
+/* 多行超出隐藏 */
+/* 清除浮动 */
+/* 0.5px 边框 指定方向*/
+/* 0.5px 边框 环绕 */
+/**
+  * 三角形实现尖角样式，适用于背景透明情况
+  * @param $size 三角形高，底边为 $size * 2
+  * @param $bg 三角形背景颜色
+  */
+/**
+  * 正方形实现尖角样式，适用于背景不透明情况
+  * @param $size 正方形边长
+  * @param $bg 正方形背景颜色
+  * @param $z-index z-index属性值，不得大于外部包裹器
+  * @param $box-shadow 阴影
+*/
+/**
+ * 辅助函数
+ */
+/**
+ * SCSS 配置项：命名空间以及BEM
+ */
+/* 转换成字符串 */
+/* 判断是否存在 Modifier */
+/* 判断是否存在伪类 */
+/**
+ * 主题色切换
+ * @params $theme-color 主题色
+ * @params $type 变暗’dark‘ 变亮 'light'
+ * @params $mix-color 自己设置的混色
+ */
+/**
+ * 颜色结果切换， 如果开启线性渐变色 使用渐变色，如果没有开启，那么使用主题色
+ * @params $open-linear 是否开启线性渐变色
+ * @params $deg 渐变色角度
+ * @params $theme-color 当前配色
+ * @params [Array] $set 主题色明暗设置，与 $color-list 数量对应
+ * @params [Array] $color-list 渐变色顺序， $color-list 和 $per-list 数量相同
+ * @params [Array] $per-list 渐变色比例
+ */
+/**
+ * UI规范基础变量
+ */
+/*----------------------------------------- Theme color. start ----------------------------------------*/
+/* 主题颜色 */
+/* 辅助色 */
+/* 文字颜色（默认浅色背景下 */
+/* 暗黑模式 */
+/* 图形颜色 */
+/*----------------------------------------- Theme color. end -------------------------------------------*/
+/*-------------------------------- Theme color application size.  start --------------------------------*/
+/* 文字字号 */
+/* 文字字重 */
+/* 尺寸 */
+/*-------------------------------- Theme color application size.  end --------------------------------*/
+/* component var */
+/* action-sheet */
+/* badge */
+/* button */
+/* cell */
+/* calendar */
+/* checkbox */
+/* collapse */
+/* divider */
+/* drop-menu */
+/* input-number */
+/* input */
+/* textarea */
+/* loadmore */
+/* message-box */
+/* notice-bar */
+/* pagination */
+/* picker */
+/* col-picker */
+/* overlay */
+/* popup */
+/* progress */
+/* radio */
+/* search */
+/* slider */
+/* sort-button */
+/* steps */
+/* switch */
+/* tabs */
+/* tag */
+/* toast */
+/* loading */
+/* tooltip */
+/* popover */
+/* grid-item */
+/* statustip */
+/* card */
+/* upload */
+/* curtain */
+/* notify */
+/* skeleton */
+/* circle */
+/* swiper */
+/* swiper-nav */
+/* segmented */
+/* tabbar */
+/* tabbar-item */
+/* navbar */
+/* navbar-capsule */
+/* table */
+/* sidebar */
+/* sidebar-item */
+/* fab */
+/* count-down */
+/* keyboard */
+/* number-keyboard */
+/* passwod-input */
+/* form-item */
+/* backtop */
+/* index-bar */
+/* text */
+/* video-preview */
+/* img-cropper */
+/* floating-panel */
+/* signature */
+.wot-theme-dark .wd-button.is-info.data-v-d858c170 {
+  background: var(--wot-dark-background4, #323233);
+  color: var(--wot-dark-color3, rgba(232, 230, 227, 0.8));
+}
+.wot-theme-dark .wd-button.is-plain.data-v-d858c170 {
+  background: transparent;
+}
+.wot-theme-dark .wd-button.is-plain.is-info.data-v-d858c170 {
+  color: var(--wot-dark-color, var(--wot-color-white, white));
+}
+.wot-theme-dark .wd-button.is-plain.is-info.data-v-d858c170::after {
+  border-color: var(--wot-dark-background5, #646566);
+}
+.wot-theme-dark .wd-button.is-text.is-disabled.data-v-d858c170 {
+  color: var(--wot-dark-color-gray, var(--wot-color-secondary, #595959));
+  background: transparent;
+}
+.wot-theme-dark .wd-button.is-icon.data-v-d858c170 {
+  color: var(--wot-dark-color, var(--wot-color-white, white));
+}
+.wot-theme-dark .wd-button.is-icon.is-disabled.data-v-d858c170 {
+  color: var(--wot-dark-color-gray, var(--wot-color-secondary, #595959));
+  background: transparent;
+}
+.wd-button.data-v-d858c170 {
+  margin-left: initial;
+  margin-right: initial;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  -webkit-appearance: none;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 0;
+  color: var(--wot-button-normal-color, var(--wot-color-title, var(--wot-color-black, black)));
+  transition: opacity 0.2s;
+  -webkit-user-select: none;
+          user-select: none;
+  font-weight: normal;
+}
+.wd-button.data-v-d858c170::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: var(--wot-color-black, black);
+  border: inherit;
+  border-color: var(--wot-color-black, black);
+  border-radius: inherit;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  content: " ";
+}
+.wd-button.data-v-d858c170::after {
+  border: none;
+  border-radius: 0;
+}
+.wd-button__content.data-v-d858c170 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.wd-button--active.data-v-d858c170:active::before {
+  opacity: 0.15;
+}
+.wd-button.is-disabled.data-v-d858c170 {
+  opacity: var(--wot-button-disabled-opacity, 0.6);
+}
+.wd-button__loading.data-v-d858c170 {
+  margin-right: 5px;
+  animation: wd-rotate-d858c170 0.8s linear infinite;
+  animation-duration: 2s;
+}
+.wd-button__loading-svg.data-v-d858c170 {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.wd-button.is-primary.data-v-d858c170 {
+  background: var(--wot-button-primary-bg-color, var(--wot-color-theme, #4d80f0));
+  color: var(--wot-button-primary-color, var(--wot-color-white, white));
+}
+.wd-button.is-success.data-v-d858c170 {
+  background: var(--wot-button-success-bg-color, var(--wot-color-success, #34d19d));
+  color: var(--wot-button-success-color, var(--wot-color-white, white));
+}
+.wd-button.is-info.data-v-d858c170 {
+  background: var(--wot-button-info-bg-color, #f0f0f0);
+  color: var(--wot-button-info-color, var(--wot-color-title, var(--wot-color-black, black)));
+}
+.wd-button.is-warning.data-v-d858c170 {
+  background: var(--wot-button-warning-bg-color, var(--wot-color-warning, #f0883a));
+  color: var(--wot-button-warning-color, var(--wot-color-white, white));
+}
+.wd-button.is-error.data-v-d858c170 {
+  background: var(--wot-button-error-bg-color, var(--wot-color-danger, #fa4350));
+  color: var(--wot-button-error-color, var(--wot-color-white, white));
+}
+.wd-button.is-small.data-v-d858c170 {
+  height: var(--wot-button-small-height, 28px);
+  padding: var(--wot-button-small-padding, 0 12px);
+  border-radius: var(--wot-button-small-radius, 2px);
+  font-size: var(--wot-button-small-fs, var(--wot-fs-secondary, 12px));
+  font-weight: normal;
+}
+.wd-button.is-small .wd-button__loading.data-v-d858c170 {
+  width: var(--wot-button-small-loading, 14px);
+  height: var(--wot-button-small-loading, 14px);
+}
+.wd-button.is-medium.data-v-d858c170 {
+  height: var(--wot-button-medium-height, 36px);
+  padding: var(--wot-button-medium-padding, 0 16px);
+  border-radius: var(--wot-button-medium-radius, 4px);
+  font-size: var(--wot-button-medium-fs, var(--wot-fs-content, 14px));
+  min-width: 120px;
+}
+.wd-button.is-medium.is-round.is-icon.data-v-d858c170 {
+  min-width: 0;
+  border-radius: 50%;
+}
+.wd-button.is-medium.is-round.is-text.data-v-d858c170 {
+  border-radius: 0;
+  min-width: 0;
+}
+.wd-button.is-medium .wd-button__loading.data-v-d858c170 {
+  width: var(--wot-button-medium-loading, 18px);
+  height: var(--wot-button-medium-loading, 18px);
+}
+.wd-button.is-large.data-v-d858c170 {
+  height: var(--wot-button-large-height, 44px);
+  padding: var(--wot-button-large-padding, 0 36px);
+  border-radius: var(--wot-button-large-radius, 8px);
+  font-size: var(--wot-button-large-fs, var(--wot-fs-title, 16px));
+}
+.wd-button.is-large.data-v-d858c170::after {
+  border-radius: var(--wot-button-large-radius, 8px);
+}
+.wd-button.is-large .wd-button__loading.data-v-d858c170 {
+  width: var(--wot-button-large-loading, 24px);
+  height: var(--wot-button-large-loading, 24px);
+}
+.wd-button.is-round.data-v-d858c170 {
+  border-radius: 999px;
+}
+.wd-button.is-text.data-v-d858c170 {
+  color: var(--wot-button-primary-bg-color, var(--wot-color-theme, #4d80f0));
+  min-width: 0;
+  padding: 4px 0;
+}
+.wd-button.is-text.data-v-d858c170::after {
+  display: none;
+}
+.wd-button.is-text.wd-button--active.data-v-d858c170 {
+  opacity: var(--wot-button-text-hover-opacity, 0.7);
+}
+.wd-button.is-text.wd-button--active.data-v-d858c170:active::before {
+  display: none;
+}
+.wd-button.is-text.is-disabled.data-v-d858c170 {
+  color: var(--wot-button-normal-disabled-color, rgba(0, 0, 0, 0.25));
+  background: transparent;
+}
+.wd-button.is-plain.data-v-d858c170 {
+  background: var(--wot-button-plain-bg-color, var(--wot-color-white, white));
+  border: 1px solid currentColor;
+}
+.wd-button.is-plain.is-primary.data-v-d858c170 {
+  color: var(--wot-button-primary-bg-color, var(--wot-color-theme, #4d80f0));
+}
+.wd-button.is-plain.is-success.data-v-d858c170 {
+  color: var(--wot-button-success-bg-color, var(--wot-color-success, #34d19d));
+}
+.wd-button.is-plain.is-info.data-v-d858c170 {
+  color: var(--wot-button-info-plain-normal-color, rgba(0, 0, 0, 0.85));
+  border-color: var(--wot-button-info-plain-border-color, rgba(0, 0, 0, 0.45));
+}
+.wd-button.is-plain.is-warning.data-v-d858c170 {
+  color: var(--wot-button-warning-bg-color, var(--wot-color-warning, #f0883a));
+}
+.wd-button.is-plain.is-error.data-v-d858c170 {
+  color: var(--wot-button-error-bg-color, var(--wot-color-danger, #fa4350));
+}
+.wd-button.is-hairline.data-v-d858c170 {
+  border-width: 0;
+}
+.wd-button.is-hairline.is-plain.data-v-d858c170 {
+  position: relative;
+}
+.wd-button.is-hairline.is-plain.data-v-d858c170::after {
+  position: absolute;
+  display: block;
+  content: " ";
+  pointer-events: none;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
+  border: 1px solid var(--wot-color-border-light, #e8e8e8);
+  transform: scale(0.5);
+  box-sizing: border-box;
+  transform-origin: left top;
+}
+.wd-button.is-hairline.is-plain.data-v-d858c170::before {
+  border-radius: inherit;
+}
+.wd-button.is-hairline.is-plain.data-v-d858c170::after {
+  border-color: inherit;
+}
+.wd-button.is-hairline.is-plain.is-round.data-v-d858c170::after {
+  border-radius: inherit !important;
+}
+.wd-button.is-hairline.is-plain.is-large.data-v-d858c170::after {
+  border-radius: calc(2 * var(--wot-button-large-radius, 8px));
+}
+.wd-button.is-hairline.is-plain.is-medium.data-v-d858c170::after {
+  border-radius: calc(2 * var(--wot-button-medium-radius, 4px));
+}
+.wd-button.is-hairline.is-plain.is-small.data-v-d858c170::after {
+  border-radius: calc(2 * var(--wot-button-small-radius, 2px));
+}
+.wd-button.is-block.data-v-d858c170 {
+  display: block;
+}
+.wd-button.is-icon.data-v-d858c170 {
+  width: var(--wot-button-icon-size, 40px);
+  height: var(--wot-button-icon-size, 40px);
+  padding: 0;
+  border-radius: 50%;
+  color: var(--wot-button-icon-color, rgba(0, 0, 0, 0.65));
+}
+.wd-button.is-icon.data-v-d858c170::after {
+  display: none;
+}
+.wd-button.is-icon.data-v-d858c170 .wd-button__icon {
+  margin-right: 0;
+}
+.wd-button.is-icon.is-disabled.data-v-d858c170 {
+  color: var(--wot-button-icon-disabled-color, var(--wot-color-icon-disabled, #a7a7a7));
+  background: transparent;
+}
+.data-v-d858c170  .wd-button__icon {
+  display: block;
+  margin-right: 6px;
+  font-size: var(--wot-button-icon-fs, 1.18em);
+  vertical-align: middle;
+}
+.wd-button__text.data-v-d858c170 {
+  -webkit-user-select: none;
+          user-select: none;
+  white-space: nowrap;
+}
+@keyframes wd-rotate-d858c170 {
+from {
+    transform: rotate(0deg);
+}
+to {
+    transform: rotate(360deg);
+}
+}

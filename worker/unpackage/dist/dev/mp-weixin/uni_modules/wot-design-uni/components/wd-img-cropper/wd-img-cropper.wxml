@@ -1,0 +1,19 @@
+<wxs module="animation">
+
+
+function setAnimation(newValue, oldValue, ownerInstance){
+  if (newValue) {
+    var id = ownerInstance.setTimeout(function() {
+    ownerInstance.callMethod('revertIsAnimation',false)
+    ownerInstance.clearTimeout(id)
+  },300)
+  }
+
+}
+
+module.exports= {
+  setAnimation:setAnimation,
+}
+
+</wxs>
+<view wx:if="{{a}}" class="{{['data-v-dc21a62d', A]}}" style="{{B}}" bindtouchmove="{{C}}"><view class="wd-img-cropper__wrapper data-v-dc21a62d"><view class="wd-img-cropper__cut data-v-dc21a62d"><view class="{{['data-v-dc21a62d', b]}}" style="{{c}}"></view><view class="wd-img-cropper__cut--middle data-v-dc21a62d"><view class="{{['data-v-dc21a62d', d]}}" style="{{e}}"></view><view class="wd-img-cropper__cut--body data-v-dc21a62d" style="{{f}}"><view class="is-gridlines-x data-v-dc21a62d"></view><view class="is-gridlines-y data-v-dc21a62d"></view><view class="is-left-top data-v-dc21a62d"></view><view class="is-left-bottom data-v-dc21a62d"></view><view class="is-right-top data-v-dc21a62d"></view><view class="is-right-bottom data-v-dc21a62d"></view></view><view class="{{['data-v-dc21a62d', g]}}"></view></view><view class="{{['data-v-dc21a62d', h]}}"></view></view><image prop="{{i}}" change:prop="{{animation ? animation.setAnimation : ''}}" class="wd-img-cropper__img data-v-dc21a62d" src="{{j}}" style="{{k}}" lazy-load="{{false}}" bindtouchstart="{{l}}" bindtouchmove="{{m}}" bindtouchend="{{n}}" binderror="{{o}}" bindload="{{p}}"/></view><canvas canvas-id="wd-img-cropper-canvas" id="wd-img-cropper-canvas" class="wd-img-cropper__canvas data-v-dc21a62d" disable-scroll="{{true}}" style="{{q}}"/><view class="wd-img-cropper__footer data-v-dc21a62d"><wd-icon wx:if="{{r}}" class="data-v-dc21a62d" bindclick="{{s}}" u-i="dc21a62d-0" bind:__l="__l" u-p="{{t}}"></wd-icon><view class="wd-img-cropper__footer--button data-v-dc21a62d"><view class="is-cancel data-v-dc21a62d" bindtap="{{w}}">{{v}}</view><wd-button wx:if="{{z}}" class="data-v-dc21a62d" u-s="{{['d']}}" bindclick="{{y}}" u-i="dc21a62d-1" bind:__l="__l" u-p="{{z}}">{{x}}</wd-button></view></view></view>

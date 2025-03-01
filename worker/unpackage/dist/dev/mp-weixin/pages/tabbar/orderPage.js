@@ -1,5 +1,13 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+if (!Array) {
+  const _easycom_wd_img_cropper2 = common_vendor.resolveComponent("wd-img-cropper");
+  _easycom_wd_img_cropper2();
+}
+const _easycom_wd_img_cropper = () => "../../uni_modules/wot-design-uni/components/wd-img-cropper/wd-img-cropper.js";
+if (!Math) {
+  _easycom_wd_img_cropper();
+}
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "orderPage",
   setup(__props) {
@@ -11,14 +19,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const orderTime = common_vendor.ref("");
     const orderChatNum = common_vendor.ref();
     const orderAddress = common_vendor.ref("");
-    const orderImage = common_vendor.ref();
+    const selectedImageSrc = common_vendor.ref("");
+    const orderImage = common_vendor.ref("");
+    const showimgCropper = common_vendor.ref(false);
     const getImg = () => {
       common_vendor.index.chooseImage({
         count: 1,
         sizeType: "compressed",
         success: (res) => {
           console.log("选择图片成功");
-          orderImage.value = res.tempFilePaths;
+          const tempFilePath = res.tempFilePaths[0];
+          selectedImageSrc.value = tempFilePath;
+          showimgCropper.value = true;
         },
         fail() {
           console.log("选择图片失败");
@@ -26,6 +38,18 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         complete() {
           console.log("结束");
         }
+      });
+    };
+    const handleConfirm = (event) => {
+      console.log("启用裁剪");
+      const { tempFilePath } = event;
+      orderImage.value = tempFilePath;
+    };
+    const handleCropCancel = (event) => {
+      console.log("取消裁剪");
+      common_vendor.index.showToast({
+        icon: "none",
+        title: "取消上传图片"
       });
     };
     const handleOrderTypeChange = (event) => {
@@ -53,12 +77,21 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         n: common_vendor.o(($event) => orderChatNum.value = $event.detail.value),
         o: orderAddress.value,
         p: common_vendor.o(($event) => orderAddress.value = $event.detail.value),
-        q: orderImage.value === null
-      }, orderImage.value === null ? {} : {
+        q: orderImage.value === ""
+      }, orderImage.value === "" ? {} : {
         r: orderImage.value
       }, {
         s: common_vendor.o(getImg),
-        t: common_vendor.o(handleSubmit)
+        t: common_vendor.o(handleSubmit),
+        v: common_vendor.o(handleConfirm),
+        w: common_vendor.o(handleCropCancel),
+        x: common_vendor.o(($event) => showimgCropper.value = $event),
+        y: common_vendor.p({
+          ["img-src"]: selectedImageSrc.value,
+          ["img-width"]: 600,
+          ["img-height"]: 600,
+          modelValue: showimgCropper.value
+        })
       });
     };
   }

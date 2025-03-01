@@ -15,25 +15,26 @@
 					<!-- 需求标题 -->
 					<view class="orderPage-basicMsgItem">
 						<view class="orderPage-itemTitle">需求标题:</view>
-						<input name="orderTitle" placeholder="请输入标题 (20字以内)" class="orderPage-orderTitle" v-model="orderTitle"
-							maxlength="20" />
+						<input name="orderTitle" placeholder="请输入标题 (20字以内)" class="orderPage-orderTitle"
+							v-model="orderTitle" maxlength="20" />
 					</view>
 					<!-- 详细内容 -->
 					<view class="orderPage-basicMsgItem">
 						<view class="orderPage-itemTitle">详细内容:</view>
-						<textarea name="orderContent" placeholder="请输入内容 (300字以内)" class="orderPage-orderTextarea" v-model="orderContent"
-							maxlength="300" />
+						<textarea name="orderContent" placeholder="请输入内容 (300字以内)" class="orderPage-orderTextarea"
+							v-model="orderContent" maxlength="300" />
 					</view>
 					<!-- 期望薪资 -->
 					<view class="orderPage-basicMsgItem" style="margin-top: 220rpx;">
 						<view class="orderPage-itemTitle">期望薪资:</view>
-						<input name="orderSalary" placeholder="请输入期望薪资" class="orderPage-orderSalary" v-model="orderSalary"
-							maxlength="30" />
+						<input name="orderSalary" placeholder="请输入期望薪资" class="orderPage-orderSalary"
+							v-model="orderSalary" maxlength="30" />
 					</view>
 					<!-- 时间范围 -->
 					<view class="orderPage-basicMsgItem">
 						<view class="orderPage-itemTitle">时间范围:</view>
-						<input name="orderTime" placeholder="请输入时间范围" class="orderPage-orderTitle" v-model="orderTime" maxlength="30" />
+						<input name="orderTime" placeholder="请输入时间范围" class="orderPage-orderTitle" v-model="orderTime"
+							maxlength="30" />
 					</view>
 				</view>
 
@@ -43,29 +44,32 @@
 					<!-- 联系方式 -->
 					<view class="orderPage-importentMsgItem">
 						<view class="orderPage-itemTitle">联系方式:</view>
-						<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle" style="background: #DADADA;"
-							v-model="orderChatNum" />
+						<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle"
+							style="background: #DADADA;" v-model="orderChatNum" />
 					</view>
 					<!-- 地址信息 -->
 					<view class="orderPage-importentMsgItem">
 						<view class="orderPage-itemTitle">地址信息:</view>
-						<input name="orderAddress" placeholder="请输入地址信息" class="orderPage-orderTitle" style="background: #DADADA;"
-							v-model="orderAddress" />
+						<input name="orderAddress" placeholder="请输入地址信息" class="orderPage-orderTitle"
+							style="background: #DADADA;" v-model="orderAddress" />
 					</view>
 					<!-- 补充图片 -->
 					<view class="orderPage-importentMsgItem">
 						<view class="orderPage-itemTitle">补充图片:</view>
 						<button @click="getImg" class="orderPage-chooseImg">
-							<view v-if="orderImage === null">选择图片</view>
+							<view v-if="orderImage === ''">选择图片</view>
 							<image v-else :src="orderImage" mode="aspectFill"></image>
 						</button>
 					</view>
 				</view>
-				
-				<button form-type="submit"  class="orderPage-submitBtn">发布</button>
+
+				<button form-type="submit" class="orderPage-submitBtn">发布</button>
 			</form>
 		</scroll-view>
 	</view>
+	<!-- 图片裁剪器 -->
+	<wd-img-cropper v-model="showimgCropper" :img-src="selectedImageSrc" @confirm="handleConfirm"
+		@cancel="handleCropCancel" :img-width="600" :img-height="600"></wd-img-cropper>
 </template>
 
 <script setup lang="ts">
@@ -86,16 +90,22 @@
 	// 地址信息
 	const orderAddress = ref('')
 	// 上传图片
-	const orderImage = ref()
+	const selectedImageSrc = ref('')	// 原始图片数据
+	const orderImage = ref('')
 
-	// 处理选择图片
+	// 图片裁剪器显示状态
+	const showimgCropper = ref<boolean>(false)
+
+	// 获取选择图片
 	const getImg = () => {
 		uni.chooseImage({
 			count: 1,
 			sizeType: "compressed",
 			success: (res) => {
 				console.log("选择图片成功")
-				orderImage.value = res.tempFilePaths
+				const tempFilePath = res.tempFilePaths[0]
+				selectedImageSrc.value = tempFilePath
+				showimgCropper.value = true
 			},
 			fail() {
 				console.log('选择图片失败');
@@ -105,16 +115,31 @@
 			},
 		})
 	}
-	
-	// 预览选择图片
+
+	// 处理裁剪选择图片（确认）
+	const handleConfirm = (event) => {
+		console.log('启用裁剪')
+		const { tempFilePath } = event
+		orderImage.value = tempFilePath
+	}
+	// 处理裁剪选择图片（取消）
+	const handleCropCancel = (event) => {
+		console.log('取消裁剪')
+		uni.showToast({
+			icon: 'none',
+			title: '取消上传图片'
+		})
+	}
+
+
 
 	const handleOrderTypeChange = (event : any) => {
 		console.log("orderType改变：", event.detail.value)
 		orderTypeIndex.value = event.detail.value
 	}
-	
+
 	// 提交表单事件
-	const handleSubmit = (event: any) => {
+	const handleSubmit = (event : any) => {
 		console.log('form发生了提交事件，携带数据为: ' + JSON.stringify(event.detail.value))
 	}
 </script>
@@ -229,7 +254,7 @@
 		align-items: center;
 		color: #8e8e8e;
 	}
-	
+
 	.orderPage-submitBtn {
 		width: 50%;
 		height: 65rpx;

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "发需求",
-  "usingComponents": {}
+  "usingComponents": {
+    "wd-img-cropper": "../../uni_modules/wot-design-uni/components/wd-img-cropper/wd-img-cropper"
+  }
 }
