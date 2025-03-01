@@ -265,7 +265,7 @@ const handleOrderTypeChange = (event: { detail: { value: string } }): void => {
 };
 
 // 提交表单事件
-const handleSubmit = (event: { detail: { value: any } }): void => {
+const handleSubmit = () => {
     // 表单验证
     if (!orderTitle.value) {
         uni.showToast({ title: '请输入需求标题', icon: 'none' });

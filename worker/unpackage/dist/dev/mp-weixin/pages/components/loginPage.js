@@ -59,7 +59,7 @@ const _sfc_main = {
           success: (res) => {
             if (res.statusCode === 200) {
               const { access_token, refresh_token, user } = res.data;
-              common_vendor.index.setStorageSync("access_token", access_token);
+              common_vendor.index.setStorageSync("token", access_token);
               common_vendor.index.setStorageSync("refresh_token", refresh_token);
               userInfoStore.setUserInfo(user);
               resolve(res.data);

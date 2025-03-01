@@ -70,7 +70,7 @@ const sendLoginRequest = (code, userInfo) => {
             success: (res) => {
                 if (res.statusCode === 200) {
                     const { access_token, refresh_token, user } = res.data;
-                    uni.setStorageSync('access_token', access_token);
+                    uni.setStorageSync('token', access_token);
                     uni.setStorageSync('refresh_token', refresh_token);
                     userInfoStore.setUserInfo(user);
                     resolve(res.data);

@@ -132,7 +132,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       console.log("orderType改变：", event.detail.value);
       orderTypeIndex.value = parseInt(event.detail.value);
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = () => {
       if (!orderTitle.value) {
         common_vendor.index.showToast({ title: "请输入需求标题", icon: "none" });
       }
