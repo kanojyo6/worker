@@ -24,6 +24,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "INTERNSHIP",
       "TRADING"
     ];
+    const orderChatTypeIndex = common_vendor.ref("微信号");
+    const chatTypeMap = [
+      "微信号",
+      "手机号",
+      "电子邮箱"
+    ];
     const orderTitle = common_vendor.ref("");
     const orderContent = common_vendor.ref("");
     const orderSalary = common_vendor.ref("");
@@ -131,6 +137,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const handleOrderTypeChange = (event) => {
       console.log("orderType改变：", event.detail.value);
       orderTypeIndex.value = parseInt(event.detail.value);
+    };
+    const handleChatTypeChange = (event) => {
+      console.log("chatType改变：", event.detail.value);
+      orderChatTypeIndex.value = event.detail.value;
     };
     const handleSubmit = () => {
       if (!orderTitle.value) {
@@ -268,28 +278,37 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         j: common_vendor.o(($event) => orderSalary.value = $event.detail.value),
         k: orderTime.value,
         l: common_vendor.o(($event) => orderTime.value = $event.detail.value),
-        m: orderChatNum.value,
-        n: common_vendor.o(($event) => orderChatNum.value = $event.detail.value),
-        o: orderAddress.value,
-        p: common_vendor.o(($event) => orderAddress.value = $event.detail.value),
-        q: orderImage.value === ""
+        m: common_vendor.f(chatTypeMap, (item, k0, i0) => {
+          return {
+            a: item,
+            b: item === orderChatTypeIndex.value,
+            c: common_vendor.t(item),
+            d: item
+          };
+        }),
+        n: common_vendor.o(handleChatTypeChange),
+        o: orderChatNum.value,
+        p: common_vendor.o(($event) => orderChatNum.value = $event.detail.value),
+        q: orderAddress.value,
+        r: common_vendor.o(($event) => orderAddress.value = $event.detail.value),
+        s: orderImage.value === ""
       }, orderImage.value === "" ? {} : {
-        r: orderImage.value
+        t: orderImage.value
       }, {
-        s: common_vendor.o(getImg),
-        t: uploadStatus.value
+        v: common_vendor.o(getImg),
+        w: uploadStatus.value
       }, uploadStatus.value ? {
-        v: common_vendor.t(uploadStatusText.value),
-        w: uploadSuccess.value ? 1 : "",
-        x: !uploadSuccess.value ? 1 : ""
+        x: common_vendor.t(uploadStatusText.value),
+        y: uploadSuccess.value ? 1 : "",
+        z: !uploadSuccess.value ? 1 : ""
       } : {}, {
-        y: common_vendor.t(isSubmitting.value ? "发布中..." : "发布"),
-        z: isSubmitting.value,
-        A: common_vendor.o(handleSubmit),
-        B: common_vendor.o(handleConfirm),
-        C: common_vendor.o(handleCropCancel),
-        D: common_vendor.o(($event) => showimgCropper.value = $event),
-        E: common_vendor.p({
+        A: common_vendor.t(isSubmitting.value ? "发布中..." : "发布"),
+        B: isSubmitting.value,
+        C: common_vendor.o(handleSubmit),
+        D: common_vendor.o(handleConfirm),
+        E: common_vendor.o(handleCropCancel),
+        F: common_vendor.o(($event) => showimgCropper.value = $event),
+        G: common_vendor.p({
           ["img-src"]: selectedImageSrc.value,
           ["img-width"]: 600,
           ["img-height"]: 600,
