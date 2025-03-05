@@ -145,13 +145,7 @@
 
 	// 联系方式类型
 	const orderChatTypeIndex = ref<string>('微信号');
-
-	// 联系方式类型枚举映射
-	const chatTypeMap : string[] = [
-		"微信号",
-		"手机号",
-		"电子邮箱"
-	]
+	const chatTypeMap : string[] = [ "微信号", "手机号", "电子邮箱" ];
 
 	// 表单数据
 	const orderTitle = ref<string>('');
@@ -515,7 +509,7 @@
 	.orderPage-importentMsg {
 		display: flex;
 		width: 90%;
-		height: 560rpx;
+		height: 700rpx;
 		flex-direction: column;
 		align-items: start;
 		background: white;
@@ -532,12 +526,12 @@
 	}
 
 	.orderPage-chooseImg {
-		width: 500rpx;
-		height: 200rpx;
+		width: 300rpx;
+		height: 300rpx;
 		border-radius: 10rpx;
 		background: #DADADA;
 		margin-left: 30rpx;
-		margin-top: 160rpx;
+		margin-top: 260rpx;
 		font-size: 24rpx;
 		display: flex;
 		justify-content: center;
@@ -560,6 +554,7 @@
 		color: white;
 		background: #42B880;
 		margin-bottom: 30rpx;
+		margin-top: 30rpx;
 	}
 
 	.orderPage-submitBtn[disabled] {
@@ -570,8 +565,8 @@
 	.upload-status {
 		font-size: 24rpx;
 		padding: 10rpx 30rpx;
-		margin-left: 30rpx;
-		margin-top: 10rpx;
+		margin-left: 130rpx;
+		margin-top: 230rpx;
 	}
 
 	.upload-success {

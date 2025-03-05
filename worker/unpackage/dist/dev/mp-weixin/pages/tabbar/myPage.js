@@ -23,8 +23,38 @@ const _sfc_main = {
       description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
       contact: "12345678900",
       location: "xx市 xx区 xx街道"
+    }, {
+      id: 1,
+      title: "寻找：优衣库服装销售员",
+      status: "实习",
+      salary: "4000",
+      duration: "3个月",
+      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
+      contact: "12345678900",
+      location: "xx市 xx区 xx街道"
+    }, {
+      id: 1,
+      title: "寻找：优衣库服装销售员",
+      status: "实习",
+      salary: "4000",
+      duration: "3个月",
+      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
+      contact: "12345678900",
+      location: "xx市 xx区 xx街道"
     }]);
     const applications = common_vendor.ref([{
+      id: 1,
+      title: "万达优衣库招服务员",
+      price: "10000元",
+      duration: "4个月",
+      location: "佛山南海区桂城"
+    }, {
+      id: 1,
+      title: "万达优衣库招服务员",
+      price: "10000元",
+      duration: "4个月",
+      location: "佛山南海区桂城"
+    }, {
       id: 1,
       title: "万达优衣库招服务员",
       price: "10000元",

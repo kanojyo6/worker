@@ -25,11 +25,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "TRADING"
     ];
     const orderChatTypeIndex = common_vendor.ref("微信号");
-    const chatTypeMap = [
-      "微信号",
-      "手机号",
-      "电子邮箱"
-    ];
+    const chatTypeMap = ["微信号", "手机号", "电子邮箱"];
     const orderTitle = common_vendor.ref("");
     const orderContent = common_vendor.ref("");
     const orderSalary = common_vendor.ref("");
