@@ -46,12 +46,13 @@
 						<view class="orderPage-itemTitle">联系方式:</view>
 						<view style="display: flex; flex-direction: column;">
 							<radio-group @change="handleChatTypeChange" style="display: flex;">
-								<label v-for="item in chatTypeMap" :key="item" style="display: flex; margin-left: 40rpx; align-items: center; margin-bottom: 20rpx;">
+								<label v-for="item in chatTypeMap" :key="item"
+									style="display: flex; margin-left: 40rpx; align-items: center; margin-bottom: 20rpx;">
 									<radio :value="item" :checked="item === orderChatTypeIndex"></radio>
 									<view style="font-size: 26rpx;">{{ item }}</view>
 								</label>
 							</radio-group>
-							<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle"
+							<input name="orderChatNum" placeholder="请输入联系方式" type="number" class="orderPage-orderTitle"
 								style="background: #DADADA;" v-model="orderChatNum" />
 						</view>
 					</view>
@@ -100,6 +101,7 @@
 		imageUrl : string;
 		type : string;
 		location : string;
+		contactType : string;
 		contactInfo : string;
 		positionCount : number;
 		companyName : string;
@@ -145,7 +147,14 @@
 
 	// 联系方式类型
 	const orderChatTypeIndex = ref<string>('微信号');
-	const chatTypeMap : string[] = [ "微信号", "手机号", "电子邮箱" ];
+	const chatTypeMap : string[] = ["微信号", "手机号", "电子邮箱"];
+
+	// 联系方式类型枚举映射
+	const orderChatTypeMap : { [key : string] : string } = {
+		"微信号": "WECHAT",
+		"手机号": "PHONE",
+		"电子邮箱": "EMAIL"
+	};
 
 	// 表单数据
 	const orderTitle = ref<string>('');
@@ -328,6 +337,7 @@
 			imageUrl: imageUrl.value,
 			type: recruitmentTypeMap[orderTypeIndex.value],
 			location: orderAddress.value,
+			contactType: orderChatTypeMap[orderChatTypeIndex.value],
 			contactInfo: orderChatNum.value,
 			positionCount: 1, // 默认招聘人数
 			companyName: '个人发布' // 可根据需要调整
@@ -473,12 +483,12 @@
 
 	.orderPage-orderTitle {
 		width: 460rpx;
-		height: 60rpx;
+		height: 80rpx;
 		padding: 0rpx 20rpx;
 		border-radius: 10rpx;
 		background: white;
 		margin-left: 30rpx;
-		font-size: 24rpx;
+		font-size: 26rpx;
 		display: flex;
 	}
 
@@ -502,7 +512,7 @@
 		border-radius: 10rpx;
 		background: white;
 		margin-left: 30rpx;
-		font-size: 24rpx;
+		font-size: 26rpx;
 		display: flex;
 	}
 

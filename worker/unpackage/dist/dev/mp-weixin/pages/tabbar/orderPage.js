@@ -26,6 +26,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     ];
     const orderChatTypeIndex = common_vendor.ref("微信号");
     const chatTypeMap = ["微信号", "手机号", "电子邮箱"];
+    const orderChatTypeMap = {
+      "微信号": "WECHAT",
+      "手机号": "PHONE",
+      "电子邮箱": "EMAIL"
+    };
     const orderTitle = common_vendor.ref("");
     const orderContent = common_vendor.ref("");
     const orderSalary = common_vendor.ref("");
@@ -173,6 +178,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         imageUrl: imageUrl.value,
         type: recruitmentTypeMap[orderTypeIndex.value],
         location: orderAddress.value,
+        contactType: orderChatTypeMap[orderChatTypeIndex.value],
         contactInfo: orderChatNum.value,
         positionCount: 1,
         // 默认招聘人数
