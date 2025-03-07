@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const services_orderPageService = require("../../services/orderPageService.js");
 if (!Array) {
   const _easycom_wd_img_cropper2 = common_vendor.resolveComponent("wd-img-cropper");
   _easycom_wd_img_cropper2();
@@ -8,7 +9,6 @@ const _easycom_wd_img_cropper = () => "../../uni_modules/wot-design-uni/componen
 if (!Math) {
   _easycom_wd_img_cropper();
 }
-const API_BASE_URL = "http://183.136.206.77:45212";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "orderPage",
   setup(__props) {
@@ -90,7 +90,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         return;
       }
       common_vendor.index.uploadFile({
-        url: `${API_BASE_URL}/api/recruitments/upload-image`,
+        url: `http://183.136.206.77:45212/api/recruitments/upload-image`,
         filePath,
         name: "file",
         header: {
@@ -143,7 +143,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       console.log("chatType改变：", event.detail.value);
       orderChatTypeIndex.value = event.detail.value;
     };
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       if (!orderTitle.value) {
         common_vendor.index.showToast({ title: "请输入需求标题", icon: "none" });
       }
@@ -194,48 +194,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           content: "您尚未登录，请先登录",
           success: (res) => {
             if (res.confirm) {
-              common_vendor.index.navigateTo({ url: "/pages/login/login" });
+              common_vendor.index.navigateTo({ url: "/pages/tabbar/myPage" });
             }
           }
         });
       }
-      common_vendor.index.request({
-        url: `${API_BASE_URL}/api/recruitments`,
-        method: "POST",
-        data: recruitmentData,
-        header: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + token
-        },
-        success: (res) => {
-          var _a;
-          if (res.statusCode === 200) {
-            common_vendor.index.showToast({
-              title: "发布成功",
-              icon: "success"
-            });
-            resetForm();
-            setTimeout(() => {
-              common_vendor.index.navigateBack();
-            }, 1500);
-          } else {
-            const errorMsg = ((_a = res.data) == null ? void 0 : _a.message) || "发布失败，请重试";
-            common_vendor.index.showToast({
-              title: errorMsg,
-              icon: "none"
-            });
-          }
-        },
-        fail: (err) => {
-          console.error("发布招聘需求出错:", err);
-          common_vendor.index.showToast({
-            title: "网络错误，请检查网络后重试",
-            icon: "none"
-          });
-        },
-        complete: () => {
-          isSubmitting.value = false;
-        }
+      await services_orderPageService.submitOrder(recruitmentData, resetForm, (value) => {
+        isSubmitting.value = value;
       });
     };
     const resetForm = () => {

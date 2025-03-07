@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { myOrderResponseModel } from '../model/myOrderResponseModel'
+// import { myOrderResponseModel } from '../model/myOrderResponseModel'
 import { requestMyOrdersInfo } from '../services/myPageService'
 
 export const useMyOrdersStore = defineStore('myOrders', {
@@ -8,6 +8,10 @@ export const useMyOrdersStore = defineStore('myOrders', {
 		isLoading: false,
 		error: null
 	}),
+	
+	getters: {
+		getMyOrders: (state) => state.myOrders,
+	},
 
 	actions: {
 		async fetchMyOrders() {

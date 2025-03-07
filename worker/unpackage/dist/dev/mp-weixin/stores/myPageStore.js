@@ -7,6 +7,9 @@ const useMyOrdersStore = common_vendor.defineStore("myOrders", {
     isLoading: false,
     error: null
   }),
+  getters: {
+    getMyOrders: (state) => state.myOrders
+  },
   actions: {
     async fetchMyOrders() {
       this.isLoading = true;

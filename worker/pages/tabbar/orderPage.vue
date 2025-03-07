@@ -90,44 +90,10 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, reactive, onMounted } from 'vue';
-
-	// 定义类型接口
-	interface RecruitmentData {
-		title : string;
-		content : string;
-		salary : number;
-		salaryPeriod : string;
-		imageUrl : string;
-		type : string;
-		location : string;
-		contactType : string;
-		contactInfo : string;
-		positionCount : number;
-		companyName : string;
-	}
-
-	interface UploadResponse {
-		imageUrl : string;
-		message ?: string;
-	}
-
-	interface ChooseImageSuccessCallbackResult {
-		tempFilePaths : string[];
-		tempFiles : {
-			path : string;
-			size : number;
-			type ?: string;
-		}[];
-	}
-
-	interface CropperConfirmEvent {
-		tempFilePath : string;
-		[key : string] : any;
-	}
-
-	// API基础URL
-	const API_BASE_URL : string = 'http://183.136.206.77:45212'; // 替换为你的API域名
+	import { ref, onMounted } from 'vue';
+	import { RecruitmentRequestModel } from '@/model/recruitmentRequestModel'
+	import { UploadResponseModel, ChooseImageSuccessCallbackResultModel, CropperConfirmEventModel } from '../../model/uploadImageResponseModel';
+	import { submitOrder } from '../../services/orderPageService';
 
 	// 需求类型
 	const orderTypeIndex = ref<number>(0);
@@ -184,7 +150,7 @@
 		uni.chooseImage({
 			count: 1,
 			sizeType: ["compressed"],
-			success: (res : ChooseImageSuccessCallbackResult) => {
+			success: (res : ChooseImageSuccessCallbackResultModel) => {
 				console.log("选择图片成功");
 				const tempFilePath = res.tempFilePaths[0];
 				selectedImageSrc.value = tempFilePath;
@@ -201,7 +167,7 @@
 	};
 
 	// 处理裁剪选择图片（确认）
-	const handleConfirm = (event : CropperConfirmEvent) : void => {
+	const handleConfirm = (event : CropperConfirmEventModel) : void => {
 		console.log('启用裁剪');
 		const { tempFilePath } = event;
 		orderImage.value = tempFilePath;
@@ -235,7 +201,7 @@
 		}
 
 		uni.uploadFile({
-			url: `${API_BASE_URL}/api/recruitments/upload-image`,
+			url: `http://183.136.206.77:45212/api/recruitments/upload-image`,
 			filePath: filePath,
 			name: 'file',
 			header: {
@@ -243,7 +209,7 @@
 			},
 			success: (uploadRes) => {
 				try {
-					const data = JSON.parse(uploadRes.data) as UploadResponse;
+					const data = JSON.parse(uploadRes.data) as UploadResponseModel;
 					if (uploadRes.statusCode === 200 && data.imageUrl) {
 						imageUrl.value = data.imageUrl;
 						uploadSuccess.value = true;
@@ -294,7 +260,7 @@
 	}
 
 	// 提交表单事件
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		// 表单验证
 		if (!orderTitle.value) {
 			uni.showToast({ title: '请输入需求标题', icon: 'none' });
@@ -329,7 +295,7 @@
 		isSubmitting.value = true;
 
 		// 准备提交数据
-		const recruitmentData : RecruitmentData = {
+		const recruitmentData : RecruitmentRequestModel = {
 			title: orderTitle.value,
 			content: orderContent.value,
 			salary: parseFloat(orderSalary.value) || 0,
@@ -354,54 +320,16 @@
 				content: '您尚未登录，请先登录',
 				success: (res) => {
 					if (res.confirm) {
-						uni.navigateTo({ url: '/pages/login/login' });
+						uni.navigateTo({ url: '/pages/tabbar/myPage' });
 					}
 				}
 			});
 		}
 
 		// 发送创建招聘需求的请求
-		uni.request({
-			url: `${API_BASE_URL}/api/recruitments`,
-			method: 'POST',
-			data: recruitmentData,
-			header: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
-			},
-			success: (res : any) => {
-				if (res.statusCode === 200) {
-					uni.showToast({
-						title: '发布成功',
-						icon: 'success'
-					});
-
-					// 发布成功后，清除表单数据
-					resetForm();
-
-					// 延迟返回上一页或跳转到列表页
-					setTimeout(() => {
-						uni.navigateBack(); // 或跳转到其他页面
-					}, 1500);
-				} else {
-					const errorMsg = res.data?.message || '发布失败，请重试';
-					uni.showToast({
-						title: errorMsg,
-						icon: 'none'
-					});
-				}
-			},
-			fail: (err : any) => {
-				console.error('发布招聘需求出错:', err);
-				uni.showToast({
-					title: '网络错误，请检查网络后重试',
-					icon: 'none'
-				});
-			},
-			complete: () => {
-				isSubmitting.value = false;
-			}
-		});
+		await submitOrder(recruitmentData, resetForm, (value) => {
+			isSubmitting.value = value
+		})
 	};
 
 	// 重置表单

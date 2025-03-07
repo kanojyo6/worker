@@ -101,6 +101,8 @@ const login = async () => {
             title: '登录成功',
             icon: 'success'
         });
+		
+		await userInfoStore.fetchUserInfo();
         
         // 登录成功后跳转
         setTimeout(() => {

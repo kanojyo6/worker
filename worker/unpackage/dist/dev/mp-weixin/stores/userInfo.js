@@ -39,21 +39,28 @@ const useUserInfoStore = common_vendor.defineStore("userinfo", {
     // 从服务器获取用户信息
     async fetchUserInfo() {
       try {
-        const accessToken = common_vendor.index.getStorageSync("access_token");
-        if (!accessToken)
+        const token = common_vendor.index.getStorageSync("token");
+        if (!token) {
+          common_vendor.index.hideLoading();
+          common_vendor.index.showToast({
+            title: "未登录",
+            icon: "none"
+          });
           throw new Error("未登录");
+        }
         const res = await common_vendor.index.request({
           url: "http://183.136.206.77:45212/api/users/me",
           method: "GET",
           header: {
-            "Authorization": `Bearer ${accessToken}`
+            "Authorization": `Bearer ${token}`
           }
         });
         if (res.statusCode === 200) {
           this.setUserInfo(res.data);
           return res.data;
+        } else {
+          throw new Error(res.data.message || "获取用户数据失败");
         }
-        throw new Error(res.data.message || "获取用户信息失败");
       } catch (error) {
         console.error("获取用户信息失败:", error);
         throw error;
@@ -62,7 +69,7 @@ const useUserInfoStore = common_vendor.defineStore("userinfo", {
     // 清除用户信息
     clearUserInfo() {
       this.$reset();
-      common_vendor.index.removeStorageSync("access_token");
+      common_vendor.index.removeStorageSync("token");
       common_vendor.index.removeStorageSync("refresh_token");
       common_vendor.index.removeStorageSync("user");
     }

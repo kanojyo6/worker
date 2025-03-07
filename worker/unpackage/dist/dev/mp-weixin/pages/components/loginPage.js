@@ -85,6 +85,7 @@ const _sfc_main = {
           title: "登录成功",
           icon: "success"
         });
+        await userInfoStore.fetchUserInfo();
         setTimeout(() => {
           common_vendor.index.switchTab({
             url: "/pages/tabbar/myPage"

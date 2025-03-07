@@ -43,22 +43,33 @@ export const useUserInfoStore = defineStore('userinfo', {
         // 从服务器获取用户信息
         async fetchUserInfo() {
             try {
-                const accessToken = uni.getStorageSync('access_token');
-                if (!accessToken) throw new Error('未登录');
+				
+				
+                const token = uni.getStorageSync('token');
+                if (!token) {
+					uni.hideLoading()
+					uni.showToast({
+						title: '未登录',
+						icon: 'none'
+					})
+					throw new Error('未登录')
+				}
 
                 const res = await uni.request({
                     url: 'http://183.136.206.77:45212/api/users/me',
                     method: 'GET',
                     header: {
-                        'Authorization': `Bearer ${accessToken}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
                 if (res.statusCode === 200) {
+					
                     this.setUserInfo(res.data);
                     return res.data;
-                }
-                throw new Error(res.data.message || '获取用户信息失败');
+                } else {
+					throw new Error(res.data.message || '获取用户数据失败');
+				} 
             } catch (error) {
                 console.error('获取用户信息失败:', error);
                 throw error;
@@ -68,7 +79,7 @@ export const useUserInfoStore = defineStore('userinfo', {
         // 清除用户信息
         clearUserInfo() {
             this.$reset();
-            uni.removeStorageSync('access_token');
+            uni.removeStorageSync('token');
             uni.removeStorageSync('refresh_token');
             uni.removeStorageSync('user');
         }

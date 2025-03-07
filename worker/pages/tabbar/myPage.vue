@@ -22,7 +22,7 @@
             <!-- 统计区域 -->
             <view class="myPage-selector">
                 <view class="myPage-order">
-                    <view class="myPage-orderCount">{{orderCount || 1}}</view>
+                    <view class="myPage-orderCount">{{myOrdersCount || 1}}</view>
                     <view class="myPage-orderLabel">我的需求</view>
                 </view>
                 <view class="myPage-order">
@@ -39,7 +39,7 @@
                 </view>
                 <scroll-view scroll-x="true"class="myPage-orderScroll">
                     <button 
-                        v-for="order in orders" 
+                        v-for="order in myOrders" 
                         :key="order.id" 
                         class="myPage-myOrderItem"
 						@click="viewOrder"
@@ -47,17 +47,17 @@
                         <view class="myPage-myOrderItem-content">
                             <view class="myPage-orderTitleRow">
                                 <text class="myPage-orderTitle">{{order.title}}</text>
-                                <text class="myPage-orderStatus">{{order.status}}</text>
+                                <text class="myPage-orderStatus">{{order.typeName}}</text>
                             </view>
                             <view class="myPage-orderDetail">
                                 <text class="myPage-orderSalary" style="color: #42B880;">薪资 {{order.salary}}</text>
-                                <text class="myPage-orderDuration">{{order.duration}}</text>
+                                <text class="myPage-orderDuration">{{order.salartPeriod}}</text>
                             </view>
                             <view class="myPage-orderDescription">
-                                {{order.description.length > 50 ? order.description.slice(0, 50) + '...' : order.description}}
+                                {{order.content.length > 50 ? order.content.slice(0, 50) + '...' : order.content}}
                             </view>
                             <view class="myPage-orderFooter">
-                                <text class="myPage-orderContact">联系  {{order.contact}}</text>
+                                <text class="myPage-orderContact">联系  {{order.contactTypeName}}: {{order.contactInfo}}</text>
                                 <text class="myPage-orderLocation">地址  {{order.location}}</text>
                             </view>
                         </view>
@@ -76,10 +76,10 @@
                         v-for="item in applications" 
                         :key="item.id" 
                         class="myPage-myOfferItem"
-                        @click="viewApplication(item.id)"
+                        @click="viewApplication()"
                     >
                         <view class="myPage-myOfferItem-Img" 
-                              :style="{'background-color': '#D7D7D7'}"
+                              style="background-color: #D7D7D7}"
                         ></view>
                         <view class="myPage-offerMiddle">
                             <text class="myPage-offerTitle">{{item.title}}</text>
@@ -103,46 +103,20 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useUserInfoStore } from '@/stores/userInfo.js';
+import { useUserInfoStore } from '../../stores/userInfo';
+import { useMyOrdersStore } from '../../stores/myPageStore';
 import loginPageVue from '../components/loginPage.vue';
 
 const userInfoStore = useUserInfoStore();
+const myOrdersStore = useMyOrdersStore();
 
 // 计算属性
 const isLoggedIn = computed(() => userInfoStore.isLoggedIn);
 const userInfo = computed(() => userInfoStore.getUserInfo);
-
-// 状态数据
-const orderCount = ref(1);
+const myOrders = computed(() => myOrdersStore.getMyOrders)
+const myOrdersCount = computed(() => myOrdersStore.getMyOrders.length);
 const applyCount = ref(1);
-const orders = ref([{
-    id: 1,
-    title: '寻找：优衣库服装销售员',
-    status: '实习',
-    salary: '4000',
-    duration: '3个月',
-    description: '本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好',
-    contact: '12345678900',
-    location: 'xx市 xx区 xx街道'
-},{
-    id: 1,
-    title: '寻找：优衣库服装销售员',
-    status: '实习',
-    salary: '4000',
-    duration: '3个月',
-    description: '本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好',
-    contact: '12345678900',
-    location: 'xx市 xx区 xx街道'
-},{
-    id: 1,
-    title: '寻找：优衣库服装销售员',
-    status: '实习',
-    salary: '4000',
-    duration: '3个月',
-    description: '本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好',
-    contact: '12345678900',
-    location: 'xx市 xx区 xx街道'
-}]);
+
 
 const applications = ref([{
     id: 1,
@@ -166,11 +140,15 @@ const applications = ref([{
 
 // 页面加载时获取数据
 onMounted(async () => {
+	uni.showLoading({ title: '获取用户数据' })
+	
+	await userInfoStore.fetchUserInfo();
     if (isLoggedIn.value) {
         try {
             await loadUserData();
         } catch (error) {
             console.error('加载用户数据失败:', error);
+			uni.hideLoading();
             uni.showToast({
                 title: '数据加载失败',
                 icon: 'none'
@@ -183,6 +161,8 @@ onMounted(async () => {
 const loadUserData = async () => {
     try {
         // 实际项目中这里应该调用后端API
+		await myOrdersStore.fetchMyOrders();
+		uni.hideLoading();
     } catch (error) {
         console.error('加载数据失败:', error);
         throw error;

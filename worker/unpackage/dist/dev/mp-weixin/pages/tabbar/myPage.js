@@ -2,6 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
 const stores_userInfo = require("../../stores/userInfo.js");
+const stores_myPageStore = require("../../stores/myPageStore.js");
 if (!Math) {
   loginPageVue();
 }
@@ -10,38 +11,12 @@ const _sfc_main = {
   __name: "myPage",
   setup(__props) {
     const userInfoStore = stores_userInfo.useUserInfoStore();
+    const myOrdersStore = stores_myPageStore.useMyOrdersStore();
     const isLoggedIn = common_vendor.computed(() => userInfoStore.isLoggedIn);
     const userInfo = common_vendor.computed(() => userInfoStore.getUserInfo);
-    const orderCount = common_vendor.ref(1);
+    const myOrders = common_vendor.computed(() => myOrdersStore.getMyOrders);
+    const myOrdersCount = common_vendor.computed(() => myOrdersStore.getMyOrders.length);
     const applyCount = common_vendor.ref(1);
-    const orders = common_vendor.ref([{
-      id: 1,
-      title: "寻找：优衣库服装销售员",
-      status: "实习",
-      salary: "4000",
-      duration: "3个月",
-      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
-      contact: "12345678900",
-      location: "xx市 xx区 xx街道"
-    }, {
-      id: 1,
-      title: "寻找：优衣库服装销售员",
-      status: "实习",
-      salary: "4000",
-      duration: "3个月",
-      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
-      contact: "12345678900",
-      location: "xx市 xx区 xx街道"
-    }, {
-      id: 1,
-      title: "寻找：优衣库服装销售员",
-      status: "实习",
-      salary: "4000",
-      duration: "3个月",
-      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
-      contact: "12345678900",
-      location: "xx市 xx区 xx街道"
-    }]);
     const applications = common_vendor.ref([{
       id: 1,
       title: "万达优衣库招服务员",
@@ -62,11 +37,14 @@ const _sfc_main = {
       location: "佛山南海区桂城"
     }]);
     common_vendor.onMounted(async () => {
+      common_vendor.index.showLoading({ title: "获取用户数据" });
+      await userInfoStore.fetchUserInfo();
       if (isLoggedIn.value) {
         try {
           await loadUserData();
         } catch (error) {
           console.error("加载用户数据失败:", error);
+          common_vendor.index.hideLoading();
           common_vendor.index.showToast({
             title: "数据加载失败",
             icon: "none"
@@ -75,6 +53,13 @@ const _sfc_main = {
       }
     });
     const loadUserData = async () => {
+      try {
+        await myOrdersStore.fetchMyOrders();
+        common_vendor.index.hideLoading();
+      } catch (error) {
+        console.error("加载数据失败:", error);
+        throw error;
+      }
     };
     const navigateToOrders = () => {
       common_vendor.index.navigateTo({ url: "/pages/myOrderListPage" });
@@ -102,20 +87,21 @@ const _sfc_main = {
       }, !userInfo.value.avatarUrl ? {} : {
         e: userInfo.value.avatarUrl
       }, {
-        f: common_vendor.t(orderCount.value || 1),
+        f: common_vendor.t(myOrdersCount.value || 1),
         g: common_vendor.t(applyCount.value || 1),
         h: common_vendor.o(navigateToOrders),
-        i: common_vendor.f(orders.value, (order, k0, i0) => {
+        i: common_vendor.f(myOrders.value, (order, k0, i0) => {
           return {
             a: common_vendor.t(order.title),
-            b: common_vendor.t(order.status),
+            b: common_vendor.t(order.typeName),
             c: common_vendor.t(order.salary),
-            d: common_vendor.t(order.duration),
-            e: common_vendor.t(order.description.length > 50 ? order.description.slice(0, 50) + "..." : order.description),
-            f: common_vendor.t(order.contact),
-            g: common_vendor.t(order.location),
-            h: order.id,
-            i: common_vendor.o(viewOrder, order.id)
+            d: common_vendor.t(order.salartPeriod),
+            e: common_vendor.t(order.content.length > 50 ? order.content.slice(0, 50) + "..." : order.content),
+            f: common_vendor.t(order.contactTypeName),
+            g: common_vendor.t(order.contactInfo),
+            h: common_vendor.t(order.location),
+            i: order.id,
+            j: common_vendor.o(viewOrder, order.id)
           };
         }),
         j: common_vendor.o(navigateToApplications),
@@ -126,7 +112,7 @@ const _sfc_main = {
             c: common_vendor.t(item.duration),
             d: common_vendor.t(item.location),
             e: item.id,
-            f: common_vendor.o(($event) => viewApplication(item.id), item.id)
+            f: common_vendor.o(($event) => viewApplication(), item.id)
           };
         }),
         l: common_assets._imports_0
