@@ -17,6 +17,7 @@
     "navigationBarBackgroundColor": "#7FD8B3",
     "backgroundColor": "#7FD8B3"
   },
+  "darkmode": false,
   "tabBar": {
     "color": "#999999",
     "selectedColor": "#018d71",

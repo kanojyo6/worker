@@ -27,7 +27,7 @@
 					<!-- 期望薪资 -->
 					<view class="orderPage-basicMsgItem" style="margin-top: 220rpx;">
 						<view class="orderPage-itemTitle">期望薪资:</view>
-						<input name="orderSalary" placeholder="请输入期望薪资" class="orderPage-orderSalary"
+						<input name="orderSalary" placeholder="请输入期望薪资" type="number" class="orderPage-orderSalary"
 							v-model="orderSalary" maxlength="30" />
 					</view>
 					<!-- 时间范围 -->
@@ -52,7 +52,7 @@
 									<view style="font-size: 26rpx;">{{ item }}</view>
 								</label>
 							</radio-group>
-							<input name="orderChatNum" placeholder="请输入联系方式" type="number" class="orderPage-orderTitle"
+							<input name="orderChatNum" placeholder="请输入联系方式" class="orderPage-orderTitle"
 								style="background: #DADADA;" v-model="orderChatNum" />
 						</view>
 					</view>

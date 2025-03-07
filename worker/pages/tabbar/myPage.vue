@@ -183,7 +183,6 @@ onMounted(async () => {
 const loadUserData = async () => {
     try {
         // 实际项目中这里应该调用后端API
-        console.log('Loading user data...');
     } catch (error) {
         console.error('加载数据失败:', error);
         throw error;

@@ -8,8 +8,11 @@
 
 <script setup>
 import { useUserInfoStore } from '@/stores/userInfo.js'
+import { requestMyOrdersInfo } from '../../services/myPageService';
+import { useMyOrdersStore } from '../../stores/myPageStore';
 
 const userInfoStore = useUserInfoStore()
+const myOrdersStore = useMyOrdersStore()
 
 // 获取微信用户信息
 const getUserProfile = () => {
@@ -91,6 +94,7 @@ const login = async () => {
         const userInfo = await getUserProfile();
         const code = await getLoginCode();
         await sendLoginRequest(code, userInfo);
+		await myOrdersStore.fetchMyOrders();
         
         uni.hideLoading();
         uni.showToast({

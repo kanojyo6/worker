@@ -75,12 +75,6 @@ const _sfc_main = {
       }
     });
     const loadUserData = async () => {
-      try {
-        console.log("Loading user data...");
-      } catch (error) {
-        console.error("加载数据失败:", error);
-        throw error;
-      }
     };
     const navigateToOrders = () => {
       common_vendor.index.navigateTo({ url: "/pages/myOrderListPage" });

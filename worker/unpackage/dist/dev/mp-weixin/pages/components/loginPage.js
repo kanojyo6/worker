@@ -1,10 +1,12 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const stores_userInfo = require("../../stores/userInfo.js");
+const stores_myPageStore = require("../../stores/myPageStore.js");
 const _sfc_main = {
   __name: "loginPage",
   setup(__props) {
     const userInfoStore = stores_userInfo.useUserInfoStore();
+    const myOrdersStore = stores_myPageStore.useMyOrdersStore();
     const getUserProfile = () => {
       return new Promise((resolve, reject) => {
         common_vendor.index.getUserProfile({
@@ -77,6 +79,7 @@ const _sfc_main = {
         const userInfo = await getUserProfile();
         const code = await getLoginCode();
         await sendLoginRequest(code, userInfo);
+        await myOrdersStore.fetchMyOrders();
         common_vendor.index.hideLoading();
         common_vendor.index.showToast({
           title: "登录成功",
