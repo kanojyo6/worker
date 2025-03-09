@@ -1,8 +1,10 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const stores_homePageStore = require("../../stores/homePageStore.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "homePage",
   setup(__props) {
+    const recommendedStore = stores_homePageStore.useRecommendedStore();
     const searchText = common_vendor.ref("");
     const imageUrl = [
       "/static/logos/home_icon_tech.png",
@@ -14,6 +16,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "/static/logos/hoem_icon_practice.png",
       "/static/logos/hoem_icon_buy.png"
     ];
+    const categoryTitle = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"];
     const navigateToTypeDetail = () => {
       common_vendor.index.navigateTo({
         url: "/pages/typeDetailPage",
@@ -31,97 +34,48 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         url: "/pages/tabbar/orderPage"
       });
     };
-    const recommendData = common_vendor.ref([
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
-      },
-      {
-        orderId: 1,
-        orderTitle: "万达优衣库招人",
-        orderSalary: 100,
-        orderTime: "6个月",
-        orderImgUrl: "",
-        orderDescription: "111111111",
-        orderStatus: 0,
-        orderCategory: "校外兼职"
+    const recommendData = common_vendor.computed(() => recommendedStore.getRecommendedOrder);
+    common_vendor.onMounted(async () => {
+      common_vendor.index.showLoading({ title: "获取数据中" });
+      try {
+        await loadRecommendedInfo();
+      } catch (error) {
+        console.error("请求推荐需求时发生了错误: :", error);
+        common_vendor.index.hideLoading();
+        common_vendor.index.showToast({
+          title: "请求错误",
+          icon: "none"
+        });
       }
-    ]);
+    });
+    const loadRecommendedInfo = async () => {
+      try {
+        await recommendedStore.fetchRecommendedOrders(0, 20);
+      } catch (error) {
+        console.error("加载数据失败:", error);
+        throw error;
+      }
+    };
     return (_ctx, _cache) => {
       return {
         a: searchText.value,
         b: common_vendor.o(($event) => searchText.value = $event.detail.value),
         c: common_vendor.o(navigateToAddOrder),
-        d: common_vendor.f(imageUrl, (item, k0, i0) => {
+        d: common_vendor.f(imageUrl, (item, index, i0) => {
           return {
-            a: item
+            a: item,
+            b: common_vendor.t(categoryTitle[index])
           };
         }),
         e: common_vendor.o(navigateToTypeDetail),
         f: common_vendor.f(recommendData.value, (item, k0, i0) => {
           return common_vendor.e({
-            a: item.orderImgUrl == ""
-          }, item.orderImgUrl == "" ? {} : {
-            b: item.orderImgUrl
+            a: item.imageUrl == ""
+          }, item.imageUrl == "" ? {} : {
+            b: item.imageUrl
           }, {
-            c: common_vendor.t(item.orderTitle),
-            d: common_vendor.t(item.orderTime)
+            c: common_vendor.t(item.title.length > 9 ? item.title.slice(0, 8) + "..." : item.title),
+            d: common_vendor.t(item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + "..." : item.salaryPeriod)
           });
         }),
         g: common_vendor.o(navigateToOrderDetail)

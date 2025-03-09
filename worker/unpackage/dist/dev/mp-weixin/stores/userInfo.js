@@ -15,6 +15,7 @@ const useUserInfoStore = common_vendor.defineStore("userinfo", {
   getters: {
     // 获取用户基本信息
     getUserInfo: (state) => ({
+      id: state.id,
       nickName: state.nickName,
       avatarUrl: state.avatarUrl,
       phone: state.phone

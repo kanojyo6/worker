@@ -14,8 +14,9 @@
 		<scroll-view style="display: flex; width: 95%;">
 			<!-- 分类页面 -->
 			<view class="homePage-category">
-				<button @click="navigateToTypeDetail" v-for="item in imageUrl" class="categoryItem">
+				<button @click="navigateToTypeDetail" v-for="(item, index) in imageUrl" class="categoryItem">
 					<image :src="item" mode="aspectFit" style="width: 50rpx; height: 50rpx;"></image>
+					<text style="font-size: 24rpx; margin-top: 20rpx;">{{ categoryTitle[index] }}</text>
 				</button>
 			</view>
 			
@@ -23,11 +24,11 @@
 			<view style="display: flex; align-items: start; font-size: 40rpx; font-weight: bold; margin-top: 40rpx;">为你推荐</view>
 			<view class="recommendView">
 				<button @click="navigateToOrderDetail" v-for="item in recommendData" class="recommendItem">
-					<view v-if="item.orderImgUrl == ''" class="recommendItem-Img" style="background: #DADADA;"></view>
-					<image v-else class="recommendItem-Img" :src="item.orderImgUrl"></image>
+					<view v-if="item.imageUrl == ''" class="recommendItem-Img" style="background: #DADADA;"></view>
+					<image v-else class="recommendItem-Img" :src="item.imageUrl"></image>
 					<view class="recommendItem-Text">
-						<text style="font-size: 34rpx; color: #000;">{{ item.orderTitle }}</text>
-						<text style="font-size: 34rpx; color: #42B880; font-weight: bold;">{{ item.orderTime }}</text>
+						<text style="font-size: 34rpx; color: #000;">{{ item.title.length > 9 ? item.title.slice(0, 8) + '...' : item.title }}</text>
+						<text style="font-size: 34rpx; color: #42B880; font-weight: bold;">{{ item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + '...' : item.salaryPeriod }}</text>
 					</view>
 				</button>
 			</view>
@@ -36,12 +37,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { recommendModel } from '../../model/recommendModel';
+import { computed, onMounted, ref } from 'vue';
+import { useRecommendedStore } from '../../stores/homePageStore';
+
+const recommendedStore = useRecommendedStore()
 
 
 const searchText = ref('')
 
+// 静态资源
 const imageUrl = [
 	'/static/logos/home_icon_tech.png',
 	'/static/logos/home_icon_life.png',
@@ -52,6 +56,8 @@ const imageUrl = [
 	'/static/logos/hoem_icon_practice.png',
 	'/static/logos/hoem_icon_buy.png'
 ]
+
+const categoryTitle: string[] = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"];
 
 // 处理分类详情
 const navigateToTypeDetail = () => {
@@ -76,79 +82,34 @@ const navigateToAddOrder = () => {
 	})
 }
 
-// 模拟推送订单数据
-const recommendData = ref<recommendModel[]>([
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
-	},
-	{
-		orderId: 1,
-		orderTitle: '万达优衣库招人',
-		orderSalary: 100,
-		orderTime: '6个月',
-		orderImgUrl: '',
-		orderDescription: '111111111',
-		orderStatus: 0,
-		orderCategory: '校外兼职'
+// 推送需求数据
+const recommendData = computed(() => recommendedStore.getRecommendedOrder);
+
+// 加载时请求推荐需求信息
+onMounted(async () => {
+	uni.showLoading({ title: '获取数据中' })
+	try{
+		await loadRecommendedInfo()
+	}catch(error){
+		//TODO handle the exception
+		console.error('请求推荐需求时发生了错误: :', error);
+		uni.hideLoading();
+		uni.showToast({
+			title: '请求错误',
+			icon: 'none'
+		});
 	}
-])
+}) 
+
+// 获取推荐需求信息
+const loadRecommendedInfo = async () => {
+    try {
+		await recommendedStore.fetchRecommendedOrders(0, 20)
+    } catch (error) {
+        console.error('加载数据失败:', error);
+        throw error;
+    }
+};
 
 
 </script>
@@ -264,10 +225,11 @@ const recommendData = ref<recommendModel[]>([
 	
 	.recommendItem-Text {
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		justify-content: space-around;
 		align-items: start;
 		flex: 1;
-		margin-left: -30rpx;
+		margin-left: 60rpx;
 	}
 </style>

@@ -113,7 +113,7 @@ const myOrdersStore = useMyOrdersStore();
 // 计算属性
 const isLoggedIn = computed(() => userInfoStore.isLoggedIn);
 const userInfo = computed(() => userInfoStore.getUserInfo);
-const myOrders = computed(() => myOrdersStore.getMyOrders)
+const myOrders = computed(() => myOrdersStore.getMyOrders);
 const myOrdersCount = computed(() => myOrdersStore.getMyOrders.length);
 const applyCount = ref(1);
 
