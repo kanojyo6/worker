@@ -160,7 +160,6 @@ onMounted(async () => {
 // 加载用户数据
 const loadUserData = async () => {
     try {
-        // 实际项目中这里应该调用后端API
 		await myOrdersStore.fetchMyOrders();
 		uni.hideLoading();
     } catch (error) {

@@ -23,9 +23,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         animationType: "pop-in"
       });
     };
-    const navigateToOrderDetail = () => {
+    const navigateToOrderDetail = (orderId) => {
       common_vendor.index.navigateTo({
-        url: "/pages/orderDetailPage",
+        url: `/pages/orderDetailPage?id=${orderId}`,
         animationType: "pop-in"
       });
     };
@@ -75,10 +75,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             b: item.imageUrl
           }, {
             c: common_vendor.t(item.title.length > 9 ? item.title.slice(0, 8) + "..." : item.title),
-            d: common_vendor.t(item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + "..." : item.salaryPeriod)
+            d: common_vendor.t(item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + "..." : item.salaryPeriod),
+            e: common_vendor.o(($event) => navigateToOrderDetail(item.id))
           });
-        }),
-        g: common_vendor.o(navigateToOrderDetail)
+        })
       };
     };
   }

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { validateAccessToken } from '../services/refreshTokenService';
 
 export const useUserInfoStore = defineStore('userinfo', {
     // 定义状态，与后端 UserDTO 保持一致
@@ -44,10 +45,23 @@ export const useUserInfoStore = defineStore('userinfo', {
         // 从服务器获取用户信息
         async fetchUserInfo() {
             try {
-				
-				
-                const token = uni.getStorageSync('token');
-                if (!token) {
+				const { valid } = await validateAccessToken()
+                if (valid) {
+					const res = await uni.request({
+					    url: 'http://183.136.206.77:45212/api/users/me',
+					    method: 'GET',
+					    header: {
+					        'Authorization': 'Bearer ' + uni.getStorageSync('token')
+					    }
+					});
+					
+					if (res.statusCode === 200) {
+					    this.setUserInfo(res.data);
+					    return res.data;
+					} else {
+						throw new Error(res.data.message || '获取用户数据失败');
+					} 	
+				} else {
 					uni.hideLoading()
 					uni.showToast({
 						title: '未登录',
@@ -56,21 +70,7 @@ export const useUserInfoStore = defineStore('userinfo', {
 					throw new Error('未登录')
 				}
 
-                const res = await uni.request({
-                    url: 'http://183.136.206.77:45212/api/users/me',
-                    method: 'GET',
-                    header: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (res.statusCode === 200) {
-					
-                    this.setUserInfo(res.data);
-                    return res.data;
-                } else {
-					throw new Error(res.data.message || '获取用户数据失败');
-				} 
+                
             } catch (error) {
                 console.error('获取用户信息失败:', error);
                 throw error;

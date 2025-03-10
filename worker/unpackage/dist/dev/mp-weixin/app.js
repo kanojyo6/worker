@@ -16,6 +16,8 @@ if (!Math) {
 const _sfc_main = {
   onLaunch: function() {
     console.log("App Launch");
+    common_vendor.index.getStorageSync("token");
+    common_vendor.index.getStorageSync("refresh_token");
   },
   onShow: function() {
     console.log("App Show");

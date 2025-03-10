@@ -23,7 +23,7 @@
 			<!-- 分页推荐 -->
 			<view style="display: flex; align-items: start; font-size: 40rpx; font-weight: bold; margin-top: 40rpx;">为你推荐</view>
 			<view class="recommendView">
-				<button @click="navigateToOrderDetail" v-for="item in recommendData" class="recommendItem">
+				<button @click="navigateToOrderDetail(item.id)" v-for="item in recommendData" class="recommendItem">
 					<view v-if="item.imageUrl == ''" class="recommendItem-Img" style="background: #DADADA;"></view>
 					<image v-else class="recommendItem-Img" :src="item.imageUrl"></image>
 					<view class="recommendItem-Text">
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRecommendedStore } from '../../stores/homePageStore';
+import { refreshAccessToken } from '../../services/refreshTokenService';
 
 const recommendedStore = useRecommendedStore()
 
@@ -68,9 +69,9 @@ const navigateToTypeDetail = () => {
 }
 
 // 处理点击详情
-const navigateToOrderDetail = () => {
+const navigateToOrderDetail = (orderId: number) => {
 	uni.navigateTo({
-		url: '/pages/orderDetailPage',
+		url: `/pages/orderDetailPage?id=${orderId}`,
 		animationType: 'pop-in'
 	})
 }

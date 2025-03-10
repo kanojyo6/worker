@@ -1,4 +1,4 @@
-import { myOrderResponseModel } from '../model/myOrderResponseModel'
+import { refreshAccessToken } from './refreshTokenService'
 
 const baseUrl = "http://183.136.206.77:45212"
 
@@ -11,7 +11,7 @@ export const requestMyOrdersInfo = async () => {
 				'content-type': 'application/json',
 				'Authorization': 'Bearer ' + uni.getStorageSync('token')
 			},
-			success: (res) => {
+			success: async (res) => {
 				if (res.statusCode === 200) {
 					try {
 						const data = res.data as { content : any[] }
@@ -42,6 +42,14 @@ export const requestMyOrdersInfo = async () => {
 					} catch (error) {
 						console.log('解析数据失败:', error);
 						reject('解析数据失败');
+					}
+				} else if (res.statusCode === 403) {
+					// 处理accessToken失效
+					console.log('accessToken失效，尝试刷新');
+					const newToken = await refreshAccessToken();
+					if (newToken) {
+						uni.setStorageSync('token', newToken)
+						resolve(await requestMyOrdersInfo())
 					}
 				} else {
 					reject('获取我的发布失败');
