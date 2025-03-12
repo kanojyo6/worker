@@ -1,6 +1,6 @@
 <template>
 	<view class="myOrderListPage-background">
-		<scroll-view style="width: 90%; margin: 40rpx auto;">
+		<scroll-view style="width: 600rpx; height: 1350rpx; margin: 40rpx auto;" scroll-y="true" @scrolltolower="loadMoreData">
 			<button
 			    v-for="order in orders" 
 			    :key="order.id" 
@@ -10,17 +10,17 @@
 			    <view class="myOrderListPage-myOrderItem-content">
 			        <view class="myOrderListPage-orderTitleRow">
 			            <text class="myOrderListPage-orderTitle">{{order.title}}</text>
-			            <text class="myOrderListPage-orderStatus">{{order.status}}</text>
+			            <text class="myOrderListPage-orderStatus">{{order.typeName}}</text>
 			        </view>
 			        <view class="myOrderListPage-orderDetail">
 			            <text class="myOrderListPage-orderSalary" style="color: #42B880;">薪资 {{order.salary}}</text>
-			            <text class="myOrderListPage-orderDuration">{{order.duration}}</text>
+			            <text class="myOrderListPage-orderDuration">{{order.salartPeriod}}</text>
 			        </view>
 			        <view class="myOrderListPage-orderDescription">
-			            {{order.description.length > 70 ? order.description.slice(0, 70) + '...' : order.description}}
+			            {{order.content.length > 70 ? order.content.slice(0, 70) + '...' : order.content}}
 			        </view>
 			        <view class="myOrderListPage-orderFooter">
-			            <text class="myOrderListPage-orderContact">联系  {{order.contact}}</text>
+			            <text class="myOrderListPage-orderContact">联系  {{order.contactTypeName}}: {{order.contactInfo}}</text>
 			            <text class="myOrderListPage-orderLocation">地址  {{order.location}}</text>
 			        </view>
 			    </view>
@@ -29,22 +29,18 @@
 	</view>
 </template>
 
-<script setup>
+<script setup lang="ts">
 	import { ref, computed, onMounted } from 'vue';
+	import { useMyOrdersListStore } from '../stores/myPageStore'
+	
+	const myOrdersListStore = useMyOrdersListStore();
+	
+	// 分页状态
+	const page = ref(0);
+	const size = 5;
 	
 	// 状态数据
-	const orderCount = ref(1);
-	const applyCount = ref(1);
-	const orders = ref([{
-	    id: 1,
-	    title: '寻找：优衣库服装销售员',
-	    status: '实习',
-	    salary: '4000',
-	    duration: '3个月',
-	    description: '本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好',
-	    contact: '12345678900',
-	    location: 'xx市 xx区 xx街道'
-	}]);
+	const orders = computed(() => myOrdersListStore.getMyOrdersList);
 	
 	// 页面导航方法
 	const viewOrder = () => {
@@ -52,6 +48,37 @@
 			url: '/pages/myOrderDetailPage'
 		})
 	}
+	
+	// 无限滚动刷新方法
+	const loadMoreData = async () => {
+		uni.showLoading({
+			title: '加载中'
+		})
+		page.value += 1;
+		try {
+			await myOrdersListStore.fetchMyOrdersList(page.value, size);
+			uni.hideLoading()
+		} catch (error) {
+		    console.error('加载数据失败:', error);
+		    throw error;
+		}
+	}
+	
+	onMounted(async () => {
+		page.value = 0
+		myOrdersListStore.clear()
+		
+		uni.showLoading({
+			title: '获取数据中'
+		})
+		try {
+			await myOrdersListStore.fetchMyOrdersList(page.value, size);
+			uni.hideLoading();
+		} catch (error) {
+		    console.error('加载数据失败:', error);
+		    throw error;
+		}
+	})
 </script>
 
 <style>
@@ -66,12 +93,12 @@
 
 .myOrderListPage-myOrderItem {
 	width: 90%;
-	height: 100%;
+	height: 500rpx;
 	background: linear-gradient(#C7FFD8, #E5FFED);
 	border-radius: 24rpx;
 	display: inline-block;
-	margin: 0rpx 20rpx;
-	padding: 20rpx;
+	margin: 20rpx 30rpx;
+	padding: 15rpx;
 }
 
 .myOrderListPage-myOrderItem-content {
@@ -132,7 +159,6 @@
 	flex-direction: column;
 	align-items: start;
 	font-weight: bold;
-	margin-top: 40rpx;
 }
 
 .myOrderListPage-orderContact {

@@ -1,42 +1,60 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const _sfc_main = {
+const stores_myPageStore = require("../stores/myPageStore.js");
+const size = 5;
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "myOrderListPage",
   setup(__props) {
-    common_vendor.ref(1);
-    common_vendor.ref(1);
-    const orders = common_vendor.ref([{
-      id: 1,
-      title: "寻找：优衣库服装销售员",
-      status: "实习",
-      salary: "4000",
-      duration: "3个月",
-      description: "本人大学生放假，想兼职，赚点零用钱！放假，想兼职，赚点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好点零用钱！本人大学生放假，想兼职，赚点零用钱！42B880你好",
-      contact: "12345678900",
-      location: "xx市 xx区 xx街道"
-    }]);
+    const myOrdersListStore = stores_myPageStore.useMyOrdersListStore();
+    const page = common_vendor.ref(0);
+    const orders = common_vendor.computed(() => myOrdersListStore.getMyOrdersList);
     const viewOrder = () => {
       common_vendor.index.navigateTo({
         url: "/pages/myOrderDetailPage"
       });
     };
+    const loadMoreData = async () => {
+      page.value += 1;
+      try {
+        await myOrdersListStore.fetchMyOrdersList(page.value, size);
+      } catch (error) {
+        console.error("加载数据失败:", error);
+        throw error;
+      }
+    };
+    common_vendor.onMounted(async () => {
+      page.value = 0;
+      myOrdersListStore.clear();
+      common_vendor.index.showLoading({
+        title: "获取数据中"
+      });
+      try {
+        await myOrdersListStore.fetchMyOrdersList(page.value, size);
+        common_vendor.index.hideLoading();
+      } catch (error) {
+        console.error("加载数据失败:", error);
+        throw error;
+      }
+    });
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(orders.value, (order, k0, i0) => {
           return {
             a: common_vendor.t(order.title),
-            b: common_vendor.t(order.status),
+            b: common_vendor.t(order.typeName),
             c: common_vendor.t(order.salary),
-            d: common_vendor.t(order.duration),
-            e: common_vendor.t(order.description.length > 70 ? order.description.slice(0, 70) + "..." : order.description),
-            f: common_vendor.t(order.contact),
-            g: common_vendor.t(order.location),
-            h: order.id,
-            i: common_vendor.o(viewOrder, order.id)
+            d: common_vendor.t(order.salartPeriod),
+            e: common_vendor.t(order.content.length > 70 ? order.content.slice(0, 70) + "..." : order.content),
+            f: common_vendor.t(order.contactTypeName),
+            g: common_vendor.t(order.contactInfo),
+            h: common_vendor.t(order.location),
+            i: order.id,
+            j: common_vendor.o(viewOrder, order.id)
           };
-        })
+        }),
+        b: common_vendor.o(loadMoreData)
       };
     };
   }
-};
+});
 wx.createPage(_sfc_main);

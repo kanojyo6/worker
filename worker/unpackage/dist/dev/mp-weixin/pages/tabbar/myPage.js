@@ -70,9 +70,10 @@ const _sfc_main = {
     const viewApplication = () => {
       common_vendor.index.navigateTo({ url: `/pages/myOfferDetailPage` });
     };
-    const viewOrder = () => {
+    const navigateToOrderDetail = (orderId) => {
       common_vendor.index.navigateTo({
-        url: "/pages/myOrderDetailPage"
+        url: `/pages/orderDetailPage?id=${orderId}`,
+        animationType: "pop-in"
       });
     };
     return (_ctx, _cache) => {
@@ -101,7 +102,7 @@ const _sfc_main = {
             g: common_vendor.t(order.contactInfo),
             h: common_vendor.t(order.location),
             i: order.id,
-            j: common_vendor.o(viewOrder, order.id)
+            j: common_vendor.o(($event) => navigateToOrderDetail(order.id), order.id)
           };
         }),
         j: common_vendor.o(navigateToApplications),

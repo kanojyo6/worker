@@ -42,7 +42,7 @@
                         v-for="order in myOrders" 
                         :key="order.id" 
                         class="myPage-myOrderItem"
-						@click="viewOrder"
+						@click="navigateToOrderDetail(order.id)"
                     >
                         <view class="myPage-myOrderItem-content">
                             <view class="myPage-orderTitleRow">
@@ -181,9 +181,11 @@ const viewApplication = () => {
     uni.navigateTo({ url: `/pages/myOfferDetailPage` });
 };
 
-const viewOrder = () => {
+// 处理点击详情
+const navigateToOrderDetail = (orderId) => {
 	uni.navigateTo({
-		url: '/pages/myOrderDetailPage'
+		url: `/pages/orderDetailPage?id=${orderId}`,
+		animationType: 'pop-in'
 	})
 }
 </script>

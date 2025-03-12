@@ -2,11 +2,15 @@ import { refreshAccessToken } from './refreshTokenService'
 
 const baseUrl = "http://183.136.206.77:45212"
 
-export const requestMyOrdersInfo = async () => {
+export const requestMyOrdersInfo = async (page: number, size: number) => {
 	return new Promise((resolve, reject) => {
 		uni.request({
 			url: baseUrl + "/api/recruitments/my-published",
 			method: 'GET',
+			data: {
+				page: page,
+				size: size
+			},
 			header: {
 				'content-type': 'application/json',
 				'Authorization': 'Bearer ' + uni.getStorageSync('token')

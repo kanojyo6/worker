@@ -31,11 +31,20 @@
 </template>
 
 <script setup lang="ts">
-	import { ref } from 'vue';
+	import { computed, ref } from 'vue';
+	import { onLoad } from '@dcloudio/uni-app';
+	import { useTypeDetailStore } from '../stores/typeDetailPageStore';
+	
+	const typeDetailStore = useTypeDetailStore()
+	
 	const searchText = ref('')
 	
-	// 列表数组
-	const typeDetailListData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
+	// 分页变量
+	const page = ref(0)
+	const size = 20
+	
+	// 计算属性
+	const typeDetailListData = computed(() => typeDetailStore.getTypeDetailInfo)
 	
 	// 点击进入详情页
 	const navigateToOrderDetail = () => {
@@ -50,6 +59,32 @@
 		uni.switchTab({
 			url: '/pages/tabbar/orderPage'
 		})
+	}
+	
+	onLoad(async (option) => {
+		console.log('传入type为: ', option.type)
+		uni.showLoading({ title: '获取数据中' })
+		try{
+			await loadTypeDetailInfo(option.type, page.value, size)
+		}catch(error){
+			//TODO handle the exception
+			console.error('请求时发生了错误: ', error);
+			uni.hideLoading();
+			uni.showToast({
+				title: '请求错误',
+				icon: 'none'
+			});
+		}
+	})
+	
+	const loadTypeDetailInfo = async (type: string, page: number, size: number) => {
+		try{
+			await typeDetailStore.fetchTyperDetailInfo(type, page, size)
+		}catch(e){
+			//TODO handle the exception
+			console.error('加载数据失败:', e);
+			throw e
+		}
 	}
 </script>
 

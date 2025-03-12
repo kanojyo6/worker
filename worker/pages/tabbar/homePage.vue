@@ -14,7 +14,7 @@
 		<scroll-view style="display: flex; width: 95%;">
 			<!-- 分类页面 -->
 			<view class="homePage-category">
-				<button @click="navigateToTypeDetail" v-for="(item, index) in imageUrl" class="categoryItem">
+				<button @click="navigateToTypeDetail(index)" v-for="(item, index) in imageUrl" class="categoryItem">
 					<image :src="item" mode="aspectFit" style="width: 50rpx; height: 50rpx;"></image>
 					<text style="font-size: 24rpx; margin-top: 20rpx;">{{ categoryTitle[index] }}</text>
 				</button>
@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRecommendedStore } from '../../stores/homePageStore';
-import { refreshAccessToken } from '../../services/refreshTokenService';
 
 const recommendedStore = useRecommendedStore()
 
@@ -60,10 +59,21 @@ const imageUrl = [
 
 const categoryTitle: string[] = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"];
 
+const categoryTitleMap: string[] = [
+	"TECH",
+	"LIFESTYLE",
+	"TUTORING",
+	"ERRANDS",
+	"CAMPUS_JOB",
+	"OFF_CAMPUS_JOB",
+	"INTERNSHIP",
+	"TRADING"
+]
+
 // 处理分类详情
-const navigateToTypeDetail = () => {
+const navigateToTypeDetail = (index: number) => {
 	uni.navigateTo({
-		url: '/pages/typeDetailPage',
+		url: `/pages/typeDetailPage?type=${categoryTitleMap[index]}`,
 		animationType:'pop-in'
 	})
 }

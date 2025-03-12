@@ -2,11 +2,15 @@
 const common_vendor = require("../common/vendor.js");
 const services_refreshTokenService = require("./refreshTokenService.js");
 const baseUrl = "http://183.136.206.77:45212";
-const requestMyOrdersInfo = async () => {
+const requestMyOrdersInfo = async (page, size) => {
   return new Promise((resolve, reject) => {
     common_vendor.index.request({
       url: baseUrl + "/api/recruitments/my-published",
       method: "GET",
+      data: {
+        page,
+        size
+      },
       header: {
         "content-type": "application/json",
         "Authorization": "Bearer " + common_vendor.index.getStorageSync("token")

@@ -17,9 +17,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "/static/logos/hoem_icon_buy.png"
     ];
     const categoryTitle = ["技术类", "生活类", "家教类", "代办事", "校内兼职", "校外兼职", "实习", "买卖"];
-    const navigateToTypeDetail = () => {
+    const categoryTitleMap = [
+      "TECH",
+      "LIFESTYLE",
+      "TUTORING",
+      "ERRANDS",
+      "CAMPUS_JOB",
+      "OFF_CAMPUS_JOB",
+      "INTERNSHIP",
+      "TRADING"
+    ];
+    const navigateToTypeDetail = (index) => {
       common_vendor.index.navigateTo({
-        url: "/pages/typeDetailPage",
+        url: `/pages/typeDetailPage?type=${categoryTitleMap[index]}`,
         animationType: "pop-in"
       });
     };
@@ -64,11 +74,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         d: common_vendor.f(imageUrl, (item, index, i0) => {
           return {
             a: item,
-            b: common_vendor.t(categoryTitle[index])
+            b: common_vendor.t(categoryTitle[index]),
+            c: common_vendor.o(($event) => navigateToTypeDetail(index))
           };
         }),
-        e: common_vendor.o(navigateToTypeDetail),
-        f: common_vendor.f(recommendData.value, (item, k0, i0) => {
+        e: common_vendor.f(recommendData.value, (item, k0, i0) => {
           return common_vendor.e({
             a: item.imageUrl == ""
           }, item.imageUrl == "" ? {} : {
