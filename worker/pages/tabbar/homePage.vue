@@ -4,7 +4,7 @@
 		<view class="homePage-header">
 			<view class="homePage-searcher">
 				<input style="font-size: 28rpx;" placeholder="搜索…" confirm-type="search" v-model="searchText" />
-				
+				<icon type="search" size="16" @click="handleSearch"></icon>
 			</view>
 			<button @click="navigateToAddOrder" class="homePage-addOrderButton">
 				<text style="color: white; font-size: 26rpx;">发需求</text>
@@ -25,7 +25,7 @@
 			<view class="recommendView">
 				<button @click="navigateToOrderDetail(item.id)" v-for="item in recommendData" class="recommendItem">
 					<view v-if="item.imageUrl == ''" class="recommendItem-Img" style="background: #DADADA;"></view>
-					<image v-else class="recommendItem-Img" :src="item.imageUrl"></image>
+					<image v-else class="recommendItem-Img" :src="item.imageUrl" mode="aspectFill"></image>
 					<view class="recommendItem-Text">
 						<text style="font-size: 34rpx; color: #000;">{{ item.title.length > 9 ? item.title.slice(0, 8) + '...' : item.title }}</text>
 						<text style="font-size: 34rpx; color: #42B880; font-weight: bold;">{{ item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + '...' : item.salaryPeriod }}</text>
@@ -69,6 +69,17 @@ const categoryTitleMap: string[] = [
 	"INTERNSHIP",
 	"TRADING"
 ]
+
+// 处理搜索逻辑
+const handleSearch = () => {
+	if (searchText.value === '') {
+		return;
+	}
+	uni.navigateTo({
+		url: `/pages/components/searchCommendResultPage?searchValue=${searchText.value}`,
+		animationType:'pop-in'
+	})
+}
 
 // 处理分类详情
 const navigateToTypeDetail = (index: number) => {

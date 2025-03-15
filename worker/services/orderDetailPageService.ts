@@ -31,9 +31,16 @@ export const requestOrderDetailInfo = async (id : number) => {
 				} else if (res.statusCode === 403) {
 					// 处理accessToken失效
 					console.log('accessToken失效，尝试刷新');
-					const newToken = await refreshAccessToken();
-					if (newToken) {
-						resolve(await requestOrderDetailInfo(id))
+					try {
+						// 尝试刷新 Token
+						const newToken = await refreshAccessToken();
+						// 刷新成功：保存新 Token，并递归重试请求
+						uni.setStorageSync("token", newToken);
+						const retryResult = await requestOrderDetailInfo(id);
+						resolve(retryResult);
+					} catch (e) {
+						// 刷新失败：拒绝 Promise，终止递归
+						reject(e); 
 					}
 				} else {
 					const errorMsg = res.data?.message || '请求失败，请重试';

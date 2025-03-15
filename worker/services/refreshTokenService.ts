@@ -1,5 +1,20 @@
 const baseUrl = "http://183.136.206.77:45212"
 
+// 辅助方法
+const showAlert = () => {
+	uni.showModal({
+		title: '提示',
+		content: '登录已过期，请重新登陆',
+		success: (res) => {
+			if (res.confirm) {
+				uni.switchTab({ url: '/pages/tabbar/myPage' });
+			} else {
+				uni.navigateBack();
+			}
+		}
+	});
+}
+
 // 刷新token
 export const refreshAccessToken = async () => {
 	return new Promise((resolve, reject) => {
@@ -12,7 +27,8 @@ export const refreshAccessToken = async () => {
 				title: '登录失效，请重新登陆',
 				icon: 'none'
 			})
-			return
+			showAlert()
+			reject('刷新token失败');
 		}
 		uni.request({
 			url: baseUrl + `/auth/token/refresh/miniapp`,
@@ -37,6 +53,8 @@ export const refreshAccessToken = async () => {
 						title: errorMsg,
 						icon: 'none'
 					});
+					showAlert()
+					reject('刷新token失败');
 				}
 			},
 			fail: (error : any) => {
@@ -45,6 +63,8 @@ export const refreshAccessToken = async () => {
 					title: '网络错误，请检查网络后重试',
 					icon: 'none'
 				});
+				showAlert()
+				reject('刷新token失败');
 			}
 		})
 	})

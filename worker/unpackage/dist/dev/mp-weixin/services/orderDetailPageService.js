@@ -30,9 +30,13 @@ const requestOrderDetailInfo = async (id) => {
           common_vendor.index.hideLoading();
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
-          const newToken = await services_refreshTokenService.refreshAccessToken();
-          if (newToken) {
-            resolve(await requestOrderDetailInfo(id));
+          try {
+            const newToken = await services_refreshTokenService.refreshAccessToken();
+            common_vendor.index.setStorageSync("token", newToken);
+            const retryResult = await requestOrderDetailInfo(id);
+            resolve(retryResult);
+          } catch (e) {
+            reject(e);
           }
         } else {
           const errorMsg = ((_a = res.data) == null ? void 0 : _a.message) || "请求失败，请重试";

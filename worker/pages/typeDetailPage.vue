@@ -17,14 +17,14 @@
 		<!-- 金刚区 -->
 		<scroll-view>
 			<view class="typeDetail-content">
-				<view @click="navigateToOrderDetail" v-for="item in typeDetailListData" class="typeDetail-contentItem">
-					<view class="typeDetail-orderImage" style="background: #d7d7d7;"></view>
+				<view @click="navigateToOrderDetail(item.id)" v-for="item in typeDetailListData" class="typeDetail-contentItem">
+					<image v-if="item.imageUrl !== ''" :src="item.imageUrl" class="typeDetail-orderImage" mode="aspectFill"></image>
+					<view v-else class="typeDetail-orderImage" style="background: #d7d7d7;"></view>
 					<view class="typeDetail-orderMsg">
-						<view style="font-size: 30rpx;">电脑维修</view>
-						<view style="font-size: 28rpx; color: #42B880; font-weight: bold;">10000元</view>
+						<view style="font-size: 30rpx;">{{ item.title.length > 9 ? item.title.slice(0, 8) + '...' : item.title }}</view>
+						<view style="font-size: 28rpx; color: #42B880; font-weight: bold;">{{ item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + '...' : item.salaryPeriod }}</view>
 					</view>
 				</view>
-				<view class="typeDetail-contentItem"></view>
 			</view>
 		</scroll-view>
 	</view>
@@ -46,10 +46,10 @@
 	// 计算属性
 	const typeDetailListData = computed(() => typeDetailStore.getTypeDetailInfo)
 	
-	// 点击进入详情页
-	const navigateToOrderDetail = () => {
+	// 处理点击详情
+	const navigateToOrderDetail = (orderId: number) => {
 		uni.navigateTo({
-			url: '/pages/orderDetailPage',
+			url: `/pages/orderDetailPage?id=${orderId}`,
 			animationType: 'pop-in'
 		})
 	}
@@ -154,13 +154,13 @@
 	
 	.typeDetail-content {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: left;
 		flex-wrap: wrap;
 		width: 100%;
 		min-height: 93vh;
 		padding-bottom: 30rpx;
-		background-color: #f5f5f5
+		background-color: #f5f5f5;
 	}
 	
 	.typeDetail-contentItem {
@@ -170,6 +170,8 @@
 		display: flex;
 		flex-direction: column;
 		margin-top: 30rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
 		background: white;
 	}
 	

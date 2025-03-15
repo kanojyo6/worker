@@ -27,6 +27,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "INTERNSHIP",
       "TRADING"
     ];
+    const handleSearch = () => {
+      if (searchText.value === "") {
+        return;
+      }
+      common_vendor.index.navigateTo({
+        url: `/pages/components/searchCommendResultPage?searchValue=${searchText.value}`,
+        animationType: "pop-in"
+      });
+    };
     const navigateToTypeDetail = (index) => {
       common_vendor.index.navigateTo({
         url: `/pages/typeDetailPage?type=${categoryTitleMap[index]}`,
@@ -70,15 +79,16 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       return {
         a: searchText.value,
         b: common_vendor.o(($event) => searchText.value = $event.detail.value),
-        c: common_vendor.o(navigateToAddOrder),
-        d: common_vendor.f(imageUrl, (item, index, i0) => {
+        c: common_vendor.o(handleSearch),
+        d: common_vendor.o(navigateToAddOrder),
+        e: common_vendor.f(imageUrl, (item, index, i0) => {
           return {
             a: item,
             b: common_vendor.t(categoryTitle[index]),
             c: common_vendor.o(($event) => navigateToTypeDetail(index))
           };
         }),
-        e: common_vendor.f(recommendData.value, (item, k0, i0) => {
+        f: common_vendor.f(recommendData.value, (item, k0, i0) => {
           return common_vendor.e({
             a: item.imageUrl == ""
           }, item.imageUrl == "" ? {} : {

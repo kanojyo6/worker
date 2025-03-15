@@ -58,13 +58,13 @@ button {
 }
 .typeDetail-content {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: left;
 		flex-wrap: wrap;
 		width: 100%;
 		min-height: 93vh;
 		padding-bottom: 30rpx;
-		background-color: #f5f5f5
+		background-color: #f5f5f5;
 }
 .typeDetail-contentItem {
 		width: 42%;
@@ -73,6 +73,8 @@ button {
 		display: flex;
 		flex-direction: column;
 		margin-top: 30rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
 		background: white;
 }
 .typeDetail-orderImage {

@@ -9,7 +9,8 @@
     "pages/myOrderDetailPage",
     "pages/myOfferListPage",
     "pages/myOfferDetailPage",
-    "pages/components/orderDetailPopup"
+    "pages/components/orderDetailPopup",
+    "pages/components/searchCommendResultPage"
   ],
   "window": {
     "navigationBarTextStyle": "black",

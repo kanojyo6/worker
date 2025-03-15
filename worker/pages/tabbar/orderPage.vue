@@ -356,7 +356,7 @@
 				content: '发布需求需要先登录，是否前往登录？',
 				success: (res) => {
 					if (res.confirm) {
-						uni.navigateTo({ url: '/pages/login/login' });
+						uni.navigateTo({ url: '/pages/tabbar/myPage' });
 					} else {
 						uni.navigateBack();
 					}

@@ -14,9 +14,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       });
     };
     const loadMoreData = async () => {
+      common_vendor.index.showLoading({
+        title: "加载中"
+      });
       page.value += 1;
       try {
         await myOrdersListStore.fetchMyOrdersList(page.value, size);
+        common_vendor.index.hideLoading();
       } catch (error) {
         console.error("加载数据失败:", error);
         throw error;

@@ -15,7 +15,7 @@ const requestTypeDetailInfo = async (type, page, size) => {
       return;
     }
     common_vendor.index.request({
-      url: baseUrl + `/api/recruitments/type/${type}}`,
+      url: baseUrl + `/api/recruitments/type/${type}`,
       method: "GET",
       data: {
         page,
@@ -29,14 +29,19 @@ const requestTypeDetailInfo = async (type, page, size) => {
         var _a;
         if (res.statusCode === 200) {
           console.log("请求详情成功: ", res);
-          const responseData = res.data;
+          const data = res.data;
+          const responseData = data.content;
           resolve(responseData);
           common_vendor.index.hideLoading();
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
-          const newToken = await services_refreshTokenService.refreshAccessToken();
-          if (newToken) {
-            resolve(await requestTypeDetailInfo(type, page, size));
+          try {
+            const newToken = await services_refreshTokenService.refreshAccessToken();
+            common_vendor.index.setStorageSync("token", newToken);
+            const retryResult = await requestTypeDetailInfo(type, page, size);
+            resolve(retryResult);
+          } catch (e) {
+            reject(e);
           }
         } else {
           const errorMsg = ((_a = res.data) == null ? void 0 : _a.message) || "请求失败，请重试";

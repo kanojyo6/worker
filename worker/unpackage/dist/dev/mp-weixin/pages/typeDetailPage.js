@@ -10,9 +10,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const searchText = common_vendor.ref("");
     const page = common_vendor.ref(0);
     const typeDetailListData = common_vendor.computed(() => typeDetailStore.getTypeDetailInfo);
-    const navigateToOrderDetail = () => {
+    const navigateToOrderDetail = (orderId) => {
       common_vendor.index.navigateTo({
-        url: "/pages/orderDetailPage",
+        url: `/pages/orderDetailPage?id=${orderId}`,
         animationType: "pop-in"
       });
     };
@@ -50,9 +50,16 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         c: common_assets._imports_0$1,
         d: common_vendor.o(navigateToAddOrder),
         e: common_vendor.f(typeDetailListData.value, (item, k0, i0) => {
-          return {};
-        }),
-        f: common_vendor.o(navigateToOrderDetail)
+          return common_vendor.e({
+            a: item.imageUrl !== ""
+          }, item.imageUrl !== "" ? {
+            b: item.imageUrl
+          } : {}, {
+            c: common_vendor.t(item.title.length > 9 ? item.title.slice(0, 8) + "..." : item.title),
+            d: common_vendor.t(item.salaryPeriod > 9 ? item.salaryPeriod.slice(0, 8) + "..." : item.salaryPeriod),
+            e: common_vendor.o(($event) => navigateToOrderDetail(item.id))
+          });
+        })
       };
     };
   }

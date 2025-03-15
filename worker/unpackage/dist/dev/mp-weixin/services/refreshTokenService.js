@@ -1,6 +1,19 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const baseUrl = "http://183.136.206.77:45212";
+const showAlert = () => {
+  common_vendor.index.showModal({
+    title: "提示",
+    content: "登录已过期，请重新登陆",
+    success: (res) => {
+      if (res.confirm) {
+        common_vendor.index.switchTab({ url: "/pages/tabbar/myPage" });
+      } else {
+        common_vendor.index.navigateBack();
+      }
+    }
+  });
+};
 const refreshAccessToken = async () => {
   return new Promise((resolve, reject) => {
     const REFRESH_TOKEN = common_vendor.index.getStorageSync("refresh_token");
@@ -12,7 +25,8 @@ const refreshAccessToken = async () => {
         title: "登录失效，请重新登陆",
         icon: "none"
       });
-      return;
+      showAlert();
+      reject("刷新token失败");
     }
     common_vendor.index.request({
       url: baseUrl + `/auth/token/refresh/miniapp`,
@@ -38,6 +52,8 @@ const refreshAccessToken = async () => {
             title: errorMsg,
             icon: "none"
           });
+          showAlert();
+          reject("刷新token失败");
         }
       },
       fail: (error) => {
@@ -46,6 +62,8 @@ const refreshAccessToken = async () => {
           title: "网络错误，请检查网络后重试",
           icon: "none"
         });
+        showAlert();
+        reject("刷新token失败");
       }
     });
   });

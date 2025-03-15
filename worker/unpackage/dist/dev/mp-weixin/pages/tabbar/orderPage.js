@@ -223,7 +223,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           content: "发布需求需要先登录，是否前往登录？",
           success: (res) => {
             if (res.confirm) {
-              common_vendor.index.navigateTo({ url: "/pages/login/login" });
+              common_vendor.index.navigateTo({ url: "/pages/tabbar/myPage" });
             } else {
               common_vendor.index.navigateBack();
             }
