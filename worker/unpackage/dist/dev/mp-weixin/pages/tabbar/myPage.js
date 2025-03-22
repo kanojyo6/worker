@@ -12,32 +12,17 @@ const _sfc_main = {
   setup(__props) {
     const userInfoStore = stores_userInfo.useUserInfoStore();
     const myOrdersStore = stores_myPageStore.useMyOrdersStore();
+    const myOffersStore = stores_myPageStore.useMyOffersStore();
     const isLoggedIn = common_vendor.computed(() => userInfoStore.isLoggedIn);
     const userInfo = common_vendor.computed(() => userInfoStore.getUserInfo);
     const myOrders = common_vendor.computed(() => myOrdersStore.getMyOrders);
     const myOrdersCount = common_vendor.computed(() => myOrdersStore.getMyOrders.length);
-    const applyCount = common_vendor.ref(1);
-    const applications = common_vendor.ref([{
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }]);
+    const myApplications = common_vendor.computed(() => myOffersStore.getMyOffers);
+    common_vendor.computed(() => myOffersStore.getMyOffers.length);
     common_vendor.onMounted(async () => {
-      common_vendor.index.showLoading({ title: "获取用户数据" });
+      common_vendor.index.showLoading({
+        title: "获取用户数据"
+      });
       await userInfoStore.fetchUserInfo();
       if (isLoggedIn.value) {
         try {
@@ -55,6 +40,7 @@ const _sfc_main = {
     const loadUserData = async () => {
       try {
         await myOrdersStore.fetchMyOrders();
+        await myOffersStore.fetchMyOffers();
         common_vendor.index.hideLoading();
       } catch (error) {
         console.error("加载数据失败:", error);
@@ -62,17 +48,23 @@ const _sfc_main = {
       }
     };
     const navigateToOrders = () => {
-      common_vendor.index.navigateTo({ url: "/pages/myOrderListPage" });
+      common_vendor.index.navigateTo({
+        url: "/pages/myOrderListPage"
+      });
     };
     const navigateToApplications = () => {
-      common_vendor.index.navigateTo({ url: "/pages/myOfferListPage" });
+      common_vendor.index.navigateTo({
+        url: "/pages/myOfferListPage"
+      });
     };
     const viewApplication = () => {
-      common_vendor.index.navigateTo({ url: `/pages/myOfferDetailPage` });
-    };
-    const navigateToOrderDetail = (orderId) => {
       common_vendor.index.navigateTo({
-        url: `/pages/orderDetailPage?id=${orderId}`,
+        url: `/pages/myOfferDetailPage`
+      });
+    };
+    const navigateToMyOrderDetail = (orderId) => {
+      common_vendor.index.navigateTo({
+        url: `/pages/myOrderDetailPage?id=${orderId}`,
         animationType: "pop-in"
       });
     };
@@ -89,7 +81,7 @@ const _sfc_main = {
         e: userInfo.value.avatarUrl
       }, {
         f: common_vendor.t(myOrdersCount.value || 1),
-        g: common_vendor.t(applyCount.value || 1),
+        g: common_vendor.t(_ctx.applyCount || 1),
         h: common_vendor.o(navigateToOrders),
         i: common_vendor.f(myOrders.value, (order, k0, i0) => {
           return {
@@ -102,19 +94,23 @@ const _sfc_main = {
             g: common_vendor.t(order.contactInfo),
             h: common_vendor.t(order.location),
             i: order.id,
-            j: common_vendor.o(($event) => navigateToOrderDetail(order.id), order.id)
+            j: common_vendor.o(($event) => navigateToMyOrderDetail(order.id), order.id)
           };
         }),
         j: common_vendor.o(navigateToApplications),
-        k: common_vendor.f(applications.value, (item, k0, i0) => {
-          return {
-            a: common_vendor.t(item.title),
-            b: common_vendor.t(item.price),
-            c: common_vendor.t(item.duration),
-            d: common_vendor.t(item.location),
-            e: item.id,
-            f: common_vendor.o(($event) => viewApplication(), item.id)
-          };
+        k: common_vendor.f(myApplications.value, (item, k0, i0) => {
+          return common_vendor.e({
+            a: item.imageUrl === ""
+          }, item.imageUrl === "" ? {} : {
+            b: item.imageUrl
+          }, {
+            c: common_vendor.t(item.requirementTitle),
+            d: common_vendor.t(item.salary),
+            e: common_vendor.t(item.salaryPeriod),
+            f: common_vendor.t(item.location),
+            g: item.id,
+            h: common_vendor.o(($event) => viewApplication(), item.id)
+          });
         }),
         l: common_assets._imports_0
       }) : {});

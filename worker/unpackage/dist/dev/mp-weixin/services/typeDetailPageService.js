@@ -36,8 +36,7 @@ const requestTypeDetailInfo = async (type, page, size) => {
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
           try {
-            const newToken = await services_refreshTokenService.refreshAccessToken();
-            common_vendor.index.setStorageSync("token", newToken);
+            await services_refreshTokenService.refreshAccessToken();
             const retryResult = await requestTypeDetailInfo(type, page, size);
             resolve(retryResult);
           } catch (e) {

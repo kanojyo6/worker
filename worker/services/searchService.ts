@@ -2,8 +2,8 @@ import { refreshAccessToken } from "./refreshTokenService"
 
 const baseUrl = "http://183.136.206.77:45212"
 
-// 获取推荐信息
-export const requestOrderDetailInfo = async (id : number) => {
+// 获取分类详情
+export const requestSearchResult = async (keyword : string, page : number, size : number) => {
 	return new Promise((resolve, reject) => {
 		const token = uni.getStorageSync('token')
 		if (token === '') {
@@ -16,8 +16,13 @@ export const requestOrderDetailInfo = async (id : number) => {
 			return
 		}
 		uni.request({
-			url: baseUrl + `/api/recruitments/${id}`,
+			url: baseUrl + '/api/recruitments/search',
 			method: 'GET',
+			data: {
+				keyword: keyword,
+				page: page,
+				size: size
+			},
 			header: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + token
@@ -25,17 +30,17 @@ export const requestOrderDetailInfo = async (id : number) => {
 			success: async (res : any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
-					const responseData = res.data;
+					const data = res.data as { content : any[] }
+					const responseData = data.content;
 					resolve(responseData);
 					uni.hideLoading();
 				} else if (res.statusCode === 403) {
-					// 处理accessToken失效
-					console.log('accessToken失效，尝试刷新');
+					console.log("accessToken失效，尝试刷新");
 					try {
 						// 尝试刷新 Token
 						await refreshAccessToken();
 						// 刷新成功：保存新 Token，并递归重试请求
-						const retryResult = await requestOrderDetailInfo(id);
+						const retryResult = await requestSearchResult(keyword, page, size);
 						resolve(retryResult);
 					} catch (e) {
 						// 刷新失败：拒绝 Promise，终止递归
@@ -47,7 +52,7 @@ export const requestOrderDetailInfo = async (id : number) => {
 						title: errorMsg,
 						icon: 'none'
 					});
-				}	 
+				}
 			},
 			fail: (error : any) => {
 				console.log('请求详情失败: ', error)

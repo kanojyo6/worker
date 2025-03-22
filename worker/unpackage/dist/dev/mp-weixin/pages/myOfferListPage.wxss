@@ -33,8 +33,10 @@
 .myOffer-offerMiddle.data-v-feb72d08 {
 		display: flex;
 		flex-direction: column;
-		height: 110rpx;
-		justify-content: space-around;
+		width: 200rpx;
+		height: 90%;
+		margin-bottom: 60rpx;
+		justify-content: space-between;
 		align-items: start;
 }
 .myOffer-offerTitle.data-v-feb72d08 {
@@ -49,8 +51,9 @@
 .myOffer-offerRight.data-v-feb72d08 {
 		display: flex;
 		flex-direction: column;
-		height: 100%;
-		justify-content: space-around;
+		width: 190rpx;
+		height: 130%;
+		justify-content: space-between;
 		align-items: flex-end;
 }
 .myOffer-offerDuration.data-v-feb72d08 {
@@ -63,6 +66,7 @@
 		width: 100%;
 		flex-wrap: nowrap;
 		align-items: center;
+		justify-content: flex-end;
 }
 .myOffer-offerLocation image.data-v-feb72d08 {
 	    width: 30rpx;

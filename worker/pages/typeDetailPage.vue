@@ -27,6 +27,7 @@
 				</view>
 			</view>
 		</scroll-view>
+		<view style="display: flex; flex: 1; background: #d7d7d7;"></view>
 	</view>
 </template>
 

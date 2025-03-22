@@ -2,6 +2,7 @@
 const common_vendor = require("../common/vendor.js");
 const common_assets = require("../common/assets.js");
 const stores_orderDetailPageStore = require("../stores/orderDetailPageStore.js");
+const services_applicationService = require("../services/applicationService.js");
 if (!Math) {
   uniPopup();
 }
@@ -9,9 +10,8 @@ const uniPopup = () => "../uni_modules/uni-popup/components/uni-popup/uni-popup.
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "orderDetailPage",
   setup(__props) {
-    common_vendor.ref("用户名称");
-    common_vendor.ref("翻斗花园");
     const orderDetailStore = stores_orderDetailPageStore.useOrderDetailStore();
+    const orderId = common_vendor.ref("");
     const orderDetailInfo = common_vendor.computed(() => orderDetailStore.getOrderDetailInfo);
     const popup = common_vendor.ref(null);
     const handleSubmit = () => {
@@ -21,8 +21,27 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const dismissPopup = () => {
       popup.value.close();
     };
+    const addApplication = async () => {
+      common_vendor.index.showLoading({ title: "提交申请中" });
+      try {
+        await services_applicationService.application(orderId.value);
+        common_vendor.index.showToast({
+          icon: "success",
+          title: "已发送申请"
+        });
+        popup.value.close();
+      } catch (e) {
+        console.error("提交申请发生了错误: :", e);
+        common_vendor.index.hideLoading();
+        common_vendor.index.showToast({
+          title: "请求错误",
+          icon: "none"
+        });
+      }
+    };
     common_vendor.onLoad(async (option) => {
       console.log("传入id为: ", option.id);
+      orderId.value = option.id;
       common_vendor.index.showLoading({ title: "获取数据中" });
       try {
         await loadOrderDetailInfo(option.id);
@@ -62,7 +81,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       } : {}, {
         l: common_assets._imports_1,
         m: common_vendor.o(dismissPopup),
-        n: common_vendor.sr(popup, "3478b9a8-0", {
+        n: common_vendor.o(addApplication),
+        o: common_vendor.sr(popup, "3478b9a8-0", {
           "k": "popup"
         })
       });

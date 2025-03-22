@@ -47,7 +47,7 @@
 						<view class="orderDetail-popup-btns">
 							<button @click="dismissPopup" class="popup-btn"
 								style="border: solid 2rpx #42B880; background: #fff; color: #42B880;">取消</button>
-							<button class="popup-btn"
+							<button @click="addApplication" class="popup-btn"
 								style="border: solid 2rpx #42B880; background: #42b880; color: #fff;">确认</button>
 						</view>
 					</view>
@@ -63,12 +63,11 @@
 	import { computed, ref } from 'vue';
 	import { onLoad } from '@dcloudio/uni-app';
 	import { useOrderDetailStore } from '../stores/orderDetailPageStore';
+	import { application } from '../services/applicationService';
 	import uniPopup from '@/uni_modules/uni-popup/components/uni-popup/uni-popup.vue'
-
-	const userName = ref('用户名称')
-	const address = ref('翻斗花园')
 	
 	const orderDetailStore = useOrderDetailStore()
+	const orderId = ref('')
 	
 	// 计算属性
 	const orderDetailInfo = computed(() => orderDetailStore.getOrderDetailInfo)
@@ -76,16 +75,38 @@
 	// 控制弹出层
 	const popup = ref(null)
 	const handleSubmit = () => {
-		console.log(popup.value)
-		popup.value.open()
+		console.log(popup.value);
+		popup.value.open();
 	}
 	const dismissPopup = () => {
-		popup.value.close()
+		popup.value.close();
+	}
+	
+	// 提交申请事件
+	const addApplication = async () => {
+		uni.showLoading({ title: '提交申请中' });
+		try{
+			await application(orderId.value)
+			uni.showToast({
+				icon: 'success',
+				title: '已发送申请'
+			})
+			popup.value.close();
+		}catch(e){
+			//TODO handle the exception
+			console.error('提交申请发生了错误: :', e);
+			uni.hideLoading();
+			uni.showToast({
+				title: '请求错误',
+				icon: 'none'
+			});
+		}
 	}
 	
 	onLoad(async (option) => {
-		console.log('传入id为: ', option.id)
-		uni.showLoading({ title: '获取数据中' })
+		console.log('传入id为: ', option.id);
+		orderId.value = option.id;
+		uni.showLoading({ title: '获取数据中' });
 		try{
 			await loadOrderDetailInfo(option.id)
 		}catch(error){

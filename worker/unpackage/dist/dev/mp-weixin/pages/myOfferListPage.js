@@ -1,56 +1,48 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const common_assets = require("../common/assets.js");
+const stores_myPageStore = require("../stores/myPageStore.js");
+const size = 5;
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "myOfferListPage",
   setup(__props) {
-    common_vendor.ref(1);
-    common_vendor.ref(1);
-    const applications = common_vendor.ref([{
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }, {
-      id: 1,
-      title: "万达优衣库招服务员",
-      price: "10000元",
-      duration: "4个月",
-      location: "佛山南海区桂城"
-    }]);
-    const viewApplication = () => {
-      common_vendor.index.navigateTo({ url: `/pages/myOfferDetailPage` });
+    const myOffersListStore = stores_myPageStore.useMyOffersListStore();
+    const page = common_vendor.ref(0);
+    const offers = common_vendor.computed(() => myOffersListStore.getMyOffersList);
+    const viewOrder = () => {
+      common_vendor.index.navigateTo({
+        url: "/pages/myOrderDetailPage"
+      });
     };
+    common_vendor.onMounted(async () => {
+      page.value = 0;
+      myOffersListStore.clear();
+      common_vendor.index.showLoading({
+        title: "获取数据中"
+      });
+      try {
+        await myOffersListStore.fetchMyOfffersList(page.value, size);
+        common_vendor.index.hideLoading();
+      } catch (error) {
+        console.error("加载数据失败:", error);
+        throw error;
+      }
+    });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.f(applications.value, (item, k0, i0) => {
-          return {
-            a: common_vendor.t(item.title),
-            b: common_vendor.t(item.price),
-            c: common_vendor.t(item.duration),
-            d: common_vendor.t(item.location),
-            e: item.id,
-            f: common_vendor.o(($event) => viewApplication(item.id), item.id)
-          };
+        a: common_vendor.f(offers.value, (item, k0, i0) => {
+          return common_vendor.e({
+            a: item.imageUrl === ""
+          }, item.imageUrl === "" ? {} : {
+            b: item.imageUrl
+          }, {
+            c: common_vendor.t(item.requirementTitle),
+            d: common_vendor.t(item.salary),
+            e: common_vendor.t(item.salaryPeriod),
+            f: common_vendor.t(item.location),
+            g: item.id,
+            h: common_vendor.o(($event) => viewOrder(), item.id)
+          });
         }),
         b: common_assets._imports_0
       };

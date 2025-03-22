@@ -2,7 +2,7 @@
 const common_vendor = require("../common/vendor.js");
 const services_refreshTokenService = require("./refreshTokenService.js");
 const baseUrl = "http://183.136.206.77:45212";
-const requestOrderDetailInfo = async (id) => {
+const requestSearchResult = async (keyword, page, size) => {
   return new Promise((resolve, reject) => {
     const token = common_vendor.index.getStorageSync("token");
     if (token === "") {
@@ -15,8 +15,13 @@ const requestOrderDetailInfo = async (id) => {
       return;
     }
     common_vendor.index.request({
-      url: baseUrl + `/api/recruitments/${id}`,
+      url: baseUrl + "/api/recruitments/search",
       method: "GET",
+      data: {
+        keyword,
+        page,
+        size
+      },
       header: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token
@@ -25,14 +30,15 @@ const requestOrderDetailInfo = async (id) => {
         var _a;
         if (res.statusCode === 200) {
           console.log("请求详情成功: ", res);
-          const responseData = res.data;
+          const data = res.data;
+          const responseData = data.content;
           resolve(responseData);
           common_vendor.index.hideLoading();
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
           try {
             await services_refreshTokenService.refreshAccessToken();
-            const retryResult = await requestOrderDetailInfo(id);
+            const retryResult = await requestSearchResult(keyword, page, size);
             resolve(retryResult);
           } catch (e) {
             reject(e);
@@ -55,4 +61,4 @@ const requestOrderDetailInfo = async (id) => {
     });
   });
 };
-exports.requestOrderDetailInfo = requestOrderDetailInfo;
+exports.requestSearchResult = requestSearchResult;

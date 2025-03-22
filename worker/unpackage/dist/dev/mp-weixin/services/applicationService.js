@@ -2,7 +2,7 @@
 const common_vendor = require("../common/vendor.js");
 const services_refreshTokenService = require("./refreshTokenService.js");
 const baseUrl = "http://183.136.206.77:45212";
-const requestOrderDetailInfo = async (id) => {
+const application = async (requirementId) => {
   return new Promise((resolve, reject) => {
     const token = common_vendor.index.getStorageSync("token");
     if (token === "") {
@@ -15,8 +15,11 @@ const requestOrderDetailInfo = async (id) => {
       return;
     }
     common_vendor.index.request({
-      url: baseUrl + `/api/recruitments/${id}`,
-      method: "GET",
+      url: baseUrl + `/api/applications`,
+      method: "POST",
+      data: {
+        requirementId
+      },
       header: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token
@@ -32,7 +35,7 @@ const requestOrderDetailInfo = async (id) => {
           console.log("accessToken失效，尝试刷新");
           try {
             await services_refreshTokenService.refreshAccessToken();
-            const retryResult = await requestOrderDetailInfo(id);
+            const retryResult = await application(requirementId);
             resolve(retryResult);
           } catch (e) {
             reject(e);
@@ -55,4 +58,4 @@ const requestOrderDetailInfo = async (id) => {
     });
   });
 };
-exports.requestOrderDetailInfo = requestOrderDetailInfo;
+exports.application = application;

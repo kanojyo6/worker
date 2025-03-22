@@ -4,7 +4,7 @@
 		<view class="searchCommendRes-header">
 			<view class="searchCommendRes-searcher">
 				<input style="font-size: 28rpx;" placeholder="搜索…" confirm-type="search" v-model="searchText" />
-				<button style="display: flex; justify-content: center; align-items: center; margin-right: -5rpx;">
+				<button @click="handleSearch" style="display: flex; justify-content: center; align-items: center; margin-right: -5rpx;">
 					<image mode="aspectFit" src="/static/logos/home_icon_search@2x.png"
 						style="width: 30rpx; height: 50rpx;"></image>
 				</button>
@@ -12,7 +12,7 @@
 		</view>
 		<scroll-view>
 			<view class="searchCommendRes-content">
-				<view @click="navigateToOrderDetail" v-for="item in [1,1,1,1,1,1,1,1,1]" class="searchCommendRes-contentItem">
+				<view @click="navigateToOrderDetail" v-for="item in searchResult" class="searchCommendRes-contentItem">
 					<view class="searchCommendRes-orderImage" style="background: #d7d7d7;"></view>
 					<view class="searchCommendRes-orderMsg">
 						<view style="font-size: 30rpx;">电脑维修</view>
@@ -27,9 +27,15 @@
 <script setup lang="ts">
 	import { computed, ref } from 'vue';
 	import { onLoad } from '@dcloudio/uni-app';
+	import { useSearchStore } from '../../stores/searchStore';
+	
+	// 注册store;
+	const searchStore = useSearchStore()
 	
 	// 搜索框内容绑定
 	const searchText = ref<string>('')
+	// 搜索结果
+	const searchResult = computed(() => searchStore.getSearchResult)
 	
 	// 分页变量
 	const page = ref<number>(0)
@@ -44,21 +50,51 @@
 	}
 	
 	onLoad(async (option) => {
-		searchText.value = option.searchValue
-		// console.log('传入type为: ', option.type)
-		// uni.showLoading({ title: '获取数据中' })
-		// try{
-		// 	await loadsearchCommendResInfo(option.type, page.value, size)
-		// }catch(error){
-		// 	//TODO handle the exception
-		// 	console.error('请求时发生了错误: ', error);
-		// 	uni.hideLoading();
-		// 	uni.showToast({
-		// 		title: '请求错误',
-		// 		icon: 'none'
-		// 	});
-		// }
+		searchText.value = option.searchValue;
+		page.value = 0;
+		uni.showLoading({
+			title: '获取数据中'
+		})
+		try{
+			await loadOriginData()
+		}catch(e){
+			//TODO handle the exception
+			uni.hideLoading()
+			uni.showToast({
+				title: '请求错误',
+				icon: 'none'
+			})
+		}
 	})
+	
+	// 加载第一页数据
+	const loadOriginData = async () => {
+		try{
+			searchStore.clear()
+			await searchStore.fetchSearchResult(searchText.value, page.value, size)
+		}catch(e){
+			//TODO handle the exception
+			console.error(e)
+		}
+	}
+	
+	// 页面内重新搜索
+	const handleSearch = async () => {
+		page.value = 0;
+		uni.showLoading({
+			title: '获取数据中'
+		})
+		try{
+			await loadOriginData()
+		}catch(e){
+			//TODO handle the exception
+			uni.hideLoading()
+			uni.showToast({
+				title: '请求错误',
+				icon: 'none'
+			})
+		}
+	}
 </script>
 
 <style>
@@ -127,13 +163,13 @@
 	
 	.searchCommendRes-content {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: left;
 		flex-wrap: wrap;
 		width: 100%;
 		min-height: 93vh;
 		padding-bottom: 30rpx;
-		background-color: #f5f5f5
+		background-color: #f5f5f5;
 	}
 	
 	.searchCommendRes-contentItem {
@@ -143,6 +179,8 @@
 		display: flex;
 		flex-direction: column;
 		margin-top: 30rpx;
+		margin-left: 30rpx;
+		margin-right: 30rpx;
 		background: white;
 	}
 	

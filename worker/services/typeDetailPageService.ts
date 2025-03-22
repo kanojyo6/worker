@@ -37,9 +37,8 @@ export const requestTypeDetailInfo = async (type : string, page : number, size :
 					console.log("accessToken失效，尝试刷新");
 					try {
 						// 尝试刷新 Token
-						const newToken = await refreshAccessToken();
+						await refreshAccessToken();
 						// 刷新成功：保存新 Token，并递归重试请求
-						uni.setStorageSync("token", newToken);
 						const retryResult = await requestTypeDetailInfo(type, page, size);
 						resolve(retryResult);
 					} catch (e) {

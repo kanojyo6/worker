@@ -7,6 +7,7 @@ const _sfc_main = {
   setup(__props) {
     const userInfoStore = stores_userInfo.useUserInfoStore();
     const myOrdersStore = stores_myPageStore.useMyOrdersStore();
+    const myOffersStore = stores_myPageStore.useMyOffersStore();
     const getUserProfile = () => {
       return new Promise((resolve, reject) => {
         common_vendor.index.getUserProfile({
@@ -80,6 +81,7 @@ const _sfc_main = {
         const code = await getLoginCode();
         await sendLoginRequest(code, userInfo);
         await myOrdersStore.fetchMyOrders();
+        await myOffersStore.fetchMyOffers();
         common_vendor.index.hideLoading();
         common_vendor.index.showToast({
           title: "登录成功",

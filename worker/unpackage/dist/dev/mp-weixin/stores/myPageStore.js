@@ -55,5 +55,61 @@ const useMyOrdersListStore = common_vendor.defineStore("myOrdersList", {
     }
   }
 });
+const useMyOffersStore = common_vendor.defineStore("myOffers", {
+  state: () => ({
+    myOffers: [],
+    isLoading: false,
+    error: null
+  }),
+  getters: {
+    getMyOffers: (state) => state.myOffers
+  },
+  actions: {
+    async fetchMyOffers() {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const responseData = await services_myPageService.requestMyOffersInfo(0, 3);
+        this.myOffers = responseData;
+        console.log("将responseData存储到pinia中:", this.myOffers);
+      } catch (error) {
+        this.error = error;
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }
+});
+const useMyOffersListStore = common_vendor.defineStore("myOffersList", {
+  state: () => ({
+    myOffersList: [],
+    isLoading: false,
+    error: null
+  }),
+  getters: {
+    getMyOffersList: (state) => state.myOffersList
+  },
+  actions: {
+    async fetchMyOfffersList(page, size) {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const responseData = await services_myPageService.requestMyOffersInfo(page, size);
+        this.myOffersList.push(...responseData);
+        console.log("将responseData存储到pinia中:", this.myOffersList);
+      } catch (error) {
+        this.error = error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    // 清楚数据
+    clear() {
+      this.myOffersList = [];
+    }
+  }
+});
+exports.useMyOffersListStore = useMyOffersListStore;
+exports.useMyOffersStore = useMyOffersStore;
 exports.useMyOrdersListStore = useMyOrdersListStore;
 exports.useMyOrdersStore = useMyOrdersStore;

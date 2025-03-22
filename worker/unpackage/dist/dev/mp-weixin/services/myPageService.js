@@ -47,10 +47,13 @@ const requestMyOrdersInfo = async (page, size) => {
           }
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
-          const newToken = await services_refreshTokenService.refreshAccessToken();
-          if (newToken) {
+          try {
+            const newToken = await services_refreshTokenService.refreshAccessToken();
             common_vendor.index.setStorageSync("token", newToken);
-            resolve(await requestMyOrdersInfo());
+            const retryResult = await requestMyOrdersInfo(page, size);
+            resolve(retryResult);
+          } catch (e) {
+            reject(e);
           }
         } else {
           reject("获取我的发布失败");
@@ -59,4 +62,59 @@ const requestMyOrdersInfo = async (page, size) => {
     });
   });
 };
+const requestMyOffersInfo = async (page, size) => {
+  return new Promise((resolve, reject) => {
+    common_vendor.index.request({
+      url: baseUrl + "/api/applications/my-applications",
+      method: "GET",
+      data: {
+        page,
+        size
+      },
+      header: {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + common_vendor.index.getStorageSync("token")
+      },
+      success: async (res) => {
+        if (res.statusCode === 200) {
+          try {
+            const data = res.data;
+            const responseData = data.content.map((item) => {
+              return {
+                id: item.id,
+                requirementId: item.requirementId,
+                requirementTitle: item.requirementTitle,
+                location: item.location,
+                salary: item.salary,
+                salaryPeriod: item.salaryPeriod,
+                contactInfo: item.contactInfo,
+                contactType: item.contactType,
+                contactTypeName: item.contactTypeName,
+                imageUrl: item.imageUrl
+              };
+            });
+            console.log("获取我的申请成功", responseData);
+            resolve(responseData);
+          } catch (error) {
+            console.log("解析数据失败:", error);
+            reject("解析数据失败");
+          }
+        } else if (res.statusCode === 403) {
+          console.log("accessToken失效，尝试刷新");
+          try {
+            const newToken = await services_refreshTokenService.refreshAccessToken();
+            common_vendor.index.setStorageSync("token", newToken);
+            const retryResult = await requestMyOffersInfo(page, size);
+            resolve(retryResult);
+          } catch (e) {
+            reject(e);
+          }
+        } else {
+          reject("获取我的申请失败");
+        }
+      }
+    });
+  });
+};
+exports.requestMyOffersInfo = requestMyOffersInfo;
 exports.requestMyOrdersInfo = requestMyOrdersInfo;

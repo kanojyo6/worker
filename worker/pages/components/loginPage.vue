@@ -9,10 +9,11 @@
 <script setup>
 import { useUserInfoStore } from '@/stores/userInfo.js'
 import { requestMyOrdersInfo } from '../../services/myPageService';
-import { useMyOrdersStore } from '../../stores/myPageStore';
+import { useMyOrdersStore, useMyOffersStore } from '../../stores/myPageStore';
 
 const userInfoStore = useUserInfoStore()
 const myOrdersStore = useMyOrdersStore()
+const myOffersStore = useMyOffersStore()
 
 // 获取微信用户信息
 const getUserProfile = () => {
@@ -95,6 +96,7 @@ const login = async () => {
         const code = await getLoginCode();
         await sendLoginRequest(code, userInfo);
 		await myOrdersStore.fetchMyOrders();
+		await myOffersStore.fetchMyOffers();
         
         uni.hideLoading();
         uni.showToast({
