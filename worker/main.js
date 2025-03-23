@@ -14,6 +14,11 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import { setupHttpInterceptor } from './utils/HttpInterceptor';
+
+// 设置请求拦截器
+setupHttpInterceptor();
+
 export function createApp() {
   const app = createSSRApp(App)
   app.use(Pinia.createPinia())

@@ -1,19 +1,20 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
-const stores_userInfo = require("../../stores/userInfo.js");
+const utils_useAuth = require("../../utils/useAuth.js");
+const stores_userInfoStore = require("../../stores/userInfoStore.js");
 const stores_myPageStore = require("../../stores/myPageStore.js");
 if (!Math) {
   loginPageVue();
 }
 const loginPageVue = () => "../components/loginPage.js";
-const _sfc_main = {
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "myPage",
   setup(__props) {
-    const userInfoStore = stores_userInfo.useUserInfoStore();
+    const auth = utils_useAuth.useAuth();
+    const userInfoStore = stores_userInfoStore.useUserInfoStore();
     const myOrdersStore = stores_myPageStore.useMyOrdersStore();
     const myOffersStore = stores_myPageStore.useMyOffersStore();
-    const isLoggedIn = common_vendor.computed(() => userInfoStore.isLoggedIn);
     const userInfo = common_vendor.computed(() => userInfoStore.getUserInfo);
     const myOrders = common_vendor.computed(() => myOrdersStore.getMyOrders);
     const myOrdersCount = common_vendor.computed(() => myOrdersStore.getMyOrders.length);
@@ -24,7 +25,7 @@ const _sfc_main = {
         title: "获取用户数据"
       });
       await userInfoStore.fetchUserInfo();
-      if (isLoggedIn.value) {
+      if (auth.isAuthenticated.value) {
         try {
           await loadUserData();
         } catch (error) {
@@ -70,8 +71,8 @@ const _sfc_main = {
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
-        a: isLoggedIn.value
-      }, isLoggedIn.value ? common_vendor.e({
+        a: common_vendor.unref(auth).isAuthenticated
+      }, common_vendor.unref(auth).isAuthenticated ? common_vendor.e({
         b: !userInfo.value.nickName
       }, !userInfo.value.nickName ? {} : {
         c: common_vendor.t(`Hi, ${userInfo.value.nickName}`)
@@ -81,7 +82,7 @@ const _sfc_main = {
         e: userInfo.value.avatarUrl
       }, {
         f: common_vendor.t(myOrdersCount.value || 1),
-        g: common_vendor.t(_ctx.applyCount || 1),
+        g: common_vendor.t(1),
         h: common_vendor.o(navigateToOrders),
         i: common_vendor.f(myOrders.value, (order, k0, i0) => {
           return {
@@ -116,5 +117,5 @@ const _sfc_main = {
       }) : {});
     };
   }
-};
+});
 wx.createPage(_sfc_main);

@@ -6,120 +6,95 @@
     </view>
 </template>
 
-<script setup>
-import { useUserInfoStore } from '@/stores/userInfo.js'
-import { requestMyOrdersInfo } from '../../services/myPageService';
+<script setup lang="ts">
+import { useAuth } from '../../utils/useAuth';
+import { useUserInfoStore } from '@/stores/userInfoStore.ts'
 import { useMyOrdersStore, useMyOffersStore } from '../../stores/myPageStore';
 
-const userInfoStore = useUserInfoStore()
-const myOrdersStore = useMyOrdersStore()
-const myOffersStore = useMyOffersStore()
+const auth = useAuth();
+const userInfoStore = useUserInfoStore();
+const myOrdersStore = useMyOrdersStore();
+const myOffersStore = useMyOffersStore();
 
 // 获取微信用户信息
-const getUserProfile = () => {
-    return new Promise((resolve, reject) => {
-        uni.getUserProfile({
-            desc: '用于完善会员资料',
-            success: (res) => {
-                console.log('用户信息获取成功', res.userInfo);
-                userInfoStore.setUserInfo({
-                    nickName: res.userInfo.nickName,
-                    avatarUrl: res.userInfo.avatarUrl
-                });
-                resolve(res.userInfo);
-            },
-            fail: (err) => {
-                console.log('用户信息获取失败', err);
-                uni.showToast({
-                    title: '需要授权才能使用',
-                    icon: 'none'
-                });
-                reject(err);
-            }
+const getUserProfile = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    uni.getUserProfile({
+      desc: '用于完善会员资料',
+      success: (res) => {
+        console.log('用户信息获取成功', res.userInfo);
+        userInfoStore.setUserInfo({
+          nickName: res.userInfo.nickName,
+          avatarUrl: res.userInfo.avatarUrl
         });
+        resolve(res.userInfo);
+      },
+      fail: (err) => {
+        console.log('用户信息获取失败', err);
+        uni.showToast({
+          title: '需要授权才能使用',
+          icon: 'none'
+        });
+        reject(err);
+      }
     });
+  });
 };
 
 // 获取登录凭证
-const getLoginCode = () => {
-    return new Promise((resolve, reject) => {
-        uni.login({
-            provider: "weixin",
-            onlyAuthorize: true,
-            success: (event) => {
-                if (event.errMsg === 'login:ok') {
-                    resolve(event.code);
-                } else {
-                    reject(new Error('获取登录凭证失败'));
-                }
-            },
-            fail: reject
-        });
+const getLoginCode = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    uni.login({
+      provider: "weixin",
+      onlyAuthorize: true,
+      success: (event) => {
+        if (event.errMsg === 'login:ok') {
+          resolve(event.code);
+        } else {
+          reject(new Error('获取登录凭证失败'));
+        }
+      },
+      fail: reject
     });
-};
-
-// 发送登录请求
-const sendLoginRequest = (code, userInfo) => {
-    return new Promise((resolve, reject) => {
-        uni.request({
-            url: 'http://183.136.206.77:45212/login/wechat/miniapp',
-            method: 'POST',
-            header: {
-                'content-type': 'application/json'
-            },
-            data: {
-                code: code,
-                phoneCode: null
-            },
-            success: (res) => {
-                if (res.statusCode === 200) {
-                    const { access_token, refresh_token, user } = res.data;
-                    uni.setStorageSync('token', access_token);
-                    uni.setStorageSync('refresh_token', refresh_token);
-                    userInfoStore.setUserInfo(user);
-                    resolve(res.data);
-                } else {
-                    reject(new Error(res.data.message || '登录失败'));
-                }
-            },
-            fail: reject
-        });
-    });
+  });
 };
 
 // 登录流程
 const login = async () => {
-    try {
-        uni.showLoading({ title: '登录中...' });
-        
-        const userInfo = await getUserProfile();
-        const code = await getLoginCode();
-        await sendLoginRequest(code, userInfo);
-		await myOrdersStore.fetchMyOrders();
-		await myOffersStore.fetchMyOffers();
-        
-        uni.hideLoading();
-        uni.showToast({
-            title: '登录成功',
-            icon: 'success'
-        });
-		
-		await userInfoStore.fetchUserInfo();
-        
-        // 登录成功后跳转
-        setTimeout(() => {
-            uni.switchTab({
-                url: '/pages/tabbar/myPage'
-            });
-        }, 1500);
-    } catch (error) {
-        uni.hideLoading();
-        uni.showToast({
-            title: error.message || '登录失败',
-            icon: 'none'
-        });
-        console.error('登录失败:', error);
-    }
+  try {
+    uni.showLoading({ title: '登录中...' });
+    
+    const userInfo = await getUserProfile();
+    const code = await getLoginCode();
+    await auth.login(code);
+    
+    // 登录成功后，获取用户订单和优惠信息
+    await myOrdersStore.fetchMyOrders();
+    await myOffersStore.fetchMyOffers();
+    
+    // 获取最新用户信息
+    await userInfoStore.fetchUserInfo();
+    
+    uni.hideLoading();
+    uni.showToast({
+      title: '登录成功',
+      icon: 'success'
+    });
+    
+    // 登录成功后跳转
+    setTimeout(() => {
+      uni.switchTab({
+        url: '/pages/tabbar/myPage'
+      });
+    }, 1500);
+  } catch (error: any) {
+    uni.hideLoading();
+    uni.showToast({
+      title: error.message || '登录失败',
+      icon: 'none'
+    });
+    console.error('登录失败:', error);
+  }
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-	<view v-if="isLoggedIn" class="myPage-background">
+	<view v-if="auth.isAuthenticated" class="myPage-background">
 		<scroll-view style="display: flex; width: 100%;">
 			<!-- 用户信息区域 -->
 			<button v-if="!userInfo.nickName" class="myPage-userNickname">登录/注册</button>
@@ -17,7 +17,7 @@
 					<view class="myPage-orderLabel">我的需求</view>
 				</view>
 				<view class="myPage-order">
-					<view class="myPage-orderCount">{{applyCount || 1}}</view>
+					<view class="myPage-orderCount">{{1}}</view>
 					<view class="myPage-orderLabel">我的申请</view>
 				</view>
 			</view>
@@ -96,28 +96,20 @@
 	<loginPageVue v-else></loginPageVue>
 </template>
 
-<script setup>
-	import {
-		ref,
-		computed,
-		onMounted
-	} from 'vue';
-	import {
-		useUserInfoStore
-	} from '../../stores/userInfo';
-	import {
-		useMyOrdersStore,
-		useMyOffersStore
-	} from '../../stores/myPageStore';
+<script setup lang="ts">
+	import { ref, computed, onMounted } from 'vue';
+	import { useAuth } from '../../utils/useAuth';
+	import { useUserInfoStore } from '../../stores/userInfoStore';
+	import { useMyOrdersStore, useMyOffersStore } from '../../stores/myPageStore';
 	import loginPageVue from '../components/loginPage.vue';
-
+	
+	const auth = useAuth()
 	const userInfoStore = useUserInfoStore();
 	const myOrdersStore = useMyOrdersStore();
 	const myOffersStore = useMyOffersStore();
 
 	// 计算属性
-	const isLoggedIn = computed(() => userInfoStore.isLoggedIn);
-	const userInfo = computed(() => userInfoStore.getUserInfo);
+	const userInfo = computed(() => userInfoStore.getUserInfo)
 	const myOrders = computed(() => myOrdersStore.getMyOrders);
 	const myOrdersCount = computed(() => myOrdersStore.getMyOrders.length);
 	const myApplications = computed(() => myOffersStore.getMyOffers);
@@ -130,7 +122,7 @@
 		})
 
 		await userInfoStore.fetchUserInfo();
-		if (isLoggedIn.value) {
+		if (auth.isAuthenticated.value) {
 			try {
 				await loadUserData();
 			} catch (error) {

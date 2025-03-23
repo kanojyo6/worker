@@ -1,4 +1,4 @@
-import { refreshAccessToken } from "./refreshTokenService"
+import { refreshToken } from "./AuthService"
 
 const baseUrl = "http://183.136.206.77:45212"
 
@@ -38,7 +38,7 @@ export const requestSearchResult = async (keyword : string, page : number, size 
 					console.log("accessToken失效，尝试刷新");
 					try {
 						// 尝试刷新 Token
-						await refreshAccessToken();
+						await refreshToken();
 						// 刷新成功：保存新 Token，并递归重试请求
 						const retryResult = await requestSearchResult(keyword, page, size);
 						resolve(retryResult);

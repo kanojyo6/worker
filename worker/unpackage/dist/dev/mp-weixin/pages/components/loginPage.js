@@ -1,11 +1,13 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_userInfo = require("../../stores/userInfo.js");
+const utils_useAuth = require("../../utils/useAuth.js");
+const stores_userInfoStore = require("../../stores/userInfoStore.js");
 const stores_myPageStore = require("../../stores/myPageStore.js");
-const _sfc_main = {
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "loginPage",
   setup(__props) {
-    const userInfoStore = stores_userInfo.useUserInfoStore();
+    const auth = utils_useAuth.useAuth();
+    const userInfoStore = stores_userInfoStore.useUserInfoStore();
     const myOrdersStore = stores_myPageStore.useMyOrdersStore();
     const myOffersStore = stores_myPageStore.useMyOffersStore();
     const getUserProfile = () => {
@@ -47,47 +49,20 @@ const _sfc_main = {
         });
       });
     };
-    const sendLoginRequest = (code, userInfo) => {
-      return new Promise((resolve, reject) => {
-        common_vendor.index.request({
-          url: "http://183.136.206.77:45212/login/wechat/miniapp",
-          method: "POST",
-          header: {
-            "content-type": "application/json"
-          },
-          data: {
-            code,
-            phoneCode: null
-          },
-          success: (res) => {
-            if (res.statusCode === 200) {
-              const { access_token, refresh_token, user } = res.data;
-              common_vendor.index.setStorageSync("token", access_token);
-              common_vendor.index.setStorageSync("refresh_token", refresh_token);
-              userInfoStore.setUserInfo(user);
-              resolve(res.data);
-            } else {
-              reject(new Error(res.data.message || "登录失败"));
-            }
-          },
-          fail: reject
-        });
-      });
-    };
     const login = async () => {
       try {
         common_vendor.index.showLoading({ title: "登录中..." });
         const userInfo = await getUserProfile();
         const code = await getLoginCode();
-        await sendLoginRequest(code, userInfo);
+        await auth.login(code);
         await myOrdersStore.fetchMyOrders();
         await myOffersStore.fetchMyOffers();
+        await userInfoStore.fetchUserInfo();
         common_vendor.index.hideLoading();
         common_vendor.index.showToast({
           title: "登录成功",
           icon: "success"
         });
-        await userInfoStore.fetchUserInfo();
         setTimeout(() => {
           common_vendor.index.switchTab({
             url: "/pages/tabbar/myPage"
@@ -108,5 +83,5 @@ const _sfc_main = {
       };
     };
   }
-};
+});
 wx.createComponent(_sfc_main);

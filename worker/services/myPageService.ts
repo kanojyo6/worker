@@ -1,4 +1,4 @@
-import { refreshAccessToken } from './refreshTokenService'
+import { refreshToken } from "./AuthService"
 
 const baseUrl = "http://183.136.206.77:45212"
 
@@ -52,7 +52,7 @@ export const requestMyOrdersInfo = async (page : number, size : number) => {
 					console.log("accessToken失效，尝试刷新");
 					try {
 						// 尝试刷新 Token
-						const newToken = await refreshAccessToken();
+						const newToken = await refreshToken();
 						// 刷新成功：保存新 Token，并递归重试请求
 						uni.setStorageSync("token", newToken);
 						const retryResult = await requestMyOrdersInfo(page, size);
@@ -113,7 +113,7 @@ export const requestMyOffersInfo = async (page : number, size : number) => {
 					console.log("accessToken失效，尝试刷新");
 					try {
 						// 尝试刷新 Token
-						const newToken = await refreshAccessToken();
+						const newToken = await refreshToken();
 						// 刷新成功：保存新 Token，并递归重试请求
 						uni.setStorageSync("token", newToken);
 						const retryResult = await requestMyOffersInfo(page, size);

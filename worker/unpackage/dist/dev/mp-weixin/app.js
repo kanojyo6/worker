@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
+const utils_HttpInterceptor = require("./utils/HttpInterceptor.js");
 if (!Math) {
   "./pages/tabbar/homePage.js";
   "./pages/tabbar/orderPage.js";
@@ -27,6 +28,7 @@ const _sfc_main = {
     console.log("App Hide");
   }
 };
+utils_HttpInterceptor.setupHttpInterceptor();
 function createApp() {
   const app = common_vendor.createSSRApp(_sfc_main);
   app.use(common_vendor.createPinia());

@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const services_refreshTokenService = require("./refreshTokenService.js");
+const services_AuthService = require("./AuthService.js");
 const baseUrl = "http://183.136.206.77:45212";
 const requestTypeDetailInfo = async (type, page, size) => {
   return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ const requestTypeDetailInfo = async (type, page, size) => {
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
           try {
-            await services_refreshTokenService.refreshAccessToken();
+            await services_AuthService.refreshToken();
             const retryResult = await requestTypeDetailInfo(type, page, size);
             resolve(retryResult);
           } catch (e) {

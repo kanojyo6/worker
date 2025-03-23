@@ -54,46 +54,5 @@ const refreshAccessToken = async () => {
   });
   return refreshPromise;
 };
-const validateAccessToken = async () => {
-  return new Promise((resolve, reject) => {
-    const ACCESS_TOKEN = common_vendor.index.getStorageSync("token");
-    if (ACCESS_TOKEN === "") {
-      console.log("ACCESS_TOKEN为空");
-      common_vendor.index.hideLoading();
-      return;
-    }
-    common_vendor.index.request({
-      url: baseUrl + `/auth/token/validate`,
-      method: "GET",
-      header: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + ACCESS_TOKEN
-      },
-      success: (res) => {
-        var _a;
-        if (res.statusCode === 200) {
-          console.log("验证token成功: ", res);
-          const responseData = res.data;
-          resolve(responseData);
-          common_vendor.index.hideLoading();
-        } else {
-          const errorMsg = ((_a = res.data) == null ? void 0 : _a.message) || "请求失败，请重试";
-          common_vendor.index.showToast({
-            title: errorMsg,
-            icon: "none"
-          });
-        }
-      },
-      fail: (error) => {
-        console.log("刷新token失败: ", error);
-        common_vendor.index.showToast({
-          title: "网络错误，请检查网络后重试",
-          icon: "none"
-        });
-      }
-    });
-  });
-};
 let refreshPromise = null;
 exports.refreshAccessToken = refreshAccessToken;
-exports.validateAccessToken = validateAccessToken;

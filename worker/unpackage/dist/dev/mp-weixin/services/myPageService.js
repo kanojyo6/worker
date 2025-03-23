@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const services_refreshTokenService = require("./refreshTokenService.js");
+const services_AuthService = require("./AuthService.js");
 const baseUrl = "http://183.136.206.77:45212";
 const requestMyOrdersInfo = async (page, size) => {
   return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ const requestMyOrdersInfo = async (page, size) => {
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
           try {
-            const newToken = await services_refreshTokenService.refreshAccessToken();
+            const newToken = await services_AuthService.refreshToken();
             common_vendor.index.setStorageSync("token", newToken);
             const retryResult = await requestMyOrdersInfo(page, size);
             resolve(retryResult);
@@ -102,7 +102,7 @@ const requestMyOffersInfo = async (page, size) => {
         } else if (res.statusCode === 403) {
           console.log("accessToken失效，尝试刷新");
           try {
-            const newToken = await services_refreshTokenService.refreshAccessToken();
+            const newToken = await services_AuthService.refreshToken();
             common_vendor.index.setStorageSync("token", newToken);
             const retryResult = await requestMyOffersInfo(page, size);
             resolve(retryResult);
