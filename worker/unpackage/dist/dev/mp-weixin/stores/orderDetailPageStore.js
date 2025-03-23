@@ -46,4 +46,31 @@ const useOrderDetailStore = common_vendor.defineStore("orderDetail", {
     }
   }
 });
+const useApplicatorsListStore = common_vendor.defineStore("applicatorList", {
+  state: () => ({
+    applicatorList: [],
+    isLoading: false,
+    error: null
+  }),
+  getters: {
+    getApplicatorList: (state) => state.applicatorList
+  },
+  actions: {
+    async fetchApplicatorList(id, page) {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const responseData = await services_orderDetailPageService.requestApplicatorsList(id, page);
+        this.applicatorList = responseData;
+        console.log("将responseData存储到pinia中:", this.applicatorList);
+      } catch (error) {
+        this.error = error;
+        console.log("发生请求错误：", error);
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }
+});
+exports.useApplicatorsListStore = useApplicatorsListStore;
 exports.useOrderDetailStore = useOrderDetailStore;

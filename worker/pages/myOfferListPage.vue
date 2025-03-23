@@ -6,11 +6,11 @@
 				<view v-if="item.imageUrl === ''" class="myOffer-myOfferItem-Img" style="background-color: #D7D7D7"></view>
 				<image v-else class="myOffer-myOfferItem-Img" mode="aspectFill" :src="item.imageUrl"></image>
 				<view class="myOffer-offerMiddle">
-					<text class="myOffer-offerTitle">{{item.requirementTitle}}</text>
+					<text class="myOffer-offerTitle">{{item.requirementTitle.length > 5 ? item.requirementTitle.slice(0, 5) + '..' : item.requirementTitle}}</text>
 					<text class="myOffer-offerPrice">{{item.salary}} 元</text>
 				</view>
 				<view class="myOffer-offerRight">
-					<text class="myOffer-offerDuration">{{item.salaryPeriod}}</text>
+					<text class="myOffer-offerDuration">{{item.salaryPeriod.length > 5 ? item.salaryPeriod.slice(0, 5) + '..' : item.salaryPeriod}}</text>
 					<view class="myOffer-offerLocation">
 						<image src="/static/logos/icon_location@2x.png" mode="aspectFit" />
 						<text>{{item.location}}</text>

@@ -3,7 +3,8 @@
 		<view class="orderDetail-background">
 			<view class="orderDetail-content" style="height: 1000rpx;">
 				<!-- 图片 -->
-				<view v-if="orderDetailInfo.imageUrl === ''" class="orderDetail-image" style="background: #DADADA;"></view>
+				<view v-if="orderDetailInfo.imageUrl === ''" class="orderDetail-image" style="background: #DADADA;">
+				</view>
 				<image v-else class="orderDetail-image" :src="orderDetailInfo.imageUrl" mode="aspectFill"></image>
 				<!-- 用户信息 -->
 				<view class="orderDetail-userMsg">
@@ -14,14 +15,17 @@
 					<view style="display: flex; align-items: center;">
 						<image src="/static/logos/icon_location@2x.png" mode="aspectFit"
 							style="width: 40rpx; height: 40rpx;"></image>
-						<view style="color: #919191; margin-left: 10rpx; font-size: 26rpx;">{{ orderDetailInfo.location }}</view>
+						<view style="color: #919191; margin-left: 10rpx; font-size: 26rpx;">
+							{{ orderDetailInfo.location }}</view>
 					</view>
 				</view>
 				<!-- 订单信息 -->
 				<view class="orderDetail-orderMsg">
 					<view style="font-size: 38rpx; font-weight: bold;">{{ orderDetailInfo.title }}</view>
-					<view style="font-size: 38rpx; font-weight: bold; color: #42B880;">{{ orderDetailInfo.salary }}元</view>
-					<view style="font-size: 30rpx; font-weight: bold; color: #42B880;">{{ orderDetailInfo.salaryPeriod }}</view>
+					<view style="font-size: 38rpx; font-weight: bold; color: #42B880;">{{ orderDetailInfo.salary }}元
+					</view>
+					<view style="font-size: 30rpx; font-weight: bold; color: #42B880;">
+						{{ orderDetailInfo.salaryPeriod }}</view>
 				</view>
 			</view>
 
@@ -47,33 +51,42 @@
 <script setup lang="ts">
 	import { computed, ref } from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
-	import { useOrderDetailStore } from '../stores/orderDetailPageStore'
+	import { useOrderDetailStore, useApplicatorsListStore } from '../stores/orderDetailPageStore'
 	import uniPopup from '@/uni_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import orderDetailPopup from './components/orderDetailPopup.vue';
-	
+
 	const orderDetailStore = useOrderDetailStore()
+	const applicatorsListStore = useApplicatorsListStore()
 	const orderId = ref('')
-	
+
 	// 计算属性
 	const orderDetailInfo = computed(() => orderDetailStore.getOrderDetailInfo)
 
 	// 控制弹出层
 	const popup = ref(null)
-	const handleSubmit = () => {
-		console.log(popup.value)
-		popup.value.open('bottom')
+	const handleSubmit = async () => {
+		try {
+			popup.value.open('bottom')
+			uni.showLoading({
+				title: '获取数据中'
+			})
+			await applicatorsListStore.fetchApplicatorList(orderId.value, 0)
+		} catch (e) {
+			//TODO handle the exception
+			console.error(e)
+		}
 	}
 	const dismissPopup = () => {
 		popup.value.close()
 	}
-	
+
 	onLoad(async (option) => {
 		console.log('传入id为: ', option.id);
 		orderId.value = option.id;
 		uni.showLoading({ title: '获取数据中' });
-		try{
+		try {
 			await loadOrderDetailInfo(option.id)
-		}catch(error){
+		} catch (error) {
 			//TODO handle the exception
 			console.error('请求详情时发生了错误: :', error);
 			uni.hideLoading();
@@ -83,12 +96,12 @@
 			});
 		}
 	})
-	
+
 	// 加载订单详情数据
-	const loadOrderDetailInfo = async (id: number) => {
-		try{
+	const loadOrderDetailInfo = async (id : number) => {
+		try {
 			await orderDetailStore.fetchOrderDetailInfo(id)
-		}catch(e){
+		} catch (e) {
 			//TODO handle the exception
 			console.error('加载数据失败:', e);
 			throw e

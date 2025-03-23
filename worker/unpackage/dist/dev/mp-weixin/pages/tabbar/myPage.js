@@ -104,9 +104,9 @@ const _sfc_main = {
           }, item.imageUrl === "" ? {} : {
             b: item.imageUrl
           }, {
-            c: common_vendor.t(item.requirementTitle),
+            c: common_vendor.t(item.requirementTitle ? item.requirementTitle.length > 5 ? item.requirementTitle.slice(0, 5) + ".." : item.requirementTitle : ""),
             d: common_vendor.t(item.salary),
-            e: common_vendor.t(item.salaryPeriod),
+            e: common_vendor.t(item.salaryPeriod ? item.salaryPeriod.length > 6 ? item.salaryPeriod.slice(0, 6) + ".." : item.salaryPeriod : ""),
             f: common_vendor.t(item.location),
             g: item.id,
             h: common_vendor.o(($event) => viewApplication(), item.id)

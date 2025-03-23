@@ -62,14 +62,26 @@
 				<view class="myPage-offerList">
 					<button v-for="item in myApplications" :key="item.id" class="myPage-myOfferItem"
 						@click="viewApplication()">
-						<view v-if="item.imageUrl === ''" class="myPage-myOfferItem-Img" style="background-color: #D7D7D7}"></view>
+						<view v-if="item.imageUrl === ''" class="myPage-myOfferItem-Img"
+							style="background-color: #D7D7D7}"></view>
 						<image v-else class="myPage-myOfferItem-Img" mode="aspectFill" :src="item.imageUrl"></image>
 						<view class="myPage-offerMiddle">
-							<text class="myPage-offerTitle">{{item.requirementTitle}}</text>
+							<text class="myPage-offerTitle">
+								{{item.requirementTitle ? 
+								    (item.requirementTitle.length > 5 ? item.requirementTitle.slice(0,5)+'..' : item.requirementTitle) 
+								    : '' 
+								  }}
+							</text>
 							<text class="myPage-offerPrice">{{item.salary}} 元</text>
 						</view>
 						<view class="myPage-offerRight">
-							<text class="myPage-offerDuration">{{item.salaryPeriod}}</text>
+							<text
+								class="myPage-offerDuration">
+								{{item.salaryPeriod ?
+								    (item.salaryPeriod.length > 6 ? item.salaryPeriod.slice(0,6)+'..' : item.salaryPeriod) 
+								    : '' 
+								  }}
+								</text>
 							<view class="myPage-offerLocation">
 								<image src="/static/logos/icon_location@2x.png" mode="aspectFit" />
 								<text>{{item.location}}</text>

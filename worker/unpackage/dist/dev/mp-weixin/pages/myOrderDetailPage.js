@@ -11,12 +11,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "myOrderDetailPage",
   setup(__props) {
     const orderDetailStore = stores_orderDetailPageStore.useOrderDetailStore();
+    const applicatorsListStore = stores_orderDetailPageStore.useApplicatorsListStore();
     const orderId = common_vendor.ref("");
     const orderDetailInfo = common_vendor.computed(() => orderDetailStore.getOrderDetailInfo);
     const popup = common_vendor.ref(null);
-    const handleSubmit = () => {
-      console.log(popup.value);
-      popup.value.open("bottom");
+    const handleSubmit = async () => {
+      try {
+        popup.value.open("bottom");
+        common_vendor.index.showLoading({
+          title: "获取数据中"
+        });
+        await applicatorsListStore.fetchApplicatorList(orderId.value, 0);
+      } catch (e) {
+        console.error(e);
+      }
     };
     common_vendor.onLoad(async (option) => {
       console.log("传入id为: ", option.id);
