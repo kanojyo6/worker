@@ -1,9 +1,9 @@
 import { refreshToken } from "./AuthService"
 
-const baseUrl = "http://183.136.206.77:45212"
+const baseUrl = "http://110.42.32.39:45212"
 
 // 获取推荐信息
-export const requestOrderDetailInfo = async (id : number) => {
+export const requestOrderDetailInfo = async (id: string) => {
 	return new Promise((resolve, reject) => {
 		const token = uni.getStorageSync('token')
 		if (token === '') {
@@ -22,7 +22,7 @@ export const requestOrderDetailInfo = async (id : number) => {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + token
 			},
-			success: async (res : any) => {
+			success: async (res: any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
 					const responseData = res.data;
@@ -49,7 +49,7 @@ export const requestOrderDetailInfo = async (id : number) => {
 					});
 				}	 
 			},
-			fail: (error : any) => {
+			fail: (error: any) => {
 				console.log('请求详情失败: ', error)
 				uni.showToast({
 					title: '网络错误，请检查网络后重试',
@@ -61,7 +61,7 @@ export const requestOrderDetailInfo = async (id : number) => {
 }
 
 // 获取该订单的申请列表（我的需求专用）
-export const requestApplicatorsList = async (requirementId : string, page: number) => {
+export const requestApplicatorsList = async (requirementId: string, page: number) => {
 	return new Promise((resolve, reject) => {
 		const token = uni.getStorageSync('token')
 		if (token === '') {
@@ -84,10 +84,10 @@ export const requestApplicatorsList = async (requirementId : string, page: numbe
 				page: page,
 				size: 20
 			},
-			success: async (res : any) => {
+			success: async (res: any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
-					const data = res.data as { content : any[] };
+					const data = res.data as { content: any[] };
 					const responseData = data.content;
 					resolve(responseData);
 					uni.hideLoading();
@@ -112,7 +112,7 @@ export const requestApplicatorsList = async (requirementId : string, page: numbe
 					});
 				}	 
 			},
-			fail: (error : any) => {
+			fail: (error: any) => {
 				console.log('请求详情失败: ', error)
 				uni.showToast({
 					title: '网络错误，请检查网络后重试',
@@ -124,7 +124,7 @@ export const requestApplicatorsList = async (requirementId : string, page: numbe
 }
 
 // 同意申请（我的需求专用）
-export const agreeApplicator = async (id : string) => {
+export const agreeApplicator = async (id: string) => {
 	return new Promise((resolve, reject) => {
 		const token = uni.getStorageSync('token')
 		if (token === '') {
@@ -143,7 +143,7 @@ export const agreeApplicator = async (id : string) => {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + token
 			},
-			success: async (res : any) => {
+			success: async (res: any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
 					const responseData = res.data;
@@ -170,7 +170,7 @@ export const agreeApplicator = async (id : string) => {
 					});
 				}	 
 			},
-			fail: (error : any) => {
+			fail: (error: any) => {
 				console.log('请求详情失败: ', error)
 				uni.showToast({
 					title: '网络错误，请检查网络后重试',
@@ -182,7 +182,7 @@ export const agreeApplicator = async (id : string) => {
 }
 
 // 忽略申请（我的需求专用）
-export const ignoreApplicator = async (id : string) => {
+export const ignoreApplicator = async (id: string) => {
 	return new Promise((resolve, reject) => {
 		const token = uni.getStorageSync('token')
 		if (token === '') {
@@ -201,7 +201,7 @@ export const ignoreApplicator = async (id : string) => {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + token
 			},
-			success: async (res : any) => {
+			success: async (res: any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
 					const responseData = res.data;
@@ -228,7 +228,7 @@ export const ignoreApplicator = async (id : string) => {
 					});
 				}	 
 			},
-			fail: (error : any) => {
+			fail: (error: any) => {
 				console.log('请求详情失败: ', error)
 				uni.showToast({
 					title: '网络错误，请检查网络后重试',
