@@ -1,3 +1,4 @@
+
 import { refreshToken } from "./AuthService"
 
 const baseUrl = "http://183.136.206.77:45212"
@@ -25,7 +26,7 @@ export const application = async (requirementId: string) => {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + token
 			},
-			success: async (res : any) => {
+			success: async (res: any) => {
 				if (res.statusCode === 200) {
 					console.log('请求详情成功: ', res);
 					const responseData = res.data;
@@ -51,7 +52,7 @@ export const application = async (requirementId: string) => {
 					});
 				}
 			},
-			fail: (error : any) => {
+			fail: (error: any) => {
 				console.log('请求详情失败: ', error)
 				uni.showToast({
 					title: '网络错误，请检查网络后重试',
