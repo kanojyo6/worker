@@ -58,9 +58,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         url: "/pages/myOfferListPage"
       });
     };
-    const viewApplication = () => {
+    const navigateToMyOfferDetail = (orderId) => {
       common_vendor.index.navigateTo({
-        url: `/pages/myOfferDetailPage`
+        url: `/pages/myOfferDetailPage?id=${orderId}`
       });
     };
     const navigateToMyOrderDetail = (orderId) => {
@@ -110,7 +110,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             e: common_vendor.t(item.salaryPeriod ? item.salaryPeriod.length > 6 ? item.salaryPeriod.slice(0, 6) + ".." : item.salaryPeriod : ""),
             f: common_vendor.t(item.location),
             g: item.id,
-            h: common_vendor.o(($event) => viewApplication(), item.id)
+            h: common_vendor.o(($event) => navigateToMyOfferDetail(item.id), item.id)
           });
         }),
         l: common_assets._imports_0

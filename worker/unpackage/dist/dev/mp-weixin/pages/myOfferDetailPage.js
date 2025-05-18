@@ -1,35 +1,53 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const common_assets = require("../common/assets.js");
-if (!Math) {
-  uniPopup();
-}
-const uniPopup = () => "../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+const stores_orderDetailPageStore = require("../stores/orderDetailPageStore.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "myOfferDetailPage",
   setup(__props) {
-    const userName = common_vendor.ref("用户名称");
-    const address = common_vendor.ref("翻斗花园");
-    const popup = common_vendor.ref(null);
-    const handleSubmit = () => {
-      console.log(popup.value);
-      popup.value.open();
-    };
-    const dismissPopup = () => {
-      popup.value.close();
+    const orderDetailStore = stores_orderDetailPageStore.useOrderDetailStore();
+    stores_orderDetailPageStore.useApplicatorsListStore();
+    const orderId = common_vendor.ref("");
+    const offerDetailInfo = common_vendor.computed(() => orderDetailStore.getOrderDetailInfo);
+    common_vendor.onLoad(async (option) => {
+      console.log("传入id为: ", option.id);
+      orderId.value = option.id;
+      common_vendor.index.showLoading({ title: "获取数据中" });
+      try {
+        await loadofferDetailInfo(option.id);
+      } catch (error) {
+        console.error("请求详情时发生了错误: :", error);
+        common_vendor.index.hideLoading();
+        common_vendor.index.showToast({
+          title: "请求错误",
+          icon: "none"
+        });
+      }
+    });
+    const loadofferDetailInfo = async (id) => {
+      try {
+        await orderDetailStore.fetchOrderDetailInfo(id);
+      } catch (e) {
+        console.error("加载数据失败:", e);
+        throw e;
+      }
     };
     return (_ctx, _cache) => {
-      return {
-        a: common_vendor.t(userName.value),
-        b: common_assets._imports_0,
-        c: common_vendor.t(address.value),
-        d: common_vendor.o(handleSubmit),
-        e: common_assets._imports_1,
-        f: common_vendor.o(dismissPopup),
-        g: common_vendor.sr(popup, "907cc32c-0", {
-          "k": "popup"
+      return common_vendor.e({
+        a: offerDetailInfo.value.imageUrl === ""
+      }, offerDetailInfo.value.imageUrl === "" ? {} : {
+        b: offerDetailInfo.value.imageUrl
+      }, {
+        c: common_vendor.t(offerDetailInfo.value.publisherName),
+        d: common_assets._imports_0,
+        e: common_vendor.t(offerDetailInfo.value.location),
+        f: common_vendor.t(offerDetailInfo.value.title),
+        g: common_vendor.t(offerDetailInfo.value.salary),
+        h: common_vendor.t(offerDetailInfo.value.salaryPeriod),
+        i: common_vendor.t(offerDetailInfo.value.content),
+        j: common_vendor.o(() => {
         })
-      };
+      });
     };
   }
 });
