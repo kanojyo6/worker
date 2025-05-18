@@ -98,7 +98,7 @@
 	})
 
 	// 加载订单详情数据
-	const loadOrderDetailInfo = async (id : number) => {
+	const loadOrderDetailInfo = async (id: string) => {
 		try {
 			await orderDetailStore.fetchOrderDetailInfo(id)
 		} catch (e) {
