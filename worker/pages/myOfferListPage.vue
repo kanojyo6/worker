@@ -2,7 +2,7 @@
 	<view class="myOfferListPage-background">
 		<scroll-view view class="myOffer-offerList">
 			<button v-for="item in offers" :key="item.id" class="myOffer-myOfferItem"
-				@click="viewOrder()">
+				@click="viewOrder(item.id)">
 				<view v-if="item.imageUrl === ''" class="myOffer-myOfferItem-Img" style="background-color: #D7D7D7"></view>
 				<image v-else class="myOffer-myOfferItem-Img" mode="aspectFill" :src="item.imageUrl"></image>
 				<view class="myOffer-offerMiddle">
@@ -35,10 +35,10 @@
 	const offers = computed(() => myOffersListStore.getMyOffersList);
 	
 	// 页面导航方法
-	const viewOrder = () => {
+	const viewOrder = (orderId: any) => {
 		uni.navigateTo({
-			url: '/pages/myOrderDetailPage'
-		})
+			url: `/pages/myOfferDetailPage?id=${orderId}`
+		});
 	}
 	
 	// 无限滚动刷新方法

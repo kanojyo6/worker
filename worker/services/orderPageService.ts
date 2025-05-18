@@ -1,6 +1,6 @@
 import { RecruitmentRequestModel } from '../model/recruitmentRequestModel'
 
-const baseUrl = "http://183.136.206.77:45212"
+const baseUrl = "http://110.42.32.39:45212"
 
 // 提交发布需求
 export const submitOrder = async (

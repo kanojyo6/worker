@@ -5,7 +5,7 @@
 			    v-for="order in orders" 
 			    :key="order.id" 
 			    class="myOrderListPage-myOrderItem"
-				@click="viewOrder"
+				@click="viewOrder(order.id)"
 			>
 			    <view class="myOrderListPage-myOrderItem-content">
 			        <view class="myOrderListPage-orderTitleRow">
@@ -43,9 +43,10 @@
 	const orders = computed(() => myOrdersListStore.getMyOrdersList);
 	
 	// 页面导航方法
-	const viewOrder = () => {
+	const viewOrder = (orderId: any) => {
 		uni.navigateTo({
-			url: '/pages/myOrderDetailPage'
+			url: `/pages/myOrderDetailPage?id=${orderId}`,
+			animationType: 'pop-in'
 		})
 	}
 	

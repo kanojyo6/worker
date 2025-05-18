@@ -1,6 +1,6 @@
 import { refreshToken } from "./AuthService"
 
-const baseUrl = "http://183.136.206.77:45212"
+const baseUrl = "http://110.42.32.39:45212"
 
 // 获取分类详情
 export const requestTypeDetailInfo = async (type : string, page : number, size : number) => {

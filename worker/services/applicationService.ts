@@ -1,7 +1,7 @@
 
 import { refreshToken } from "./AuthService"
 
-const baseUrl = "http://183.136.206.77:45212"
+const baseUrl = "http://110.42.32.39:45212"
 
 // 提交申请
 export const application = async (requirementId: string) => {

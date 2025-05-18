@@ -1,6 +1,6 @@
 import type { UserInfo } from '../model/UserInfo'
 
-const baseUrl = "http://183.136.206.77:45212";
+const baseUrl = "http://110.42.32.39:45212";
 
 // 登录
 export const login = async (code: string, phoneCode?: string): Promise<any> => {
