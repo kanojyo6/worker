@@ -90,11 +90,11 @@ const navigateToTypeDetail = (index: number) => {
 }
 
 // 处理点击详情
-const navigateToOrderDetail = (orderId: number) => {
-	uni.navigateTo({
-		url: `/pages/orderDetailPage?id=${orderId}`,
-		animationType: 'pop-in'
-	})
+const navigateToOrderDetail = (orderId: string) => {
+    uni.navigateTo({
+        url: `/pages/orderDetailPage?id=${orderId}`,
+        animationType: 'pop-in'
+    })
 }
 
 // 处理发需求跳转
