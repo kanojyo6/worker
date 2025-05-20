@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { requestOrderDetailInfo, requestApplicatorsList } from '../services/orderDetailPageService';
+import { requestOrderDetailInfo, requestApplicatorsList, requestApplicationStatus } from '../services/orderDetailPageService';
 
 export const useOrderDetailStore = defineStore('orderDetail', {
 	state: () => ({
@@ -23,22 +23,41 @@ export const useOrderDetailStore = defineStore('orderDetail', {
 			type: "",
 			typeName: ""
 		},
+		applicationStatus: "",
 		isLoading: false,
 		error: null
 	}),
 	
 	getters: {
 		getOrderDetailInfo: (state) => state.orderDetailInfo,
+		getApplicationStatus: (state) => state.applicationStatus
 	},
 
 	actions: {
-		async fetchOrderDetailInfo(id: number) {
+		async fetchOrderDetailInfo(id: string) {
 			this.isLoading = true;
 			this.error = null;
 			try {
 				const responseData = await requestOrderDetailInfo(id);
 				this.orderDetailInfo = responseData;
 				console.log('将responseData存储到pinia中:', this.orderDetailInfo);
+			} catch (error) {
+				//TODO handle the exception
+				this.error = error;
+				console.log('发生请求错误：', error);
+			} finally {
+				this.isLoading = false;
+			}
+		},
+		
+		// 追踪申请状态（我的申请专用）
+		async fetchApplicationStatus(id: string) {
+			this.isLoading = true;
+			this.error = null;
+			try {
+				const responseData = await requestApplicationStatus(id);
+				this.applicationStatus = responseData;
+				console.log('该需求申请状态为:', this.applicationStatus);
 			} catch (error) {
 				//TODO handle the exception
 				this.error = error;

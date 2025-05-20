@@ -37,7 +37,8 @@
 				</text>
 			</view>
 
-			<button @click="" class="offerDetail-submitBtn">查看申请</button>
+			<button v-if="offerDetailInfo.status === 'PUBLISHED'" @click="showResult" class="offerDetail-submitBtn">查看结果</button>
+			<button v-else disabled="true" class="offerDetail-submitBtn" style="background-color: #919191;">订单已关闭</button>
 		</view>
 	</scroll-view>
 
@@ -46,21 +47,24 @@
 <script setup lang="ts">
 	import { computed, ref } from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
-	import { useOrderDetailStore, useApplicatorsListStore } from '../stores/orderDetailPageStore'
+	import { useOrderDetailStore } from '../stores/orderDetailPageStore'
 
 	const orderDetailStore = useOrderDetailStore()
-	const applicatorsListStore = useApplicatorsListStore()
-	const orderId = ref('')
+	const orderId = ref('')					// 需求id
+	const orderApplicationId = ref('')		// 申请进程id
 
 	// 计算属性
 	const offerDetailInfo = computed(() => orderDetailStore.getOrderDetailInfo)
+	const applicationStatus = computed(() => orderDetailStore.getApplicationStatus)
 
 	onLoad(async (option) => {
 		console.log('传入id为: ', option.id);
+		console.log('传入applicationId为: ', option.applicationId);
 		orderId.value = option.id;
+		orderApplicationId.value = option.applicationId;
 		uni.showLoading({ title: '获取数据中' });
 		try {
-			await loadofferDetailInfo(option.id)
+			await loadofferDetailInfo(option.id, option.applicationId)
 		} catch (error) {
 			//TODO handle the exception
 			console.error('请求详情时发生了错误: :', error);
@@ -73,14 +77,29 @@
 	})
 
 	// 加载订单详情数据
-	const loadofferDetailInfo = async (id : number) => {
+	const loadofferDetailInfo = async (id : string, applicationId: string) => {
 		try {
-			await orderDetailStore.fetchOrderDetailInfo(id)
+			await orderDetailStore.fetchOrderDetailInfo(applicationId);
+			await orderDetailStore.fetchApplicationStatus(id);
 		} catch (e) {
 			//TODO handle the exception
 			console.error('加载数据失败:', e);
 			throw e
 		}
+	}
+	
+	// 获取申请结果
+	const showResult = () => {
+		if (applicationStatus.value === "applied") {
+			uni.showModal({
+				content: "申请中，请耐心等待结果"
+			})
+		} else if (applicationStatus.value === "accepted") {
+			uni.showModal({
+				content: `已通过，联系方式：${offerDetailInfo.value.contactTypeName}  ${offerDetailInfo.value.contactInfo}`
+			})
+		}
+		
 	}
 </script>
 

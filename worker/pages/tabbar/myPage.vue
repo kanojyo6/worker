@@ -61,7 +61,7 @@
 				</view>
 				<view class="myPage-offerList">
 					<button v-for="item in myApplications" :key="item.id" class="myPage-myOfferItem"
-						@click="navigateToMyOfferDetail(item.id)">
+						@click="navigateToMyOfferDetail(item.id, item.requirementId)">
 						<view v-if="item.imageUrl === ''" class="myPage-myOfferItem-Img"
 							style="background-color: #D7D7D7}"></view>
 						<image v-else class="myPage-myOfferItem-Img" mode="aspectFill" :src="item.imageUrl"></image>
@@ -161,14 +161,14 @@
 		});
 	};
 
-	const navigateToMyOfferDetail = (orderId) => {
+	const navigateToMyOfferDetail = (orderId: string, orderApplicationId: string) => {
 		uni.navigateTo({
-			url: `/pages/myOfferDetailPage?id=${orderId}`
+			url: `/pages/myOfferDetailPage?id=${orderId}&applicationId=${orderApplicationId}`
 		});
 	};
 
 	// 处理点击详情
-	const navigateToMyOrderDetail = (orderId) => {
+	const navigateToMyOrderDetail = (orderId: string) => {
 		uni.navigateTo({
 			url: `/pages/myOrderDetailPage?id=${orderId}`,
 			animationType: 'pop-in'
