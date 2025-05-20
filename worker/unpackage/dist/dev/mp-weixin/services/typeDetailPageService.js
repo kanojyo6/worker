@@ -1,7 +1,7 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const services_AuthService = require("./AuthService.js");
-const baseUrl = "http://183.136.206.77:45212";
+const baseUrl = "http://110.42.32.39:45212";
 const requestTypeDetailInfo = async (type, page, size) => {
   return new Promise((resolve, reject) => {
     const token = common_vendor.index.getStorageSync("token");

@@ -90,7 +90,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         return;
       }
       common_vendor.index.uploadFile({
-        url: `http://183.136.206.77:45212/api/recruitments/upload-image`,
+        url: `http://110.42.32.39:45212/api/recruitments/upload-image`,
         filePath,
         name: "file",
         header: {
@@ -187,7 +187,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       };
       console.log("提交的表单数据:", recruitmentData);
       const token = common_vendor.index.getStorageSync("token");
-      if (!token) {
+      if (token == void 0 || token == null) {
         isSubmitting.value = false;
         return common_vendor.index.showModal({
           title: "提示",

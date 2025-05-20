@@ -67,7 +67,7 @@
   <script setup lang="ts">
   import { computed, ref, onMounted } from 'vue';
   import { onLoad } from '@dcloudio/uni-app';
-  import { useAuth } from '@/composables/useAuth'; // Ensure path is correct
+  import { useAuth } from '@/utils/useAuth'; // Ensure path is correct
   import { useOrderDetailStore, useApplicatorsListStore } from '../stores/orderDetailPageStore'; // Ensure path is correct
   import uniPopup from '@/uni_modules/uni-popup/components/uni-popup/uni-popup.vue';
   import orderDetailPopup from './components/orderDetailPopup.vue'; // Ensure path to your popup component is correct

@@ -9,9 +9,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const myOffersListStore = stores_myPageStore.useMyOffersListStore();
     const page = common_vendor.ref(0);
     const offers = common_vendor.computed(() => myOffersListStore.getMyOffersList);
-    const viewOrder = () => {
+    const viewOrder = (orderId) => {
       common_vendor.index.navigateTo({
-        url: "/pages/myOrderDetailPage"
+        url: `/pages/myOfferDetailPage?id=${orderId}`
       });
     };
     common_vendor.onMounted(async () => {
@@ -41,7 +41,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             e: common_vendor.t(item.salaryPeriod.length > 5 ? item.salaryPeriod.slice(0, 5) + ".." : item.salaryPeriod),
             f: common_vendor.t(item.location),
             g: item.id,
-            h: common_vendor.o(($event) => viewOrder(), item.id)
+            h: common_vendor.o(($event) => viewOrder(item.id), item.id)
           });
         }),
         b: common_assets._imports_0

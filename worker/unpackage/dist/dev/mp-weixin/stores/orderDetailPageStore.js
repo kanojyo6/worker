@@ -23,11 +23,13 @@ const useOrderDetailStore = common_vendor.defineStore("orderDetail", {
       type: "",
       typeName: ""
     },
+    applicationStatus: "",
     isLoading: false,
     error: null
   }),
   getters: {
-    getOrderDetailInfo: (state) => state.orderDetailInfo
+    getOrderDetailInfo: (state) => state.orderDetailInfo,
+    getApplicationStatus: (state) => state.applicationStatus
   },
   actions: {
     async fetchOrderDetailInfo(id) {
@@ -42,6 +44,23 @@ const useOrderDetailStore = common_vendor.defineStore("orderDetail", {
         console.log("发生请求错误：", error);
       } finally {
         this.isLoading = false;
+        common_vendor.index.hideLoading();
+      }
+    },
+    // 追踪申请状态（我的申请专用）
+    async fetchApplicationStatus(id) {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const responseData = await services_orderDetailPageService.requestApplicationStatus(id);
+        this.applicationStatus = responseData;
+        console.log("该需求申请状态为:", this.applicationStatus);
+      } catch (error) {
+        this.error = error;
+        console.log("发生请求错误：", error);
+      } finally {
+        this.isLoading = false;
+        common_vendor.index.hideLoading();
       }
     }
   }

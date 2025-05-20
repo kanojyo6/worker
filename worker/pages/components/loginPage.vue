@@ -72,8 +72,8 @@ const login = async () => {
     await myOrdersStore.fetchMyOrders();
     await myOffersStore.fetchMyOffers();
     
-    // 获取最新用户信息
-    await userInfoStore.fetchUserInfo();
+    // // 获取最新用户信息
+    // await userInfoStore.fetchUserInfo();
     
     uni.hideLoading();
     uni.showToast({

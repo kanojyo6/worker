@@ -20,13 +20,10 @@ const useUserInfoStore = common_vendor.defineStore("userInfo", {
   actions: {
     // 设置用户信息
     setUserInfo(userInfo) {
-      if (!userInfo)
-        return;
-      Object.keys(userInfo).forEach((key) => {
-        if (userInfo[key] !== void 0) {
-          this[key] = userInfo[key];
-        }
-      });
+      if (userInfo !== void 0) {
+        this.nickName = userInfo.nickName;
+        this.avatarUrl = userInfo.avatarUrl;
+      }
       console.log("用户信息更新成功:", this.getUserInfo);
     },
     // 从服务器获取用户信息

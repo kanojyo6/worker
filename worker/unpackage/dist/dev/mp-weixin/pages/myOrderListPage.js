@@ -8,9 +8,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const myOrdersListStore = stores_myPageStore.useMyOrdersListStore();
     const page = common_vendor.ref(0);
     const orders = common_vendor.computed(() => myOrdersListStore.getMyOrdersList);
-    const viewOrder = () => {
+    const viewOrder = (orderId) => {
       common_vendor.index.navigateTo({
-        url: "/pages/myOrderDetailPage"
+        url: `/pages/myOrderDetailPage?id=${orderId}`,
+        animationType: "pop-in"
       });
     };
     const loadMoreData = async () => {
@@ -53,7 +54,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             g: common_vendor.t(order.contactInfo),
             h: common_vendor.t(order.location),
             i: order.id,
-            j: common_vendor.o(viewOrder, order.id)
+            j: common_vendor.o(($event) => viewOrder(order.id), order.id)
           };
         }),
         b: common_vendor.o(loadMoreData)

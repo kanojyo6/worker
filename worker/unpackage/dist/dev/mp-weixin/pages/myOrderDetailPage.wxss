@@ -1,106 +1,219 @@
 
-	/* 去除按钮默认样式 */
-button::after {
-		border: none;
+  /* Scoped styles for myOrderDetailPage.vue */
+.page-container.data-v-ad800dc5 {
+	min-height: 100vh;
+	background: linear-gradient(to bottom, #7FD8B3 0%, #7FD8B3 15%, white 30%, white 100%);
 }
-button {
-		position: relative;
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		padding-left: 0px;
-		padding-right: 0px;
-		box-sizing: border-box;
-		text-align: center;
-		text-decoration: none;
-		line-height: 1.35;
-		-webkit-tap-highlight-color: transparent;
-		overflow: hidden;
-		color: #000;
-		font-size: 32rpx;
-		background-color: #fff;
-		width: 10%;
-		height: 100%;
+.loading-overlay.data-v-ad800dc5 {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.85);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
 }
-.orderDetail-background {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 90%;
-		padding: 5%;
-		height: 100%;
-		background: linear-gradient(#7FD8B3, white);
+.loading-content.data-v-ad800dc5 { /* For auth loading */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30rpx;
+	background-color: #fff;
+	border-radius: 15rpx;
+	box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.1);
 }
-.orderDetail-content {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		background: white;
-		border-radius: 30rpx;
+.loading-indicator.content-box.data-v-ad800dc5 { /* For page data loading */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40rpx;
+	background-color: #fff;
+	border-radius: 30rpx;
+	margin: 30rpx 0;
+	min-height: 200rpx;
 }
-.orderDetail-image {
-		width: 100%;
-		height: 60%;
-		border-top-left-radius: 30rpx;
-		border-top-right-radius: 30rpx;
+.error-message-box.content-box.data-v-ad800dc5, .login-prompt-box.content-box.data-v-ad800dc5 {
+	background-color: #fff;
+	padding: 40rpx;
+	margin: 30rpx 0;
+	border-radius: 30rpx;
+	text-align: center;
+	color: #e53935;
 }
-.orderDetail-userMsg {
-		width: 90%;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 30rpx 50rpx;
+.login-prompt-box.content-box text.data-v-ad800dc5 {
+	display: block;
+	margin-bottom: 20rpx;
+	color: #333;
 }
-.orderDetail-avatar {
-		width: 90rpx;
-		height: 90rpx;
-		border-radius: 100rpx;
+.retry-button.data-v-ad800dc5, .login-button-prompt.data-v-ad800dc5 {
+	background-color: #42B880;
+	color: white;
+	padding: 15rpx 40rpx;
+	border-radius: 40rpx;
+	font-size: 28rpx;
+	margin-top: 20rpx;
+	border: none;
 }
-.orderDetail-orderMsg {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
-		justify-content: space-evenly;
-		width: 85%;
-		margin: auto;
+.retry-button.data-v-ad800dc5:active, .login-button-prompt.data-v-ad800dc5:active {
+	background-color: #3aa070;
 }
-.orderDetail-submitBtn {
-		width: 95%;
-		height: 80rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 30rpx;
-		color: white;
-		background: #42B880;
-		margin-top: 40rpx;
-		border-radius: 60rpx;
+.orderDetail-background.data-v-ad800dc5 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 92%; /* Slightly reduced width */
+	padding: 30rpx 0 120rpx 0; /* Adjusted padding */
+	margin: 0 auto;
 }
-.orderDetail-popup {
-		width: 460rpx;
-		height: 660rpx;
-		padding: 20rpx;
-		background-color: #fff;
-		margin: auto;
-		border-radius: 30rpx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+.orderDetail-content.data-v-ad800dc5 {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background: white;
+	border-radius: 24rpx; /* Slightly smaller radius */
+	box-shadow: 0px 6rpx 18rpx rgba(0, 0, 0, 0.07);
+	margin-bottom: 30rpx; /* Added margin between content blocks */
 }
-.orderDetail-popup-btns {
-		width: 90%;
-		display: flex;
-		flex-wrap: nowrap;
-		justify-content: space-between;
-		margin-top: 70rpx;
+.orderDetail-content.data-v-ad800dc5:last-child {
+	margin-bottom: 0;
 }
-.popup-btn {
-		width: 180rpx;
-		height: 70rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 50rpx;
-		font-size: 28rpx;
+.orderDetail-image.data-v-ad800dc5 {
+	width: 100%;
+	height: 450rpx;
+	border-top-left-radius: 24rpx;
+	border-top-right-radius: 24rpx;
+	background-size: cover;
+	background-position: center;
 }
+.placeholder-image.data-v-ad800dc5 {
+	background-color: #DADADA; /* Placeholder background */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* Optional: Add an icon or text for placeholder */
+}
+.placeholder-image.data-v-ad800dc5::before {
+   content: "图片加载中";
+   color: #999;
+   font-size: 28rpx;
+}
+.orderDetail-userMsg.data-v-ad800dc5 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 25rpx 30rpx;
+}
+.user-info-left.data-v-ad800dc5 {
+	display: flex;
+	align-items: center;
+}
+.orderDetail-avatar.data-v-ad800dc5 {
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 50%;
+	margin-right: 20rpx;
+}
+.placeholder-avatar.data-v-ad800dc5 {
+	background-color: #E0E0E0;
+}
+.username.data-v-ad800dc5 {
+	font-size: 30rpx;
+	color: #333;
+	font-weight: 500;
+}
+.location-info.data-v-ad800dc5 {
+	display: flex;
+	align-items: center;
+}
+.location-icon.data-v-ad800dc5 {
+	width: 32rpx;
+	height: 32rpx;
+	margin-right: 8rpx;
+}
+.location-text.data-v-ad800dc5 {
+	color: #888;
+	font-size: 24rpx;
+}
+.orderDetail-orderMsg.data-v-ad800dc5 {
+	display: flex;
+	flex-direction: column;
+	padding: 10rpx 30rpx 30rpx 30rpx;
+	gap: 8rpx;
+}
+.title-text.data-v-ad800dc5 {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #333;
+	line-height: 1.4;
+}
+.salary-text.data-v-ad800dc5 {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #42B880;
+}
+.period-text.data-v-ad800dc5 {
+	font-size: 28rpx;
+	font-weight: 500;
+	color: #42B880;
+}
+.detail-section.data-v-ad800dc5 {
+	padding: 30rpx;
+}
+.section-title.data-v-ad800dc5 {
+	font-size: 40rpx; /* Adjusted size */
+	font-weight: bold;
+	display: block;
+	margin-bottom: 25rpx; /* Increased margin */
+	color: #333;
+}
+.detail-text.data-v-ad800dc5 {
+	font-size: 28rpx; /* Adjusted size */
+	line-height: 1.7; /* Increased line height */
+	color: #555;
+	white-space: pre-wrap; /* Preserve line breaks from content */
+}
+.orderDetail-submitBtn.data-v-ad800dc5 {
+	width: 90%;
+	max-width: 650rpx;
+	height: 90rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 32rpx;
+	color: white;
+	background: #42B880;
+	margin: 50rpx auto 30rpx auto; /* Adjusted margin */
+	border-radius: 45rpx;
+	line-height: 90rpx;
+	box-shadow: 0 5rpx 12rpx rgba(66, 184, 128, 0.35);
+	border: none; /* Ensure no default border */
+}
+.orderDetail-submitBtn.data-v-ad800dc5:active {
+	background: #36a46a; /* Darker shade on active */
+}
+.orderDetail-submitBtn[disabled].data-v-ad800dc5 {
+	background-color: #b0e0c8;
+	color: #f0f8f4;
+	box-shadow: none;
+	opacity: 0.8;
+}
+  
+  /* Styles for the popup content component if needed, or they can be in orderDetailPopup.vue */
+  /* For uni-popup itself, you might control its container style via its props or globally */
+  
+  /* Global button reset if not already done in App.vue or global style */
+button.data-v-ad800dc5::after {
+	border: none;
+}
+button.data-v-ad800dc5 { /* More specific reset for buttons within this page if needed */
+	margin: 0;
+	padding: 0;
+	border-radius: 0; /* Reset if you want to control all button radius specifically */
+	background-color: transparent; /* Reset if you want to control all button bg specifically */
+	line-height: normal; /* Reset line height */
+}
+  

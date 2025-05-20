@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const baseUrl = "http://183.136.206.77:45212";
+const baseUrl = "http://110.42.32.39:45212";
 const submitOrder = async (recruitmentData, resetFormCallback, setSubmittingCallback) => {
   return new Promise((resolve, reject) => {
     common_vendor.index.request({

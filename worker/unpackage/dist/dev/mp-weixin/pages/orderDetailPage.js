@@ -82,7 +82,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         l: common_assets._imports_1,
         m: common_vendor.o(dismissPopup),
         n: common_vendor.o(addApplication),
-        o: common_vendor.sr(popup, "e8a81d92-0", {
+        o: common_vendor.sr(popup, "3478b9a8-0", {
           "k": "popup"
         })
       });

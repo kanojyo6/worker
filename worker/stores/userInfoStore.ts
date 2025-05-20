@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { validateAccessToken } from '../services/refreshTokenService';
 import { getUserInfo } from '../services/AuthService';
 import { useAuth } from '../utils/useAuth';
 import type { UserInfo } from '../model/UserInfo';
@@ -23,14 +22,11 @@ export const useUserInfoStore = defineStore('userInfo', {
 
 	actions: {
 		// 设置用户信息
-		setUserInfo(userInfo : Partial<UserInfo>) {
-			if (!userInfo) return;
-
-			Object.keys(userInfo).forEach(key => {
-				if (userInfo[key as keyof UserInfo] !== undefined) {
-					this[key as keyof UserInfo] = userInfo[key as keyof UserInfo] as any;
-				}
-			});
+		setUserInfo(userInfo: any) {
+			if (userInfo !== undefined) {
+				this.nickName = userInfo.nickName;
+				this.avatarUrl = userInfo.avatarUrl;
+			}
 
 			console.log('用户信息更新成功:', this.getUserInfo);
 		},

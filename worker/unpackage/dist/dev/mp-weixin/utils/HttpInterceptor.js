@@ -9,20 +9,27 @@ const setupHttpInterceptor = () => {
       if (isSuccess && token) {
         request.resolve(token);
       } else {
-        request.reject(new Error("Token刷新失败"));
+        request.reject(new Error("Token刷新失败 (processPendingRequests)"));
       }
     });
     pendingRequests = [];
   };
   common_vendor.index.addInterceptor("request", {
     invoke(options) {
-      if (options.url && !options.url.includes("/login/") && !options.url.includes("/auth/token/refresh/")) {
+      const NO_AUTH_URLS = ["/login/wechat/miniapp", "/auth/token/refresh/miniapp"];
+      let requiresAuth = true;
+      if (options.url) {
+        requiresAuth = !NO_AUTH_URLS.some((noAuthUrl) => options.url.includes(noAuthUrl));
+      }
+      if (requiresAuth) {
         const token = common_vendor.index.getStorageSync("token");
         if (token) {
           if (!options.header) {
             options.header = {};
           }
           options.header["Authorization"] = `Bearer ${token}`;
+        } else {
+          console.warn(`请求 ${options.url} 需要认证，但未找到token。`);
         }
       }
       return options;
@@ -31,53 +38,63 @@ const setupHttpInterceptor = () => {
       return response;
     },
     fail(error) {
-      console.error("请求失败:", error);
+      console.error("请求网络失败或执行错误:", error);
       return error;
     },
     complete(res) {
-      if (res.statusCode === 401) {
-        const refreshTokenPromise = new Promise((resolve, reject) => {
-          if (isRefreshing) {
-            pendingRequests.push({ resolve, reject });
-            return;
-          }
-          isRefreshing = true;
+      if (res && res.statusCode === 401) {
+        const originalRequestConfig = res.config;
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            pendingRequests.push({ resolve, reject, config: originalRequestConfig });
+          });
+        }
+        isRefreshing = true;
+        return new Promise((resolveRequest, rejectRequest) => {
           services_AuthService.refreshToken().then((data) => {
             const newToken = data.access_token;
             common_vendor.index.setStorageSync("token", newToken);
             common_vendor.index.setStorageSync("refresh_token", data.refresh_token);
+            if (data.user) {
+              common_vendor.index.setStorageSync("user", JSON.stringify(data.user));
+            }
+            common_vendor.index.$emit("tokenRefreshedByInterceptor");
             processPendingRequests(true, newToken);
-            resolve(newToken);
-          }).catch((error) => {
+            if (originalRequestConfig && typeof originalRequestConfig === "object") {
+              const newConfig = { ...originalRequestConfig };
+              if (!newConfig.header)
+                newConfig.header = {};
+              newConfig.header["Authorization"] = `Bearer ${newToken}`;
+              common_vendor.index.request(newConfig).then((retryResponse) => resolveRequest(retryResponse)).catch((retryError) => rejectRequest(retryError));
+            } else {
+              resolveRequest(res);
+            }
+          }).catch((refreshError) => {
+            console.error("Interceptor: Token刷新失败:", refreshError);
+            common_vendor.index.removeStorageSync("token");
+            common_vendor.index.removeStorageSync("refresh_token");
+            common_vendor.index.removeStorageSync("user");
+            common_vendor.index.$emit("tokenRefreshFailedByInterceptor");
             processPendingRequests(false);
             common_vendor.index.showModal({
               title: "提示",
-              content: "登录已过期，请重新登陆",
-              success: (result) => {
-                if (result.confirm) {
-                  common_vendor.index.switchTab({ url: "/pages/tabbar/myPage" });
-                } else {
-                  common_vendor.index.navigateBack();
+              content: "登录已过期，请重新登录",
+              showCancel: false,
+              success: (modalResult) => {
+                if (modalResult.confirm) {
+                  common_vendor.index.reLaunch({ url: "/pages/login/login" });
                 }
               }
             });
-            reject(error);
+            rejectRequest(refreshError);
           }).finally(() => {
             isRefreshing = false;
           });
         });
-        if (res.config && typeof res.config === "object") {
-          return refreshTokenPromise.then((newToken) => {
-            const newConfig = { ...res.config };
-            if (!newConfig.header)
-              newConfig.header = {};
-            newConfig.header["Authorization"] = `Bearer ${newToken}`;
-            return common_vendor.index.request(newConfig);
-          });
-        }
       }
       return res;
     }
   });
+  console.log("HTTP拦截器已设置");
 };
 exports.setupHttpInterceptor = setupHttpInterceptor;

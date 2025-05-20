@@ -57,7 +57,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         await auth.login(code);
         await myOrdersStore.fetchMyOrders();
         await myOffersStore.fetchMyOffers();
-        await userInfoStore.fetchUserInfo();
         common_vendor.index.hideLoading();
         common_vendor.index.showToast({
           title: "登录成功",

@@ -47,6 +47,7 @@ export const useOrderDetailStore = defineStore('orderDetail', {
 				console.log('发生请求错误：', error);
 			} finally {
 				this.isLoading = false;
+				uni.hideLoading()
 			}
 		},
 		
@@ -64,6 +65,7 @@ export const useOrderDetailStore = defineStore('orderDetail', {
 				console.log('发生请求错误：', error);
 			} finally {
 				this.isLoading = false;
+				uni.hideLoading()
 			}
 		}
 	}

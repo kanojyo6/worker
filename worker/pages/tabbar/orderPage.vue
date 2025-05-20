@@ -201,7 +201,7 @@
 		}
 
 		uni.uploadFile({
-			url: `http://183.136.206.77:45212/api/recruitments/upload-image`,
+			url: `http://110.42.32.39:45212/api/recruitments/upload-image`,
 			filePath: filePath,
 			name: 'file',
 			header: {
@@ -313,7 +313,7 @@
 
 		// 获取token
 		const token = uni.getStorageSync('token');
-		if (!token) {
+		if (token == undefined || token == null) {
 			isSubmitting.value = false;
 			return uni.showModal({
 				title: '提示',
